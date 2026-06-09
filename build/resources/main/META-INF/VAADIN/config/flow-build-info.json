@@ -1,0 +1,18 @@
+{
+  "productionMode" : false,
+  "eagerServerLoad" : false,
+  "npmFolder" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin",
+  "node.version" : "v24.15.0",
+  "node.download.root" : "https://nodejs.org/dist/",
+  "frontendFolder" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/./src/main/frontend",
+  "connect.javaSourceFolder" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main/java",
+  "javaResourceFolder" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main/resources",
+  "connect.applicationProperties" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main/resources/application.properties",
+  "connect.openApiFile" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/generated-resources/openapi.json",
+  "project.frontend.generated" : "/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/./src/main/frontend/generated",
+  "pnpm.enable" : false,
+  "bun.enable" : false,
+  "require.home.node" : false,
+  "build.folder" : "build",
+  "react.enable" : true
+}

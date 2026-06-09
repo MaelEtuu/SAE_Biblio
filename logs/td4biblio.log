@@ -1,0 +1,813 @@
+2026-06-09T08:59:00.236+02:00  INFO 7479 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 7479 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T08:59:00.245+02:00  INFO 7479 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T08:59:00.871+02:00  INFO 7479 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T08:59:00.945+02:00  INFO 7479 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 2 JPA repository interfaces.
+2026-06-09T08:59:01.143+02:00  INFO 7479 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-09T08:59:01.154+02:00  INFO 7479 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T08:59:01.154+02:00  INFO 7479 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-09T08:59:01.182+02:00  INFO 7479 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-09T08:59:01.182+02:00  INFO 7479 --- [td4biblio] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 868 ms
+2026-06-09T08:59:01.237+02:00  INFO 7479 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2026-06-09T08:59:01.237+02:00  INFO 7479 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2026-06-09T08:59:01.237+02:00  INFO 7479 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2026-06-09T08:59:01.237+02:00  INFO 7479 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2026-06-09T08:59:01.237+02:00  INFO 7479 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2026-06-09T08:59:01.274+02:00  INFO 7479 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
+2026-06-09T08:59:03.257+02:00  INFO 7479 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1914 ms
+2026-06-09T08:59:06.518+02:00  INFO 7479 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T08:59:06.537+02:00  INFO 7479 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 102 classes. Took 12 ms.
+2026-06-09T08:59:06.538+02:00  INFO 7479 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T08:59:06.618+02:00  INFO 7479 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T08:59:06.632+02:00  INFO 7479 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T08:59:06.678+02:00  INFO 7479 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 19 resources. Took 45 ms.
+2026-06-09T08:59:06.699+02:00  INFO 7479 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T08:59:07.781+02:00  WARN 7479 --- [td4biblio] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+2026-06-09T08:59:07.787+02:00  INFO 7479 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-06-09T08:59:07.791+02:00  WARN 7479 --- [td4biblio] [main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [JNA Cleaner] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1886)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
+ com.sun.jna.internal.Cleaner$CleanerThread.run(Cleaner.java:154)
+2026-06-09T08:59:07.811+02:00  INFO 7479 --- [td4biblio] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-09T08:59:07.823+02:00 ERROR 7479 --- [td4biblio] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.5.0.jar:3.5.0]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.0.jar:3.5.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "biblio" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2845) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:176) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:323) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.makeConnection(Driver.java:446) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.5.jar:42.7.5]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.0.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-06-09T09:04:42.232+02:00  INFO 7671 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 7671 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:04:42.232+02:00  INFO 7671 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:04:42.641+02:00  INFO 7671 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:04:42.701+02:00  INFO 7671 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:04:42.920+02:00  INFO 7671 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-09T09:04:42.927+02:00  INFO 7671 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:04:42.927+02:00  INFO 7671 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-09T09:04:42.952+02:00  INFO 7671 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-09T09:04:42.952+02:00  INFO 7671 --- [td4biblio] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 706 ms
+2026-06-09T09:04:43.008+02:00  INFO 7671 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2026-06-09T09:04:43.008+02:00  INFO 7671 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2026-06-09T09:04:43.008+02:00  INFO 7671 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2026-06-09T09:04:43.008+02:00  INFO 7671 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2026-06-09T09:04:43.008+02:00  INFO 7671 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2026-06-09T09:04:43.051+02:00  INFO 7671 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
+2026-06-09T09:04:44.940+02:00  INFO 7671 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1803 ms
+2026-06-09T09:04:45.270+02:00  INFO 7671 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T09:04:45.290+02:00  INFO 7671 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 102 classes. Took 12 ms.
+2026-06-09T09:04:45.291+02:00  INFO 7671 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T09:04:45.383+02:00  INFO 7671 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T09:04:45.393+02:00  INFO 7671 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T09:04:45.450+02:00  INFO 7671 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 19 resources. Took 57 ms.
+2026-06-09T09:04:45.466+02:00  INFO 7671 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T09:04:46.533+02:00  WARN 7671 --- [td4biblio] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+2026-06-09T09:04:46.537+02:00  INFO 7671 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-06-09T09:04:46.544+02:00  WARN 7671 --- [td4biblio] [main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [JNA Cleaner] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1886)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
+ com.sun.jna.internal.Cleaner$CleanerThread.run(Cleaner.java:154)
+2026-06-09T09:04:46.561+02:00  INFO 7671 --- [td4biblio] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-09T09:04:46.571+02:00 ERROR 7671 --- [td4biblio] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.5.0.jar:3.5.0]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.0.jar:3.5.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "biblio" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2845) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:176) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:323) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.makeConnection(Driver.java:446) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.5.jar:42.7.5]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.0.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-06-09T09:05:18.943+02:00  INFO 7700 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 7700 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:05:18.944+02:00  INFO 7700 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:05:19.293+02:00  INFO 7700 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:05:19.350+02:00  INFO 7700 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:05:19.540+02:00  INFO 7700 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-09T09:05:19.546+02:00  INFO 7700 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:05:19.547+02:00  INFO 7700 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-09T09:05:19.570+02:00  INFO 7700 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-09T09:05:19.570+02:00  INFO 7700 --- [td4biblio] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 614 ms
+2026-06-09T09:05:19.623+02:00  INFO 7700 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2026-06-09T09:05:19.624+02:00  INFO 7700 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2026-06-09T09:05:19.624+02:00  INFO 7700 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2026-06-09T09:05:19.624+02:00  INFO 7700 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2026-06-09T09:05:19.624+02:00  INFO 7700 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2026-06-09T09:05:19.661+02:00  INFO 7700 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
+2026-06-09T09:05:21.362+02:00  INFO 7700 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1631 ms
+2026-06-09T09:05:21.796+02:00  INFO 7700 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T09:05:21.814+02:00  INFO 7700 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 102 classes. Took 10 ms.
+2026-06-09T09:05:21.815+02:00  INFO 7700 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T09:05:21.896+02:00  INFO 7700 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T09:05:21.906+02:00  INFO 7700 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T09:05:21.958+02:00  INFO 7700 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 19 resources. Took 51 ms.
+2026-06-09T09:05:21.974+02:00  INFO 7700 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T09:05:23.030+02:00  WARN 7700 --- [td4biblio] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+2026-06-09T09:05:23.034+02:00  INFO 7700 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-06-09T09:05:23.037+02:00  WARN 7700 --- [td4biblio] [main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [JNA Cleaner] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1886)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
+ com.sun.jna.internal.Cleaner$CleanerThread.run(Cleaner.java:154)
+2026-06-09T09:05:23.054+02:00  INFO 7700 --- [td4biblio] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-09T09:05:23.066+02:00 ERROR 7700 --- [td4biblio] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.5.0.jar:3.5.0]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.0.jar:3.5.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "biblio" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2845) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:176) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:323) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.makeConnection(Driver.java:446) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.5.jar:42.7.5]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.0.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-06-09T09:07:12.117+02:00  INFO 7791 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 7791 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:07:12.119+02:00  INFO 7791 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:07:12.505+02:00  INFO 7791 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:07:12.566+02:00  INFO 7791 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:07:12.744+02:00  INFO 7791 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-09T09:07:12.750+02:00  INFO 7791 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:07:12.750+02:00  INFO 7791 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-09T09:07:12.772+02:00  INFO 7791 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-09T09:07:12.773+02:00  INFO 7791 --- [td4biblio] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 639 ms
+2026-06-09T09:07:12.829+02:00  INFO 7791 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2026-06-09T09:07:12.830+02:00  INFO 7791 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2026-06-09T09:07:12.830+02:00  INFO 7791 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2026-06-09T09:07:12.830+02:00  INFO 7791 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2026-06-09T09:07:12.830+02:00  INFO 7791 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2026-06-09T09:07:12.870+02:00  INFO 7791 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
+2026-06-09T09:07:14.614+02:00  INFO 7791 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1672 ms
+2026-06-09T09:07:16.085+02:00  INFO 7791 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T09:07:16.101+02:00  INFO 7791 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 102 classes. Took 10 ms.
+2026-06-09T09:07:16.101+02:00  INFO 7791 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T09:07:16.175+02:00  INFO 7791 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T09:07:16.185+02:00  INFO 7791 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T09:07:16.229+02:00  INFO 7791 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 19 resources. Took 44 ms.
+2026-06-09T09:07:16.246+02:00  INFO 7791 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T09:07:17.306+02:00  WARN 7791 --- [td4biblio] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+2026-06-09T09:07:17.311+02:00  INFO 7791 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-06-09T09:07:17.315+02:00  WARN 7791 --- [td4biblio] [main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [JNA Cleaner] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1886)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:71)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:143)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:218)
+ com.sun.jna.internal.Cleaner$CleanerThread.run(Cleaner.java:154)
+2026-06-09T09:07:17.330+02:00  INFO 7791 --- [td4biblio] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-09T09:07:17.338+02:00 ERROR 7791 --- [td4biblio] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to initialize dependency 'flywayInitializer' of LoadTimeWeaverAware bean 'entityManagerFactory': Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:328) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.7.jar:6.2.7]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1362) ~[spring-boot-3.5.0.jar:3.5.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1351) ~[spring-boot-3.5.0.jar:3.5.0]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 10 common frames omitted
+Caused by: org.flywaydb.core.internal.exception.FlywaySqlException: Unable to obtain connection from database: FATAL: database "biblio" does not exist
+----------------------------------------------------------------------------------
+SQL State  : 3D000
+Error Code : 0
+Message    : FATAL: database "biblio" does not exist
+
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:71) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcConnectionFactory.<init>(JdbcConnectionFactory.java:76) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:136) ~[flyway-core-11.7.2.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:188) ~[flyway-core-11.7.2.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.5.0.jar:3.5.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873) ~[spring-beans-6.2.7.jar:6.2.7]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822) ~[spring-beans-6.2.7.jar:6.2.7]
+	... 17 common frames omitted
+Caused by: org.postgresql.util.PSQLException: FATAL: database "biblio" does not exist
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2733) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2845) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:176) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:323) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:273) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.makeConnection(Driver.java:446) ~[postgresql-42.7.5.jar:42.7.5]
+	at org.postgresql.Driver.connect(Driver.java:298) ~[postgresql-42.7.5.jar:42.7.5]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[HikariCP-6.3.0.jar:na]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111) ~[HikariCP-6.3.0.jar:na]
+	at org.flywaydb.core.internal.jdbc.JdbcUtils.openConnection(JdbcUtils.java:59) ~[flyway-core-11.7.2.jar:na]
+	... 23 common frames omitted
+
+2026-06-09T09:07:33.986+02:00  INFO 7834 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 7834 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:07:33.987+02:00  INFO 7834 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:07:34.315+02:00  INFO 7834 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:07:34.364+02:00  INFO 7834 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 45 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:07:34.531+02:00  INFO 7834 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-09T09:07:34.544+02:00  INFO 7834 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:07:34.544+02:00  INFO 7834 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-06-09T09:07:34.567+02:00  INFO 7834 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-09T09:07:34.567+02:00  INFO 7834 --- [td4biblio] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 568 ms
+2026-06-09T09:07:34.627+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2026-06-09T09:07:34.628+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2026-06-09T09:07:34.628+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2026-06-09T09:07:34.628+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2026-06-09T09:07:34.628+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2026-06-09T09:07:34.663+02:00  INFO 7834 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing AtmosphereFramework
+2026-06-09T09:07:36.363+02:00  INFO 7834 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1635 ms
+2026-06-09T09:07:36.628+02:00  INFO 7834 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T09:07:36.642+02:00  INFO 7834 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 102 classes. Took 9 ms.
+2026-06-09T09:07:36.642+02:00  INFO 7834 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T09:07:36.718+02:00  INFO 7834 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T09:07:36.727+02:00  INFO 7834 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T09:07:36.776+02:00  INFO 7834 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 19 resources. Took 48 ms.
+2026-06-09T09:07:36.785+02:00  INFO 7834 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T09:07:36.844+02:00  INFO 7834 --- [td4biblio] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@79d137fd
+2026-06-09T09:07:36.844+02:00  INFO 7834 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-09T09:07:36.854+02:00  INFO 7834 --- [td4biblio] [main] o.f.c.i.resource.ResourceNameValidator   : 2 SQL migrations were detected but not run because they did not follow the filename convention.
+2026-06-09T09:07:36.854+02:00  INFO 7834 --- [td4biblio] [main] o.f.c.i.resource.ResourceNameValidator   : Set 'validateMigrationNaming' to true to fail fast and see a list of the invalid file names.
+2026-06-09T09:07:36.856+02:00  INFO 7834 --- [td4biblio] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/biblio?currentSchema=biblio (PostgreSQL 16.8)
+2026-06-09T09:07:36.876+02:00  INFO 7834 --- [td4biblio] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "biblio"."flyway_schema_history" does not exist yet
+2026-06-09T09:07:36.877+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbValidate     : Successfully validated 7 migrations (execution time 00:00.009s)
+2026-06-09T09:07:36.885+02:00  INFO 7834 --- [td4biblio] [main] org.flywaydb.core.Flyway                 : All configured schemas are empty; baseline operation skipped. A baseline or migration script with a lower version than the baseline version may execute if available. Check the Schemas parameter if this is not intended.
+2026-06-09T09:07:36.888+02:00  INFO 7834 --- [td4biblio] [main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "biblio"."flyway_schema_history" ...
+2026-06-09T09:07:36.926+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "biblio": << Empty Schema >>
+2026-06-09T09:07:36.928+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "1 - Create Table Livre"
+2026-06-09T09:07:36.944+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "2 - Create Table Auteur"
+2026-06-09T09:07:36.951+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "3 - Alter Table Livre"
+2026-06-09T09:07:36.958+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "4 - Alter Table Auteur date type"
+2026-06-09T09:07:36.961+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "5 - Alter Table Auteur drop auteur"
+2026-06-09T09:07:36.964+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "6 - Alter Table Auteur Id autoincrement"
+2026-06-09T09:07:36.969+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Migrating schema "biblio" to version "7 - Alter Table Livre Id autoincrement"
+2026-06-09T09:07:36.972+02:00  INFO 7834 --- [td4biblio] [main] o.f.core.internal.command.DbMigrate      : Successfully applied 7 migrations to schema "biblio", now at version v7 (execution time 00:00.020s)
+2026-06-09T09:07:36.997+02:00  INFO 7834 --- [td4biblio] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-09T09:07:37.011+02:00  INFO 7834 --- [td4biblio] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.15.Final
+2026-06-09T09:07:37.021+02:00  INFO 7834 --- [td4biblio] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-09T09:07:37.132+02:00  INFO 7834 --- [td4biblio] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-09T09:07:37.162+02:00  INFO 7834 --- [td4biblio] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.8
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-09T09:07:37.465+02:00  INFO 7834 --- [td4biblio] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-09T09:07:37.466+02:00  INFO 7834 --- [td4biblio] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-09T09:07:37.580+02:00  WARN 7834 --- [td4biblio] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-09T09:07:37.744+02:00  INFO 7834 --- [td4biblio] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-06-09T09:07:37.765+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.flow.server.communication.PushAtmosphereHandler mapped to context-path: /*
+2026-06-09T09:07:37.765+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.flow.server.communication.PushAtmosphereHandler
+2026-06-09T09:07:37.773+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.util.VoidAnnotationProcessor for processing annotation
+2026-06-09T09:07:37.775+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.util.ForkJoinPool         : Using ForkJoinPool  java.util.concurrent.ForkJoinPool. Set the org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads to -1 to fully use its power.
+2026-06-09T09:07:37.776+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed WebSocketProtocol org.atmosphere.websocket.protocol.SimpleHttpProtocol 
+2026-06-09T09:07:37.777+02:00  INFO 7834 --- [td4biblio] [main] o.a.container.JSR356AsyncSupport         : JSR 356 Mapping path /VAADIN/push
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installing Default AtmosphereInterceptors
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CorsInterceptor : CORS Interceptor Support
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CacheHeadersInterceptor : Default Response's Headers Interceptor
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.PaddingAtmosphereInterceptor : Browser Padding Interceptor Support
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AndroidAtmosphereInterceptor : Android Interceptor Support
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.HeartbeatInterceptor : Heartbeat Interceptor Support
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SSEAtmosphereInterceptor : SSE Interceptor Support
+2026-06-09T09:07:37.780+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JSONPAtmosphereInterceptor : JSONP Interceptor Support
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JavaScriptProtocol : Atmosphere JavaScript Protocol
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor : org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.OnDisconnectInterceptor : Browser disconnection detection
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.IdleResourceInterceptor : org.atmosphere.interceptor.IdleResourceInterceptor
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Set org.atmosphere.cpr.AtmosphereInterceptor.disableDefaults to disable them.
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor CORS Interceptor Support with priority FIRST_BEFORE_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Default Response's Headers Interceptor with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser Padding Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Android Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] o.a.interceptor.HeartbeatInterceptor     : HeartbeatInterceptor configured with padding value 'X', client frequency 0 seconds and server frequency 60 seconds
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Heartbeat Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor SSE Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor JSONP Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Atmosphere JavaScript Protocol with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser disconnection detection with priority AFTER_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.IdleResourceInterceptor with priority BEFORE_DEFAULT 
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using EndpointMapper class org.atmosphere.util.DefaultEndpointMapper
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using BroadcasterCache: org.atmosphere.cache.UUIDBroadcasterCache
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Default Broadcaster Class: org.atmosphere.cpr.DefaultBroadcaster
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Shared List Resources: false
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Polling Wait Time 100
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Shared ExecutorService supported: true
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Messaging ExecutorService Pool Size unavailable - Not instance of ThreadPoolExecutor
+2026-06-09T09:07:37.781+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Async I/O Thread Pool Size: 200
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using BroadcasterFactory: org.atmosphere.cpr.DefaultBroadcasterFactory
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using AtmosphereResurceFactory: org.atmosphere.cpr.DefaultAtmosphereResourceFactory
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using WebSocketProcessor: org.atmosphere.websocket.DefaultWebSocketProcessor
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Invoke AtmosphereInterceptor on WebSocket message true
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : HttpSession supported: true
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.inject.InjectableObjectFactory for dependency injection and object creation
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using async support: org.atmosphere.container.JSR356AsyncSupport running under container: Apache Tomcat/10.1.41 using jakarta.servlet/3.0 and jsr356/WebSocket API
+2026-06-09T09:07:37.782+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere Framework 3.0.5.slf4jvaadin1 started.
+2026-06-09T09:07:37.783+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor  Track Message Size Interceptor using | with priority BEFORE_DEFAULT 
+2026-06-09T09:07:37.820+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.cpr.DefaultAnnotationProcessor for processing annotation
+2026-06-09T09:07:37.820+02:00  INFO 7834 --- [td4biblio] [main] o.a.cpr.DefaultAnnotationProcessor       : AnnotationProcessor class org.atmosphere.cpr.DefaultAnnotationProcessor$BytecodeBasedAnnotationProcessor being used
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Auto detecting WebSocketHandler in /WEB-INF/classes/
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed WebSocketProtocol org.atmosphere.websocket.protocol.SimpleHttpProtocol 
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] o.a.container.JSR356AsyncSupport         : JSR 356 Mapping path /HILLA/push
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installing Default AtmosphereInterceptors
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CorsInterceptor : CORS Interceptor Support
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CacheHeadersInterceptor : Default Response's Headers Interceptor
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.PaddingAtmosphereInterceptor : Browser Padding Interceptor Support
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AndroidAtmosphereInterceptor : Android Interceptor Support
+2026-06-09T09:07:39.178+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.HeartbeatInterceptor : Heartbeat Interceptor Support
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SSEAtmosphereInterceptor : SSE Interceptor Support
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JSONPAtmosphereInterceptor : JSONP Interceptor Support
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JavaScriptProtocol : Atmosphere JavaScript Protocol
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor : org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.OnDisconnectInterceptor : Browser disconnection detection
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.IdleResourceInterceptor : org.atmosphere.interceptor.IdleResourceInterceptor
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Set org.atmosphere.cpr.AtmosphereInterceptor.disableDefaults to disable them.
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor CORS Interceptor Support with priority FIRST_BEFORE_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Default Response's Headers Interceptor with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser Padding Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Android Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] o.a.interceptor.HeartbeatInterceptor     : HeartbeatInterceptor configured with padding value 'X', client frequency 0 seconds and server frequency 60 seconds
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Heartbeat Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor SSE Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor JSONP Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Atmosphere JavaScript Protocol with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser disconnection detection with priority AFTER_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.IdleResourceInterceptor with priority BEFORE_DEFAULT 
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using EndpointMapper class org.atmosphere.util.DefaultEndpointMapper
+2026-06-09T09:07:39.179+02:00  WARN 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : No BroadcasterCache configured. Broadcasted message between client reconnection will be LOST. It is recommended to configure the org.atmosphere.cache.UUIDBroadcasterCache
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Default Broadcaster Class: org.atmosphere.util.SimpleBroadcaster
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Shared List Resources: false
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Polling Wait Time 100
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Shared ExecutorService supported: true
+2026-06-09T09:07:39.179+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.util.ForkJoinPool         : Using ForkJoinPool  java.util.concurrent.ForkJoinPool. Set the org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads to -1 to fully use its power.
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Messaging ExecutorService Pool Size unavailable - Not instance of ThreadPoolExecutor
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Async I/O Thread Pool Size: 200
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using BroadcasterFactory: org.atmosphere.cpr.DefaultBroadcasterFactory
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using AtmosphereResurceFactory: org.atmosphere.cpr.DefaultAtmosphereResourceFactory
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using WebSocketProcessor: org.atmosphere.websocket.DefaultWebSocketProcessor
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Invoke AtmosphereInterceptor on WebSocket message true
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : HttpSession supported: false
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.inject.InjectableObjectFactory for dependency injection and object creation
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using async support: org.atmosphere.container.JSR356AsyncSupport running under container: Apache Tomcat/10.1.41 using jakarta.servlet/3.0 and jsr356/WebSocket API
+2026-06-09T09:07:39.180+02:00  INFO 7834 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere Framework 3.0.5.slf4jvaadin1 started.
+2026-06-09T09:07:39.184+02:00  INFO 7834 --- [td4biblio] [main] c.v.f.s.DefaultDeploymentConfiguration   : 
+Vaadin is running in DEVELOPMENT mode - do not use for production deployments.
+2026-06-09T09:07:39.191+02:00  INFO 7834 --- [td4biblio] [main] c.vaadin.flow.spring.SpringInstantiator  : The number of beans implementing 'I18NProvider' is 0. Cannot use Spring beans for I18N, falling back to the default behavior
+2026-06-09T09:07:39.228+02:00  INFO 7834 --- [td4biblio] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-06-09T09:07:39.234+02:00  INFO 7834 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Started Td2biblioApplication in 5.378 seconds (process running for 5.588)
+2026-06-09T09:07:39.238+02:00  INFO 7834 --- [td4biblio] [main] c.v.b.d.DevModeHandlerManagerImpl        : Application running at http://localhost:8080/
+2026-06-09T09:07:39.322+02:00  INFO 7834 --- [td4biblio] [RMI TCP Connection(4)-10.7.176.168] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-09T09:07:39.322+02:00  INFO 7834 --- [td4biblio] [RMI TCP Connection(4)-10.7.176.168] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-09T09:07:39.323+02:00  INFO 7834 --- [td4biblio] [RMI TCP Connection(4)-10.7.176.168] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-06-09T09:07:45.078+02:00  WARN 7834 --- [td4biblio] [http-nio-8080-exec-1] c.vaadin.copilot.JavaSourcePathDetector  : Multiple content roots ([/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/vaadin-generated, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/generated/sources/annotationProcessor/java/main, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/test]) found for module td4biblio with Java source paths [/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main/java, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/generated/sources/annotationProcessor/java/main]
+2026-06-09T09:10:13.829+02:00  INFO 7834 --- [td4biblio] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-09T09:10:13.832+02:00  INFO 7834 --- [td4biblio] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-06-09T09:10:13.849+02:00  INFO 7834 --- [td4biblio] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-09T09:10:13.850+02:00  INFO 7834 --- [td4biblio] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-09T09:10:13.851+02:00  INFO 7834 --- [td4biblio] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-09T09:14:26.602+02:00  INFO 8031 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 8031 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:14:26.607+02:00  INFO 8031 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:14:26.926+02:00  INFO 8031 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:14:26.983+02:00  INFO 8031 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:14:27.256+02:00  INFO 8031 --- [td4biblio] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-06-09T09:14:27.261+02:00  INFO 8031 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:14:27.261+02:00  INFO 8031 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-06-09T09:14:27.282+02:00  INFO 8031 --- [td4biblio] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 645 ms
+2026-06-09T09:14:27.401+02:00 ERROR 8031 --- [td4biblio] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Exception sending context initialized event to listener instance of class [com.vaadin.flow.spring.VaadinServletContextInitializer$CompositeServletContextListener]
+
+java.lang.RuntimeException: Unable to initialize com.vaadin.flow.spring.VaadinServletContextInitializer$DevModeServletContextListener
+	at com.vaadin.flow.spring.VaadinServletContextInitializer$FailFastServletContextListener.contextInitialized(VaadinServletContextInitializer.java:207) ~[vaadin-spring-25.1.5.jar:na]
+	at com.vaadin.flow.spring.VaadinServletContextInitializer$CompositeServletContextListener.lambda$contextInitialized$0(VaadinServletContextInitializer.java:231) ~[vaadin-spring-25.1.5.jar:na]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at com.vaadin.flow.spring.VaadinServletContextInitializer$CompositeServletContextListener.contextInitialized(VaadinServletContextInitializer.java:231) ~[vaadin-spring-25.1.5.jar:na]
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4001) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4426) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:780) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1162) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1158) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:81) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:714) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:201) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:410) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:864) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:435) ~[tomcat-embed-core-11.0.21.jar:11.0.21]
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:131) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615) ~[spring-context-7.0.7.jar:7.0.7]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-4.0.6.jar:4.0.6]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: java.lang.RuntimeException: 'vaadin-dev-server' not found.
+You might be missing a dependency:
+
+Maven:
+    <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-dev</artifactId>
+        <optional>true</optional>
+    </dependency>
+
+Gradle:
+    dependencies {
+        developmentOnly('com.vaadin:vaadin-dev')
+    }
+
+See https://vaadin.com/docs/latest/flow/configuration/development-mode#development-mode for more details.
+
+	at com.vaadin.flow.spring.VaadinServletContextInitializer$DevModeServletContextListener.failFastContextInitialized(VaadinServletContextInitializer.java:530) ~[vaadin-spring-25.1.5.jar:na]
+	at com.vaadin.flow.spring.VaadinServletContextInitializer$FailFastServletContextListener.contextInitialized(VaadinServletContextInitializer.java:203) ~[vaadin-spring-25.1.5.jar:na]
+	... 41 common frames omitted
+
+2026-06-09T09:14:27.402+02:00 ERROR 8031 --- [td4biblio] [main] o.apache.catalina.core.StandardContext   : One or more listeners failed to start. Full details will be found in the appropriate container log file
+2026-06-09T09:14:27.403+02:00 ERROR 8031 --- [td4biblio] [main] o.apache.catalina.core.StandardContext   : Context [] startup failed due to previous errors
+2026-06-09T09:14:27.414+02:00  INFO 8031 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-06-09T09:14:27.415+02:00  WARN 8031 --- [td4biblio] [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-06-09T09:14:27.419+02:00  INFO 8031 --- [td4biblio] [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-06-09T09:14:27.424+02:00 ERROR 8031 --- [td4biblio] [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:167) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:615) ~[spring-context-7.0.7.jar:7.0.7]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:756) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:321) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365) ~[spring-boot-4.0.6.jar:4.0.6]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-4.0.6.jar:4.0.6]
+	at com.usmb.but3.td4biblio.Td2biblioApplication.main(Td2biblioApplication.java:10) ~[main/:na]
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:150) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:110) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:408) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:166) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:190) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	at org.springframework.boot.web.server.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:164) ~[spring-boot-web-server-4.0.6.jar:4.0.6]
+	... 8 common frames omitted
+Caused by: java.lang.IllegalStateException: StandardEngine[Tomcat].StandardHost[localhost].TomcatEmbeddedContext[] failed to start
+	at org.springframework.boot.tomcat.TomcatWebServer.rethrowDeferredStartupExceptions(TomcatWebServer.java:206) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	at org.springframework.boot.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:134) ~[spring-boot-tomcat-4.0.6.jar:4.0.6]
+	... 13 common frames omitted
+
+2026-06-09T09:17:30.257+02:00  INFO 8097 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Starting Td2biblioApplication using Java 21.0.11 with PID 8097 (/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/classes/java/main started by mael in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin)
+2026-06-09T09:17:30.258+02:00  INFO 8097 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-06-09T09:17:30.566+02:00  INFO 8097 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-09T09:17:30.621+02:00  INFO 8097 --- [td4biblio] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 2 JPA repository interfaces.
+2026-06-09T09:17:30.810+02:00  INFO 8097 --- [td4biblio] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-06-09T09:17:30.815+02:00  INFO 8097 --- [td4biblio] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-09T09:17:30.816+02:00  INFO 8097 --- [td4biblio] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-06-09T09:17:30.835+02:00  INFO 8097 --- [td4biblio] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 565 ms
+2026-06-09T09:17:32.229+02:00  INFO 8097 --- [td4biblio] [main] c.v.f.s.VaadinServletContextInitializer  : Search for subclasses and classes with annotations took 1267 ms
+2026-06-09T09:17:32.255+02:00  INFO 8097 --- [td4biblio] [main] c.v.b.d.startup.DevModeStartupListener   : Starting dev-mode updaters in /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin folder.
+2026-06-09T09:17:32.270+02:00  INFO 8097 --- [td4biblio] [main] c.v.f.s.f.s.FullDependenciesScanner      : Visited 106 classes. Took 8 ms.
+2026-06-09T09:17:32.271+02:00  INFO 8097 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : Checking if a development mode bundle build is needed
+2026-06-09T09:17:32.337+02:00  INFO 8097 --- [td4biblio] [main] c.v.f.s.frontend.BundleValidationUtil    : A development mode bundle build is not needed
+2026-06-09T09:17:32.352+02:00  INFO 8097 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Copying frontend resources from jar files ...
+2026-06-09T09:17:32.389+02:00  INFO 8097 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-09T09:17:32.409+02:00  INFO 8097 --- [td4biblio] [vaadin-dev-server-1] c.v.f.s.frontend.TaskCopyFrontendFiles   : Visited 20 resources. Took 56 ms.
+2026-06-09T09:17:32.553+02:00  INFO 8097 --- [td4biblio] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@302f535b
+2026-06-09T09:17:32.554+02:00  INFO 8097 --- [td4biblio] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-09T09:17:32.568+02:00  INFO 8097 --- [td4biblio] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-09T09:17:32.597+02:00  INFO 8097 --- [td4biblio] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-09T09:17:32.773+02:00  INFO 8097 --- [td4biblio] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-09T09:17:32.826+02:00  INFO 8097 --- [td4biblio] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/biblio?currentSchema=biblio]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.8
+	Default catalog/schema: biblio/biblio
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-09T09:17:33.267+02:00  INFO 8097 --- [td4biblio] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-09T09:17:33.270+02:00  INFO 8097 --- [td4biblio] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-09T09:17:33.298+02:00  INFO 8097 --- [td4biblio] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-09T09:17:33.366+02:00  WARN 8097 --- [td4biblio] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-09T09:17:33.548+02:00  INFO 8097 --- [td4biblio] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-06-09T09:17:33.574+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.flow.server.communication.PushAtmosphereHandler mapped to context-path: /*
+2026-06-09T09:17:33.574+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.flow.server.communication.PushAtmosphereHandler
+2026-06-09T09:17:33.586+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.util.VoidAnnotationProcessor for processing annotation
+2026-06-09T09:17:33.588+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.util.ForkJoinPool         : Using ForkJoinPool  java.util.concurrent.ForkJoinPool. Set the org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads to -1 to fully use its power.
+2026-06-09T09:17:33.590+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed WebSocketProtocol org.atmosphere.websocket.protocol.SimpleHttpProtocol 
+2026-06-09T09:17:33.592+02:00  INFO 8097 --- [td4biblio] [main] o.a.container.JSR356AsyncSupport         : JSR 356 Mapping path /VAADIN/push
+2026-06-09T09:17:33.596+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installing Default AtmosphereInterceptors
+2026-06-09T09:17:33.596+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CorsInterceptor : CORS Interceptor Support
+2026-06-09T09:17:33.596+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.CacheHeadersInterceptor : Default Response's Headers Interceptor
+2026-06-09T09:17:33.596+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.PaddingAtmosphereInterceptor : Browser Padding Interceptor Support
+2026-06-09T09:17:33.596+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AndroidAtmosphereInterceptor : Android Interceptor Support
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.HeartbeatInterceptor : Heartbeat Interceptor Support
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SSEAtmosphereInterceptor : SSE Interceptor Support
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JSONPAtmosphereInterceptor : JSONP Interceptor Support
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.JavaScriptProtocol : Atmosphere JavaScript Protocol
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor : org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.OnDisconnectInterceptor : Browser disconnection detection
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.IdleResourceInterceptor : org.atmosphere.interceptor.IdleResourceInterceptor
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Set org.atmosphere.cpr.AtmosphereInterceptor.disableDefaults to disable them.
+2026-06-09T09:17:33.597+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor CORS Interceptor Support with priority FIRST_BEFORE_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Default Response's Headers Interceptor with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser Padding Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Android Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] o.a.interceptor.HeartbeatInterceptor     : HeartbeatInterceptor configured with padding value 'X', client frequency 0 seconds and server frequency 60 seconds
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Heartbeat Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor SSE Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor JSONP Interceptor Support with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Atmosphere JavaScript Protocol with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.WebSocketMessageSuspendInterceptor with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor Browser disconnection detection with priority AFTER_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor org.atmosphere.interceptor.IdleResourceInterceptor with priority BEFORE_DEFAULT 
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using EndpointMapper class org.atmosphere.util.DefaultEndpointMapper
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using BroadcasterCache: org.atmosphere.cache.UUIDBroadcasterCache
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Default Broadcaster Class: org.atmosphere.cpr.DefaultBroadcaster
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Shared List Resources: false
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Broadcaster Polling Wait Time 100
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Shared ExecutorService supported: true
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Messaging ExecutorService Pool Size unavailable - Not instance of ThreadPoolExecutor
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Async I/O Thread Pool Size: 200
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using BroadcasterFactory: org.atmosphere.cpr.DefaultBroadcasterFactory
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using AtmosphereResurceFactory: org.atmosphere.cpr.DefaultAtmosphereResourceFactory
+2026-06-09T09:17:33.598+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Using WebSocketProcessor: org.atmosphere.websocket.DefaultWebSocketProcessor
+2026-06-09T09:17:33.599+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Invoke AtmosphereInterceptor on WebSocket message true
+2026-06-09T09:17:33.599+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : HttpSession supported: true
+2026-06-09T09:17:33.599+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using org.atmosphere.inject.InjectableObjectFactory for dependency injection and object creation
+2026-06-09T09:17:33.599+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere is using async support: org.atmosphere.container.JSR356AsyncSupport running under container: Apache Tomcat/11.0.21 using jakarta.servlet/3.0 and jsr356/WebSocket API
+2026-06-09T09:17:33.599+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Atmosphere Framework 3.0.5.slf4jvaadin1 started.
+2026-06-09T09:17:33.601+02:00  INFO 8097 --- [td4biblio] [main] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereInterceptor  Track Message Size Interceptor using | with priority BEFORE_DEFAULT 
+2026-06-09T09:17:33.625+02:00  INFO 8097 --- [td4biblio] [main] c.v.f.s.DefaultDeploymentConfiguration   : 
+Vaadin is running in DEVELOPMENT mode - do not use for production deployments.
+2026-06-09T09:17:33.647+02:00  INFO 8097 --- [td4biblio] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-06-09T09:17:33.650+02:00  INFO 8097 --- [td4biblio] [main] c.u.but3.td4biblio.Td2biblioApplication  : Started Td2biblioApplication in 3.524 seconds (process running for 3.841)
+2026-06-09T09:17:33.652+02:00  INFO 8097 --- [td4biblio] [main] c.v.b.d.DevModeHandlerManagerImpl        : Application running at http://localhost:8080/
+2026-06-09T09:17:34.150+02:00  INFO 8097 --- [td4biblio] [RMI TCP Connection(3)-10.7.176.168] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-09T09:17:34.150+02:00  INFO 8097 --- [td4biblio] [RMI TCP Connection(3)-10.7.176.168] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-09T09:17:34.152+02:00  INFO 8097 --- [td4biblio] [RMI TCP Connection(3)-10.7.176.168] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-06-09T09:17:39.086+02:00  INFO 8097 --- [td4biblio] [http-nio-8080-exec-6] c.vaadin.flow.server.AppShellRegistry    : There is no AppShellConfigurator implementation available, auto loading the Aura theme. Add an AppShellConfigurator to define the theme to use, e.g.
+
+import com.vaadin.flow.theme.aura.Aura;
+
+@StyleSheet(Aura.STYLESHEET)
+public class Application implements AppShellConfigurator {
+}
+
+2026-06-09T09:17:39.348+02:00  WARN 8097 --- [td4biblio] [http-nio-8080-exec-5] c.vaadin.copilot.JavaSourcePathDetector  : Multiple content roots ([/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/vaadin-generated, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/generated/sources/annotationProcessor/java/main, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/test]) found for module td4biblio with Java source paths [/Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/src/main/java, /Users/mael/Documents/IUT/3eme Annee/S6.A.01/biblioVaadin/build/generated/sources/annotationProcessor/java/main]
+2026-06-09T09:25:05.678+02:00  INFO 8097 --- [td4biblio] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-09T09:25:05.680+02:00  INFO 8097 --- [td4biblio] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-06-09T09:25:05.684+02:00  INFO 8097 --- [td4biblio] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-09T09:25:05.685+02:00  INFO 8097 --- [td4biblio] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-09T09:25:05.687+02:00  INFO 8097 --- [td4biblio] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
