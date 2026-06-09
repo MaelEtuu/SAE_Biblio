@@ -1,10 +1,6 @@
 package com.usmb.but3.td4biblio.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,23 +15,42 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "auteur")
-
 public class Auteur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String nom;
+    private Integer idAuteur;
+
+    @ManyToOne
+    @JoinColumn(name = "idTypeAuteur")
+    private TypeAuteur typeAuteur;
+
+    @Column(length = 50)
+    private String nomSociete;
+
+    @Column(length = 50)
     private String prenom;
+
+    @Column(length = 50)
     private String nationalite;
+
     private LocalDate dateNaissance;
     private LocalDate dateDeces;
+
+    @Column(length = 50)
+    private String paysNaissance;
+
+    @Column(length = 100)
+    private String villeNaissance;
+
+    @Column(length = 1000)
+    private String lienWikipedia;
 
     public boolean isEqualTo(Auteur auteur) {
         if (this == auteur) return true;
         if (auteur == null) return false;
-        if (id != null ? !id.equals(auteur.id) : auteur.id != null) return false;
-        if (nom != null ? !nom.equals(auteur.nom) : auteur.nom != null) return false;
+        if (idAuteur != null ? !idAuteur.equals(auteur.idAuteur) : auteur.idAuteur != null) return false;
+        if (nomSociete != null ? !nomSociete.equals(auteur.nomSociete) : auteur.nomSociete != null) return false;
         if (prenom != null ? !prenom.equals(auteur.prenom) : auteur.prenom != null) return false;
         if (nationalite != null ? !nationalite.equals(auteur.nationalite) : auteur.nationalite != null)
             return false;
@@ -46,29 +61,23 @@ public class Auteur {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Auteur other = (Auteur) obj;
-        return isEqualTo(other);
+        return idAuteur != null ? idAuteur.equals(other.idAuteur) : other.idAuteur == null;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (nom != null ? nom.hashCode() : 0);
-        result = 31 * result + (prenom != null ? prenom.hashCode() : 0);
-        result = 31 * result + (nationalite != null ? nationalite.hashCode() : 0);
-        result = 31 * result + (dateNaissance != null ? dateNaissance.hashCode() : 0);
-        result = 31 * result + (dateDeces != null ? dateDeces.hashCode() : 0);
-        return result;
+        return idAuteur != null ? idAuteur.hashCode() : 0;
     }
 
     public String getDesc() {
-        return prenom + " " + nom + " (" + dateNaissance.getYear() + "-" + (dateDeces != null ? dateDeces.getYear() : "en vie") + ")";
+        String nom = nomSociete != null ? nomSociete : "";
+        String p = prenom != null ? prenom + " " : "";
+        String annees = (dateNaissance != null ? dateNaissance.getYear() : "?")
+                + "-"
+                + (dateDeces != null ? String.valueOf(dateDeces.getYear()) : "en vie");
+        return p + nom + " (" + annees + ")";
     }
 }
