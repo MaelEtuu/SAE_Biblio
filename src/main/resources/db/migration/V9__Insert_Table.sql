@@ -8,7 +8,7 @@ INSERT INTO format (longueur, largeur, poids) VALUES
                                                   ('21 cm', '14 cm', '300 g'),
                                                   ('30 cm', '21 cm', '800 g');
 
-INSERT INTO editeur (nom, lienSite, lienWikipedia, adresse, ville, pays, codePostal) VALUES
+INSERT INTO editeur (nomSociete, lienSite, lienWikipedia, adresse, ville, pays, codePostal) VALUES
                                                                                                 ('Gallimard', 'https://www.gallimard.fr', 'https://fr.wikipedia.org/wiki/Gallimard', '5 rue Sébastien Bottin', 'Paris', 'France', 75007),
                                                                                                 ('Hachette', 'https://www.hachette.fr', 'https://fr.wikipedia.org/wiki/Hachette', '58 rue Jean Bleuzen', 'Vanves', 'France', 92170);
 
