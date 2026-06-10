@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 @DisplayName("EmpruntsService — tests unitaires (règles métier)")
 class EmpruntsServiceTest {
 
-    @Mock private EmpruntsRepository empruntsRepo       sitory;
+    @Mock private EmpruntsRepository empruntsRepository;
     @Mock private DocumentService documentService;
     @Mock private ReservationService reservationService;
     @Mock private RegleService regleService;
