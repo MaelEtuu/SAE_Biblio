@@ -148,7 +148,7 @@ public class CatalogueView extends VerticalLayout implements HasUrlParameter<Str
         var titleSpan = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         titleSpan.addClassName("biblio-cover-title");
         var authSpan  = new Span(doc.getAuteur() != null
-                ? doc.getAuteur().getNomSociete() + " " + doc.getAuteur().getPrenom() : "");
+                ? doc.getAuteur().getNom() + " " + doc.getAuteur().getPrenom() : "");
         authSpan.addClassName("biblio-cover-author");
 
         var bottomDiv = new Div(titleSpan, authSpan);
@@ -161,7 +161,7 @@ public class CatalogueView extends VerticalLayout implements HasUrlParameter<Str
         var docTitle  = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         docTitle.addClassName("biblio-doc-title");
         var docAuthor = new Span(doc.getAuteur() != null
-                ? doc.getAuteur().getNomSociete() + " " + doc.getAuteur().getPrenom() : "");
+                ? doc.getAuteur().getNom() + " " + doc.getAuteur().getPrenom() : "");
         docAuthor.addClassName("biblio-doc-author");
         var docLib    = new Span(doc.getCodeEmplacement() != null ? doc.getCodeEmplacement() : "");
         docLib.addClassName("biblio-doc-lib");

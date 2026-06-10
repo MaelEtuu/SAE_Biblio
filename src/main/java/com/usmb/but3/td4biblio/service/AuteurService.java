@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.usmb.but3.td4biblio.entity.Auteur;
-import com.usmb.but3.td4biblio.repository.AuteurRepo;
+import com.usmb.but3.td4biblio.repository.AuteurRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuteurService {
 
-    private final AuteurRepo auteurRepo;
+    private final AuteurRepository auteurRepo;
 
     public List<Auteur> getAllAuteurs() {
         //return auteurRepo.findAll();
@@ -38,22 +38,22 @@ public class AuteurService {
         auteurRepo.deleteById(id);
     }
     public List<Auteur> getAuteursByNom(String nom) {
-        return auteurRepo.findByNomSociete(nom);
+        return auteurRepo.findByNom(nom);
     }
     public List<Auteur> getAuteursByNomAndPrenom(String nom, String prenom) {
-        return auteurRepo.findByNomSocieteAndPrenom(nom, prenom);
+        return auteurRepo.findByNomAndPrenom(nom, prenom);
     }
     public List<Auteur> getAuteursByNomLikeAndPrenomLike(String nom, String prenom) {
         //return auteurRepo.findByNomLikeAndPrenomLike("%" + nom + "%", "%" + prenom + "%");
-        return auteurRepo.findByNomSocieteLikeAndPrenomLike(nom,prenom);
+        return auteurRepo.findByNomLikeAndPrenomLike(nom,prenom);
     }  
 
     public List<Auteur> getAuteursByNomStartWithIgnoreCase(String filter) {
-        return auteurRepo.findByNomSocieteStartsWithIgnoreCase(filter);
+        return auteurRepo.findByNomStartsWithIgnoreCase(filter);
     }  
 
     public List<Auteur> getByNomContainingIgnoreCase(String filter) {
-       return auteurRepo.findByNomSocieteContainingIgnoreCase(filter);
+       return auteurRepo.findByNomContainingIgnoreCase(filter);
     }
 
 }

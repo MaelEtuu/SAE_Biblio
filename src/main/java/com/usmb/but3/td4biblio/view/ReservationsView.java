@@ -87,7 +87,7 @@ public class ReservationsView extends VerticalLayout {
         var titreSpan = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         titreSpan.addClassName("biblio-lrow-title");
         var auteurSpan = new Span(doc.getAuteur() != null
-                ? doc.getAuteur().getNomSociete() + " " + doc.getAuteur().getPrenom() : "");
+                ? doc.getAuteur().getNom() + " " + doc.getAuteur().getPrenom() : "");
         auteurSpan.addClassName("biblio-lrow-sub");
 
         var infoDiv = new Div(titreSpan, auteurSpan);

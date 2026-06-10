@@ -73,7 +73,7 @@ public class Auteur {
     }
 
     public String getDesc() {
-        String nom = nom != null ? nom : "";
+        String n = nom != null ? nom : "";
         String p = prenom != null ? prenom + " " : "";
         String annees = (dateNaissance != null ? dateNaissance.getYear() : "?")
                 + "-"
