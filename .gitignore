@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Vaadin / Node (générés, à ne pas committer)
+node_modules/
+frontend/generated/
+src/main/frontend/generated/
+src/main/bundles/
+vite.generated.ts
+
+# macOS
+.DS_Store
