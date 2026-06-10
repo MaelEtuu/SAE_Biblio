@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Écriture" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:02.117Z" hostname="DESKTOP-LACM7NE" time="0.87">
+  <properties/>
+  <testcase name="updateAuteur délègue au repository" classname="com.usmb.but3.td4biblio.service.AuteurServiceTest$Ecriture" time="0.846"/>
+  <testcase name="deleteAuteurById délègue au repository" classname="com.usmb.but3.td4biblio.service.AuteurServiceTest$Ecriture" time="0.008"/>
+  <testcase name="saveAuteur délègue au repository" classname="com.usmb.but3.td4biblio.service.AuteurServiceTest$Ecriture" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

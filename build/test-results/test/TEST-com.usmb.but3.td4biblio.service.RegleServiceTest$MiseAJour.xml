@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Mise à jour" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.806Z" hostname="DESKTOP-LACM7NE" time="0.116">
+  <properties/>
+  <testcase name="updateValeur sur une règle existante modifie la valeur" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$MiseAJour" time="0.11"/>
+  <testcase name="updateValeur sur une règle absente la crée" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$MiseAJour" time="0.005"/>
+  <system-out><![CDATA[2026-06-10T18:47:03.901+02:00  INFO 24024 --- [td4biblio] [    Test worker] c.u.but3.td4biblio.service.RegleService  : Règle 'NB_PRET' mise à jour : 15
+2026-06-10T18:47:03.921+02:00  INFO 24024 --- [td4biblio] [    Test worker] c.u.but3.td4biblio.service.RegleService  : Règle 'NOUVEAU' mise à jour : 42
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

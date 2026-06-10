@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Lecture des valeurs typées" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.949Z" hostname="DESKTOP-LACM7NE" time="0.019">
+  <properties/>
+  <testcase name="getDelaiReservationJours retourne 14 par défaut" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.003"/>
+  <testcase name="getDelaiReservationJours fonctionne avec '7 jours'" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.002"/>
+  <testcase name="getDureePretJours extrait le premier entier (ex: '21 jours' -&gt; 21)" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.002"/>
+  <testcase name="getDureePretJours retourne le défaut quand la valeur n'est pas numérique" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.002"/>
+  <testcase name="getMaxPrets retourne la valeur par défaut sans règle" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.003"/>
+  <testcase name="getDureePretJours retourne le défaut quand la valeur est null" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.002"/>
+  <testcase name="getMaxPrets retourne la valeur configurée" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$LectureValeursTypes" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

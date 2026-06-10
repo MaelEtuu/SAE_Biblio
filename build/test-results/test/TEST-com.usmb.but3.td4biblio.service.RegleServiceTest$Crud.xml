@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CRUD" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.923Z" hostname="DESKTOP-LACM7NE" time="0.025">
+  <properties/>
+  <testcase name="getRegleByType retourne null si aucune règle n'existe" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.002"/>
+  <testcase name="getAllRegles délègue au repository" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.002"/>
+  <testcase name="saveRegle délègue au repository" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.003"/>
+  <testcase name="getRegleById renvoie la règle si elle existe" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.003"/>
+  <testcase name="deleteRegleById délègue au repository" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.003"/>
+  <testcase name="getRegleById renvoie null si la règle n'existe pas" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.004"/>
+  <testcase name="getRegleByType retourne la première règle correspondante" classname="com.usmb.but3.td4biblio.service.RegleServiceTest$Crud" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

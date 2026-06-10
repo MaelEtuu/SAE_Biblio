@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Lecture" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.753Z" hostname="DESKTOP-LACM7NE" time="0.024">
+  <properties/>
+  <testcase name="getNombreEmpruntsEnCours délègue au repository" classname="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Lecture" time="0.016"/>
+  <testcase name="getEmpruntsEnCours délègue au repository" classname="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Lecture" time="0.003"/>
+  <testcase name="getAllEmprunts récupère l'historique complet" classname="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Lecture" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

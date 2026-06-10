@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Recherche multi-critère" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.228Z" hostname="DESKTOP-LACM7NE" time="0.034">
+  <properties/>
+  <testcase name="Mode 'débute par' sur le titre" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.006"/>
+  <testcase name="Recherche par type (format) mode contient" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.004"/>
+  <testcase name="Mode 'égal à' filtre stricte sur le titre" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.004"/>
+  <testcase name="Terme blank retourne tous les documents" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.002"/>
+  <testcase name="Critère null → recherche par titre par défaut" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.003"/>
+  <testcase name="Recherche par titre, mode contient" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.002"/>
+  <testcase name="Mode 'débute par' sur l'auteur" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.001"/>
+  <testcase name="Recherche par auteur, mode contient" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.002"/>
+  <testcase name="Recherche par bibliothèque filtre sur codeEmplacement" classname="com.usmb.but3.td4biblio.service.DocumentServiceTest$RechercheMultiCritere" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

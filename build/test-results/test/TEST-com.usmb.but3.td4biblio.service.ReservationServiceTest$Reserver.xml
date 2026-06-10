@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="reserver — règles métier" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:04.093Z" hostname="DESKTOP-LACM7NE" time="0.022">
+  <properties/>
+  <testcase name="échec : document non disponible" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$Reserver" time="0.006"/>
+  <testcase name="échec : déjà réservé par cet utilisateur" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$Reserver" time="0.006"/>
+  <testcase name="succès : réservation créée avec dateFin = today + delai" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$Reserver" time="0.008"/>
+  <system-out><![CDATA[2026-06-10T18:47:04.115+02:00  INFO 24024 --- [td4biblio] [    Test worker] c.u.b.t.service.ReservationService       : Réservation créée : document=10 utilisateur=1 jusqu'au 2026-06-24
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

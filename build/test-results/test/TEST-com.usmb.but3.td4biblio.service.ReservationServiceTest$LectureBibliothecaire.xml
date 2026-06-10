@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Lecture — bibliothécaire" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.973Z" hostname="DESKTOP-LACM7NE" time="0.105">
+  <properties/>
+  <testcase name="estReserveParAutre faux si réservation par le même utilisateur" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$LectureBibliothecaire" time="0.088"/>
+  <testcase name="getReservationsActivesReseau retourne toutes les réservations actives" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$LectureBibliothecaire" time="0.005"/>
+  <testcase name="estReserveParAutre vrai si réservation d'un autre utilisateur" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$LectureBibliothecaire" time="0.002"/>
+  <testcase name="estReserveParAutre faux si aucune réservation active" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$LectureBibliothecaire" time="0.004"/>
+  <testcase name="getReservationsActivesDuDocument délègue avec id document" classname="com.usmb.but3.td4biblio.service.ReservationServiceTest$LectureBibliothecaire" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
