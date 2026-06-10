@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS format (
 
 CREATE TABLE IF NOT EXISTS editeur (
                                        idEditeur      SERIAL        PRIMARY KEY,
-                                       nomSociete     VARCHAR(50),
+                                       nom     VARCHAR(50),
     lienSite       VARCHAR(1000),
     lienWikipedia  VARCHAR(1000),
     adresse        VARCHAR(100),
