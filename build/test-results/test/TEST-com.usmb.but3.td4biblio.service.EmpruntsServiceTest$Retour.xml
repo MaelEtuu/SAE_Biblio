@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Retour" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-06-10T16:47:03.746Z" hostname="DESKTOP-LACM7NE" time="0.006">
-  <properties/>
-  <testcase name="retourner enregistre la date de retour" classname="com.usmb.but3.td4biblio.service.EmpruntsServiceTest$Retour" time="0.006"/>
-  <system-out><![CDATA[2026-06-10T18:47:03.751+02:00  INFO 24024 --- [td4biblio] [    Test worker] c.u.b.td4biblio.service.EmpruntsService  : Retour enregistré : document=10 utilisateur=1
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
