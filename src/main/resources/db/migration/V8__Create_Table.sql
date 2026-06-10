@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS regle (
 CREATE TABLE IF NOT EXISTS auteur (
                                       idAuteur      SERIAL       PRIMARY KEY,
                                       idTypeAuteur  INTEGER      REFERENCES type_auteur(idTypeAuteur),
-    nomSociete    VARCHAR(50),
+    nom    VARCHAR(50),
     prenom        VARCHAR(50),
     nationalite   VARCHAR(50),
     dateNaissance DATE,

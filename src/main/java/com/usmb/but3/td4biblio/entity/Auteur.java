@@ -26,7 +26,7 @@ public class Auteur {
     private TypeAuteur typeAuteur;
 
     @Column(length = 50)
-    private String nomSociete;
+    private String nom;
 
     @Column(length = 50)
     private String prenom;
