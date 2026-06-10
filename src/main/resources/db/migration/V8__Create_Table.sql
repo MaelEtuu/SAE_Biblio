@@ -100,13 +100,15 @@ CREATE TABLE IF NOT EXISTS bibliotheque (
 CREATE TABLE IF NOT EXISTS utilisateur (
                                            idUtilisateur      SERIAL        PRIMARY KEY,
                                            idRole             INTEGER       REFERENCES role(idRole),
-    dateFinAbonnement  DATE,
-    numeroCarte        INTEGER,
-    nombrePret         INTEGER,
+    nom                VARCHAR(50),
     prenom             VARCHAR(50),
+    adresse            VARCHAR(100),
     mail               VARCHAR(50),
     mdp                VARCHAR(200),
-    dateNaissance      DATE
+    dateNaissance      DATE,
+    dateFinAbonnement  DATE,
+    numeroCarte        BIGINT        UNIQUE,
+    nombrePret         INTEGER
     );
 
 

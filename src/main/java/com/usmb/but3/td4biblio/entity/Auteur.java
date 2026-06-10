@@ -50,7 +50,7 @@ public class Auteur {
         if (this == auteur) return true;
         if (auteur == null) return false;
         if (idAuteur != null ? !idAuteur.equals(auteur.idAuteur) : auteur.idAuteur != null) return false;
-        if (nomSociete != null ? !nomSociete.equals(auteur.nomSociete) : auteur.nomSociete != null) return false;
+        if (nom != null ? !nom.equals(auteur.nom) : auteur.nom != null) return false;
         if (prenom != null ? !prenom.equals(auteur.prenom) : auteur.prenom != null) return false;
         if (nationalite != null ? !nationalite.equals(auteur.nationalite) : auteur.nationalite != null)
             return false;
@@ -73,7 +73,7 @@ public class Auteur {
     }
 
     public String getDesc() {
-        String nom = nomSociete != null ? nomSociete : "";
+        String nom = nom != null ? nom : "";
         String p = prenom != null ? prenom + " " : "";
         String annees = (dateNaissance != null ? dateNaissance.getYear() : "?")
                 + "-"

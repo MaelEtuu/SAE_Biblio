@@ -69,7 +69,7 @@ public class AuteurView extends VerticalLayout {
 		add(titleH2, actions, grid, editor);
 
 		grid.setHeight("340px");
-		grid.setColumns("idAuteur", "nomSociete", "prenom", "nationalite", "dateNaissance", "dateDeces");
+		grid.setColumns("idAuteur", "nom", "prenom", "nationalite", "dateNaissance", "dateDeces");
 		grid.getColumnByKey("idAuteur").setWidth("60px").setFlexGrow(0);
 
 		filter.setValueChangeMode(ValueChangeMode.LAZY);

@@ -7,14 +7,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/** Accès aux données des emprunts (prêts de documents). */
 public interface EmpruntsRepository extends JpaRepository<Emprunts, EmpruntsId> {
 
-    // Emprunts en cours d'un utilisateur (non rendus)
+    /** Emprunts en cours (non rendus) d'un utilisateur. */
     List<Emprunts> findByUtilisateurAndDateRetourIsNull(Utilisateur utilisateur);
 
-    // Tous les emprunts d'un utilisateur
+    /** Nombre d'emprunts en cours d'un utilisateur (pour le quota). */
+    long countByUtilisateurAndDateRetourIsNull(Utilisateur utilisateur);
+
+    /** Tous les emprunts d'un utilisateur. */
     List<Emprunts> findByUtilisateur(Utilisateur utilisateur);
 
-    // Vérifier si un document est actuellement emprunté
+    /** Vrai si le document est actuellement emprunté (non rendu). */
     boolean existsByDocument_IdDocumentAndDateRetourIsNull(Integer idDocument);
 }

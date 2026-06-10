@@ -43,8 +43,8 @@ public class AuteurViewTest {
         assertFalse(editor.isVisible());
         grid.asSingleSelect().setValue(firstAuteur);
         assertTrue(editor.isVisible());
-        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nomSociete.getValue());
-        assertEquals(firstAuteur.getNomSociete(), editor.nomSociete.getValue());
+        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nom.getValue());
+        assertEquals(firstAuteur.getNom(), editor.nom.getValue());
     }
 
     private Auteur getFirstItem(Grid<Auteur> grid) {

@@ -13,8 +13,8 @@ INSERT INTO editeur (nomSociete, lienSite, lienWikipedia, adresse, ville, pays, 
                                                                                                 ('Hachette', 'https://www.hachette.fr', 'https://fr.wikipedia.org/wiki/Hachette', '58 rue Jean Bleuzen', 'Vanves', 'France', 92170);
 
 INSERT INTO role (libelleRole) VALUES
-                                   ('ADMIN'),
-                                   ('USER');
+                                   ('BIBLIOTHECAIRE'),
+                                   ('EMPRUNTEUR');
 
 INSERT INTO raison_pas_emprunt (libelleRaison) VALUES
                                                    ('Déjà emprunté'),
@@ -25,7 +25,7 @@ INSERT INTO regle (valeurRegle, typeRegle, intituleRegle) VALUES
                                                               ('14 jours', 'DURÉE_PRET', 'Durée maximale de prêt'),
                                                               ('3', 'NB_PRET', 'Nombre max de prêts simultanés');
 
-INSERT INTO auteur (idTypeAuteur, nomSociete, prenom, nationalite, dateNaissance, dateDeces, paysNaissance, villeNaissance, lienWikipedia)
+INSERT INTO auteur (idTypeAuteur, nom, prenom, nationalite, dateNaissance, dateDeces, paysNaissance, villeNaissance, lienWikipedia)
 VALUES
     (1, NULL, 'Victor', 'Française', '1802-02-26', '1885-05-22', 'France', 'Besançon', 'https://fr.wikipedia.org/wiki/Victor_Hugo'),
     (2, NULL, 'Albert', 'Allemande', '1879-03-14', '1955-04-18', 'Allemagne', 'Ulm', 'https://fr.wikipedia.org/wiki/Albert_Einstein');

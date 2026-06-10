@@ -10,7 +10,7 @@ import com.usmb.but3.td4biblio.entity.Livre;
 /**
  * Repository is an interface that provides access to data in a database
  */
-public interface LivreRepo extends JpaRepository<Livre, Integer> {
+public interface LivreRepository extends JpaRepository<Livre, Integer> {
 
     List<Livre> findByAuteurIdAuteur(Integer auteurId);
     List<Livre> findByTitreContainingIgnoreCase(String titre);

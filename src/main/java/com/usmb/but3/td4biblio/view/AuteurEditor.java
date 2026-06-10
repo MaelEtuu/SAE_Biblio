@@ -42,7 +42,7 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 
 	/* Fields to edit properties in Auteur entity */
 	TextField prenom = new TextField("Prénom");
-	TextField nomSociete = new TextField("Nom Société");
+	TextField nom = new TextField("Nom");
     DatePicker dateNaissance = new DatePicker("Date de naissance");
     DatePicker dateDeces = new DatePicker("Date de décès");
     ComboBox<String> nationalite = new ComboBox<>("Nationalité");
@@ -57,7 +57,7 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 		});
     }
 
-	HorizontalLayout fields = new HorizontalLayout(prenom, nomSociete, nationalite, dateNaissance, dateDeces);
+	HorizontalLayout fields = new HorizontalLayout(prenom, nom, nationalite, dateNaissance, dateDeces);
 
 	/* Action buttons */
 	Button save = new Button("Sauvegarder", VaadinIcon.CHECK.create());
