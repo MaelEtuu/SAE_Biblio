@@ -1,0 +1,891 @@
+/* ============================================================
+   BiblioVaadin — Thème Nocturne (corrigé Shadow DOM Vaadin)
+   src/main/frontend/themes/bibliovaadin/styles.css
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Onest:wght@300;400;500;600;700&display=swap');
+
+/* ── Variables globales ── */
+:root {
+    --bg:         #16140f;
+    --bg-2:       #1f1c16;
+    --card:       #22201a;
+    --card-hi:    #2a271f;
+    --ink:        #efe7d6;
+    --ink-soft:   #b3a890;
+    --muted:      #7c715c;
+    --line:       #332f26;
+    --line-soft:  #2a271f;
+    --amber:      #d8a24a;
+    --amber-hi:   #e9b964;
+    --ok:         #86b08a;
+    --warn:       #d8a24a;
+
+    /* Lumo overrides — déclarés ici pour héritage global */
+    --lumo-base-color:             var(--bg);
+    --lumo-body-text-color:        var(--ink);
+    --lumo-primary-color:          var(--amber);
+    --lumo-primary-text-color:     var(--amber);
+    --lumo-primary-contrast-color: #1a1710;
+    --lumo-success-color:          var(--ok);
+    --lumo-error-color:            #e07070;
+    --lumo-disabled-text-color:    var(--muted);
+    --lumo-secondary-text-color:   var(--ink-soft);
+    --lumo-header-text-color:      var(--ink);
+    --lumo-contrast-5pct:          var(--card);
+    --lumo-contrast-10pct:         var(--card-hi);
+    --lumo-contrast-20pct:         var(--line);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── Background global ── */
+html, body {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+            radial-gradient(900px 500px at 80% -10%, rgba(216,162,74,.10), transparent 60%),
+            radial-gradient(700px 500px at -10% 100%, rgba(216,162,74,.05), transparent 60%) !important;
+    background-attachment: fixed;
+}
+
+/* ── AppLayout — fond et couleur du contenu ── */
+vaadin-app-layout {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+}
+vaadin-app-layout::part(content) {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+}
+vaadin-app-layout::part(navbar) {
+    background: var(--bg-2) !important;
+    border-bottom: 1px solid var(--line) !important;
+}
+
+/* Navbar top */
+vaadin-app-layout::part(navbar) {
+    background: rgba(22,20,15,.82) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--line) !important;
+    padding: 0 !important;
+    flex-direction: column !important;  /* pour empiler brand + tabs */
+    height: auto !important;
+}
+
+/* Barre brand + account */
+.biblio-topbar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 15px 28px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+}
+
+/* Brand horizontal dans la topbar */
+.biblio-brand-top {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    flex: none;
+}
+.biblio-brand-top .kicker {
+    font-size: 9.5px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 600;
+    font-family: "Onest", sans-serif;
+}
+.biblio-brand-top .name {
+    font-family: "Newsreader", serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: .01em;
+    margin-top: 4px;
+    font-style: italic;
+    color: var(--ink);
+}
+
+/* Tabs Vaadin */
+vaadin-tabs {
+    --lumo-primary-color: var(--amber);
+    flex: 1;
+    justify-content: center;
+}
+vaadin-tab {
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    padding: 14px 0 !important;
+    margin: 0 16px !important;
+    background: none !important;
+}
+vaadin-tab[selected] {
+    color: var(--amber) !important;
+}
+vaadin-tabs::part(tabs-container) {
+    border-bottom: none !important;
+}
+
+/* Avatar */
+.biblio-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(150deg, var(--amber), #a9772d);
+    color: #1a1710;
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: "Newsreader", serif;
+    flex: none;
+}
+.biblio-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+}
+.biblio-who {
+    text-align: right;
+    line-height: 1.25;
+}
+.biblio-who-n {
+    font-weight: 600;
+    font-size: 13.5px;
+    display: block;
+    color: var(--ink);
+}
+.biblio-who-s {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+}
+
+
+
+/* ── Page wrapper ── */
+.biblio-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 42px 28px 90px;
+    background: transparent !important;
+    color: var(--ink);
+    font-family: "Onest", sans-serif;
+}
+
+/* ── Typographie ── */
+.serif {
+    font-family: "Newsreader", serif !important;
+}
+
+/* Héro titre  — H1 Vaadin génère <h1> standard */
+.biblio-hero-title {
+    font-family: "Newsreader", serif !important;
+    font-weight: 300 !important;
+    font-size: clamp(36px, 5.4vw, 58px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -.01em !important;
+    max-width: 15ch !important;
+    color: var(--ink) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.biblio-hero-title em {
+    font-style: italic;
+    color: var(--amber);
+}
+
+/* H2 titres de section */
+.biblio-section-title {
+    font-family: "Newsreader", serif !important;
+    font-weight: 400 !important;
+    font-size: 25px !important;
+    letter-spacing: .005em !important;
+    color: var(--ink) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.biblio-eyebrow {
+    font-size: 10.5px !important;
+    letter-spacing: .28em !important;
+    text-transform: uppercase !important;
+    color: var(--amber) !important;
+    font-weight: 600 !important;
+    margin-bottom: 10px !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+.biblio-subtitle {
+    color: var(--ink-soft) !important;
+    max-width: 48ch !important;
+    margin-top: 18px !important;
+    font-size: 15.5px !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* ── Hero section container ── */
+.biblio-hero {
+    margin-bottom: 56px;
+}
+
+/* ── Section head (HorizontalLayout) ── */
+/* Vaadin HorizontalLayout → <vaadin-horizontal-layout> */
+.biblio-section-head {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    margin-bottom: 20px !important;
+    gap: 16px !important;
+    width: 100% !important;
+}
+.biblio-section-meta {
+    font-size: 12px !important;
+    color: var(--muted) !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* ── Barre de recherche ── */
+/* HorizontalLayout avec className biblio-searchbox */
+.biblio-searchbox {
+    background: var(--card) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 14px !important;
+    padding: 7px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    align-items: center !important;
+    box-shadow: 0 24px 50px -30px rgba(0,0,0,.8) !important;
+    margin-top: 32px !important;
+    margin-bottom: 32px !important;
+    width: 100% !important;
+}
+
+/* TextField dans la searchbox — part Shadow DOM */
+.biblio-searchbox vaadin-text-field {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+.biblio-searchbox vaadin-text-field::part(input-field) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+    font-size: 15px !important;
+}
+.biblio-searchbox vaadin-text-field input::placeholder {
+    color: var(--muted) !important;
+}
+
+/* ComboBox dans la searchbox */
+.biblio-searchbox vaadin-combo-box::part(input-field) {
+    background: var(--card-hi) !important;
+    border: none !important;
+    border-radius: 9px !important;
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+.biblio-searchbox vaadin-combo-box::part(toggle-button) {
+    color: var(--muted) !important;
+}
+
+/* ── Bouton principal ── */
+.biblio-btn-primary {
+    background: var(--amber) !important;
+    color: #1a1710 !important;
+    border: none !important;
+    border-radius: 9px !important;
+    font-family: "Onest", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    cursor: pointer !important;
+    transition: background .2s !important;
+}
+.biblio-btn-primary:hover {
+    background: var(--amber-hi) !important;
+}
+/* Vaadin button shadow part */
+.biblio-btn-primary::part(label) {
+    font-family: "Onest", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    color: #1a1710 !important;
+}
+
+/* ── Grille de documents ── */
+.biblio-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important;
+    gap: 24px !important;
+    width: 100% !important;
+}
+
+/* ── Carte document (.biblio-doc = Div Java) ── */
+.biblio-doc {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 11px !important;
+}
+
+/* ── Couverture ── */
+/* IMPORTANT : .biblio-cover est un Div, ses enfants sont des Span.
+   On force z-index sur tous les enfants directs pour passer
+   au-dessus du ::after (gradient) et ::before (tranche) */
+.biblio-cover {
+    position: relative !important;
+    aspect-ratio: 3 / 4.2 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 16px 32px -16px rgba(0,0,0,.9) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 16px 15px !important;
+    color: #f3ead8 !important;
+    transition: transform .25s, box-shadow .25s !important;
+}
+.biblio-doc:hover .biblio-cover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 24px 40px -16px rgba(0,0,0,.9), 0 0 0 1px rgba(216,162,74,.4) !important;
+}
+.biblio-cover::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.35)) !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+.biblio-cover::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0; top: 0; bottom: 0 !important;
+    width: 6px !important;
+    background: rgba(0,0,0,.3) !important;
+    z-index: 2 !important;
+}
+/* CORRECTION CRITIQUE : tous les enfants directs de .biblio-cover
+   doivent être au-dessus des pseudo-éléments */
+.biblio-cover > * {
+    position: relative !important;
+    z-index: 3 !important;
+}
+/* Le div interne bottomDiv */
+.biblio-cover > div {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+
+.biblio-cover-tag {
+    font-size: 9px !important;
+    letter-spacing: .2em !important;
+    text-transform: uppercase !important;
+    opacity: .75 !important;
+    font-weight: 600 !important;
+    color: #f3ead8 !important;
+}
+.biblio-cover-title {
+    font-family: "Newsreader", serif !important;
+    font-size: 16px !important;
+    line-height: 1.12 !important;
+    font-weight: 500 !important;
+    color: #f3ead8 !important;
+}
+.biblio-cover-author {
+    font-size: 11px !important;
+    opacity: .85 !important;
+    color: #f3ead8 !important;
+}
+
+/* ── Méta-infos sous la couverture ── */
+.biblio-doc-title {
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-doc-author {
+    font-size: 12px !important;
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-doc-lib {
+    font-size: 11px !important;
+    color: var(--muted) !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* Div badge + bouton */
+.biblio-doc-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-top: 5px !important;
+}
+
+/* ── Badges ── */
+.badge {
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    padding: 3px 9px !important;
+    border-radius: 20px !important;
+    border: 1px solid !important;
+    white-space: nowrap !important;
+    font-family: "Onest", sans-serif !important;
+    display: inline-block !important;
+}
+.badge-dispo {
+    color: var(--ok) !important;
+    border-color: rgba(134,176,138,.4) !important;
+    background: rgba(134,176,138,.08) !important;
+}
+.badge-emprunte {
+    color: var(--amber) !important;
+    border-color: rgba(216,162,74,.4) !important;
+    background: rgba(216,162,74,.08) !important;
+}
+.badge-indispo {
+    color: var(--muted) !important;
+    border-color: var(--line) !important;
+    background: var(--bg-2) !important;
+}
+
+/* ── Bouton mini (Réserver / Prolonger / Annuler) ── */
+.btn-mini {
+    border: 1px solid var(--amber) !important;
+    color: var(--amber) !important;
+    background: none !important;
+    font-family: "Onest", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+    border-radius: 7px !important;
+    cursor: pointer !important;
+    transition: background .18s, color .18s !important;
+}
+.btn-mini::part(label) {
+    font-family: "Onest", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 11.5px !important;
+    color: inherit !important;
+    padding: 6px 13px !important;
+}
+.btn-mini:hover:not([disabled]) {
+    background: var(--amber) !important;
+    color: #1a1710 !important;
+}
+.btn-mini[disabled],
+.btn-mini:disabled {
+    border-color: var(--line) !important;
+    color: var(--muted) !important;
+    cursor: not-allowed !important;
+}
+.btn-ghost {
+    border: 1px solid var(--line) !important;
+    color: var(--ink-soft) !important;
+    background: none !important;
+}
+.btn-ghost::part(label) {
+    color: var(--ink-soft) !important;
+}
+.btn-ghost:hover:not([disabled]) {
+    background: var(--card-hi) !important;
+}
+
+/* ── Événements ── */
+.biblio-events {
+    margin-top: 6px !important;
+    width: 100% !important;
+}
+.biblio-event {
+    display: flex !important;
+    gap: 18px !important;
+    align-items: center !important;
+    padding: 17px 4px !important;
+    border-bottom: 1px solid var(--line-soft) !important;
+}
+.biblio-event:last-child {
+    border-bottom: none !important;
+}
+.biblio-date-chip {
+    flex: none !important;
+    width: 56px !important;
+    text-align: center !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 9px !important;
+    background: var(--card) !important;
+    padding: 8px 0 !important;
+    line-height: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+.biblio-date-day {
+    font-family: "Newsreader", serif !important;
+    font-size: 22px !important;
+    font-weight: 500 !important;
+    color: var(--amber) !important;
+    display: block !important;
+}
+.biblio-date-month {
+    font-size: 9.5px !important;
+    letter-spacing: .18em !important;
+    text-transform: uppercase !important;
+    color: var(--muted) !important;
+    font-weight: 600 !important;
+    margin-top: 3px !important;
+    display: block !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-event-title {
+    font-weight: 600 !important;
+    font-size: 14.5px !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-event-lib {
+    font-size: 12.5px !important;
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-event-when {
+    margin-left: auto !important;
+    text-align: right !important;
+    font-size: 12px !important;
+    color: var(--muted) !important;
+    flex: none !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* ── Lignes emprunts / réservations ── */
+.biblio-rows {
+    border: 1px solid var(--line) !important;
+    border-radius: 13px !important;
+    overflow: hidden !important;
+    background: var(--card) !important;
+    width: 100% !important;
+}
+.biblio-lrow {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 16px 18px !important;
+    border-bottom: 1px solid var(--line-soft) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.biblio-lrow:last-child {
+    border-bottom: none !important;
+}
+
+/* Mini couverture dans les lignes */
+.biblio-mini-cover {
+    flex: none !important;
+    width: 38px !important;
+    height: 52px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 5px 12px -5px rgba(0,0,0,.9) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+.biblio-mini-cover::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0; top: 0; bottom: 0 !important;
+    width: 3px !important;
+    background: rgba(0,0,0,.35) !important;
+}
+
+.biblio-lrow-title {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-lrow-sub {
+    font-size: 12px !important;
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* Colonnes de données (date, statut) */
+.biblio-data-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 2px !important;
+    flex: none !important;
+}
+.biblio-data-lbl {
+    font-size: 10px !important;
+    letter-spacing: .14em !important;
+    text-transform: uppercase !important;
+    color: var(--muted) !important;
+    font-weight: 600 !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-data-val {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-variant-numeric: tabular-nums !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-data-val.warn {
+    color: var(--amber) !important;
+}
+
+/* ── État vide ── */
+.biblio-empty {
+    padding: 48px 20px !important;
+    text-align: center !important;
+    color: var(--muted) !important;
+    width: 100% !important;
+}
+.biblio-empty-title {
+    display: block !important;
+    font-family: "Newsreader", serif !important;
+    font-size: 19px !important;
+    color: var(--ink-soft) !important;
+    margin-bottom: 6px !important;
+}
+
+/* ── Notification modale abonnement ── */
+/* La Vaadin Notification avec MIDDLE génère une vaadin-notification-card
+   centrée — on la stylise pour ressembler à la modal de la maquette */
+vaadin-notification-card[theme~="warning"] {
+    --lumo-base-color: var(--bg-2) !important;
+    background: var(--bg-2) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 16px !important;
+    max-width: 420px !important;
+    width: 420px !important;
+    box-shadow: 0 40px 70px -24px rgba(0,0,0,.9) !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.biblio-notif-modal {
+    background: var(--bg-2) !important;
+    border-radius: 16px !important;
+    max-width: 400px !important;
+    padding: 30px !important;
+    color: var(--ink-soft) !important;
+    font-size: 13.5px !important;
+    font-family: "Onest", sans-serif !important;
+}
+.biblio-notif-modal h3 {
+    font-family: "Newsreader", serif !important;
+    font-weight: 500 !important;
+    font-size: 22px !important;
+    margin-bottom: 9px !important;
+    color: var(--ink) !important;
+}
+.biblio-notif-modal p {
+    font-size: 13.5px !important;
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+    margin: 0 !important;
+}
+
+/* ── Vaadin champs de formulaire — Shadow DOM parts ── */
+vaadin-text-field::part(input-field),
+vaadin-combo-box::part(input-field),
+vaadin-date-picker::part(input-field),
+vaadin-integer-field::part(input-field) {
+    background: var(--card) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 9px !important;
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+vaadin-text-field::part(input-field):focus-within,
+vaadin-combo-box::part(input-field):focus-within,
+vaadin-date-picker::part(input-field):focus-within,
+vaadin-integer-field::part(input-field):focus-within {
+    border-color: var(--amber) !important;
+    box-shadow: 0 0 0 2px rgba(216,162,74,.2) !important;
+}
+vaadin-text-field::part(label),
+vaadin-combo-box::part(label),
+vaadin-date-picker::part(label),
+vaadin-integer-field::part(label) {
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+}
+vaadin-text-field input,
+vaadin-combo-box input,
+vaadin-date-picker input,
+vaadin-integer-field input {
+    color: var(--ink) !important;
+    font-family: "Onest", sans-serif !important;
+}
+
+/* ── Vaadin Grid ── */
+vaadin-grid {
+    background: var(--card) !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 12px !important;
+    font-family: "Onest", sans-serif !important;
+    --lumo-base-color: var(--card);
+}
+vaadin-grid::part(header-cell) {
+    background: var(--card-hi) !important;
+    color: var(--muted) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: .14em !important;
+    text-transform: uppercase !important;
+    border-bottom: 1px solid var(--line) !important;
+    font-family: "Onest", sans-serif !important;
+}
+vaadin-grid::part(cell) {
+    background: var(--card) !important;
+    color: var(--ink) !important;
+    border-bottom: 1px solid var(--line-soft) !important;
+    font-family: "Onest", sans-serif !important;
+}
+vaadin-grid::part(row):hover > * {
+    background: var(--card-hi) !important;
+}
+vaadin-grid::part(selected-row) > * {
+    background: rgba(216,162,74,.08) !important;
+}
+/* Scrollbar intérieure de la grid */
+vaadin-grid::part(body-cell) {
+    background: var(--card) !important;
+}
+
+/* ── Vaadin Button — Shadow DOM part label ── */
+vaadin-button {
+    font-family: "Onest", sans-serif !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+}
+vaadin-button::part(label) {
+    font-family: "Onest", sans-serif !important;
+}
+vaadin-button[theme~="primary"] {
+    background: var(--amber) !important;
+    color: #1a1710 !important;
+    font-weight: 600 !important;
+}
+vaadin-button[theme~="primary"]::part(label) {
+    color: #1a1710 !important;
+    font-weight: 600 !important;
+}
+vaadin-button[theme~="primary"]:hover {
+    background: var(--amber-hi) !important;
+}
+vaadin-button[theme~="error"] {
+    background: rgba(180,60,60,.15) !important;
+    color: #e07070 !important;
+    border: 1px solid rgba(180,60,60,.3) !important;
+}
+vaadin-button[theme~="error"]::part(label) {
+    color: #e07070 !important;
+}
+
+/* ── Vaadin Notification ── */
+vaadin-notification-card {
+    font-family: "Onest", sans-serif !important;
+    background: var(--amber) !important;
+    color: #1a1710 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    box-shadow: 0 16px 30px -14px rgba(0,0,0,.7) !important;
+}
+vaadin-notification-card[theme~="success"] {
+    background: rgba(134,176,138,.15) !important;
+    color: var(--ok) !important;
+    border: 1px solid rgba(134,176,138,.3) !important;
+}
+vaadin-notification-card[theme~="error"] {
+    background: rgba(180,60,60,.15) !important;
+    color: #e07070 !important;
+    border: 1px solid rgba(180,60,60,.3) !important;
+}
+
+/* ── ComboBox overlay ── */
+vaadin-combo-box-overlay {
+    background: var(--card) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 10px !important;
+}
+vaadin-combo-box-item {
+    color: var(--ink-soft) !important;
+    font-family: "Onest", sans-serif !important;
+    background: var(--card) !important;
+}
+vaadin-combo-box-item:hover,
+vaadin-combo-box-item[focused] {
+    background: var(--card-hi) !important;
+    color: var(--ink) !important;
+}
+
+/* ── Date picker overlay ── */
+vaadin-date-picker-overlay {
+    background: var(--card) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 10px !important;
+    color: var(--ink) !important;
+}
+
+/* ── Scrollbar globale ── */
+::-webkit-scrollbar { width: 6px; background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+/* ── Footer ── */
+.biblio-footer {
+    border-top: 1px solid var(--line);
+    padding: 26px 28px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 1100px;
+    margin: 30px auto 0;
+    font-family: "Onest", sans-serif;
+}
+
+/* ── VerticalLayout / HorizontalLayout Vaadin ── */
+/* Ces composants génèrent <vaadin-vertical-layout> et <vaadin-horizontal-layout>
+   qui héritent de display:flex — on s'assure que nos classes s'appliquent */
+vaadin-vertical-layout, vaadin-horizontal-layout {
+    font-family: "Onest", sans-serif;
+    color: var(--ink);
+}
+
+/* Layouts avec classe biblio-page */
+vaadin-vertical-layout.biblio-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 42px 28px 90px;
+    background: transparent !important;
+}

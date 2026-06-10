@@ -43,8 +43,8 @@ public class AuteurViewTest {
         assertFalse(editor.isVisible());
         grid.asSingleSelect().setValue(firstAuteur);
         assertTrue(editor.isVisible());
-        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nom.getValue());
-        assertEquals(firstAuteur.getNom(), editor.nom.getValue());
+        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nomSociete.getValue());
+        assertEquals(firstAuteur.getNomSociete(), editor.nomSociete.getValue());
     }
 
     private Auteur getFirstItem(Grid<Auteur> grid) {
@@ -64,15 +64,15 @@ public class AuteurViewTest {
         auteurView.getAddNewBtn().click(); // Simulate clicking the "Add New" button
 
         assertTrue(editor.isVisible());
-        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nom.getValue());
+        logger.info(" auteur in editor : " + editor.prenom.getValue() + " " + editor.nomSociete.getValue());
         assertEquals("", editor.prenom.getValue());
-        assertEquals("", editor.nom.getValue());
+        assertEquals("", editor.nomSociete.getValue());
         assertEquals("", editor.nationalite.getValue());
         assertEquals(null, editor.dateNaissance.getValue());
         assertEquals(null, editor.dateDeces.getValue());    
 
         editor.prenom.setValue("Zola");
-        editor.nom.setValue("Emile");
+        editor.nomSociete.setValue("Emile");
         editor.nationalite.setValue("Française");
         editor.dateNaissance.setValue(java.time.LocalDate.of(1840, 4, 2));
         editor.dateDeces.setValue(java.time.LocalDate.of(1902, 9, 29)); 
@@ -82,7 +82,7 @@ public class AuteurViewTest {
         Auteur newAuteur = getLastItem(auteurView.grid);
         logger.info("Le nouvel Auteur doit être le dernier dans la grid : " + newAuteur);
         assertEquals( "Zola",newAuteur.getPrenom());
-        assertEquals("Emile", newAuteur.getNom() );
+        assertEquals("Emile", newAuteur.getNomSociete() );
         assertEquals("Française", newAuteur.getNationalite() );
         assertEquals(java.time.LocalDate.of(1840, 4, 2), newAuteur.getDateNaissance());
         assertEquals(java.time.LocalDate.of(1902, 9, 29), newAuteur.getDateDeces());    

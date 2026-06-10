@@ -2,7 +2,7 @@ package com.usmb.but3.td4biblio.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,12 +27,12 @@ public class Document {
     @Column(length = 100)
     private String titre;
 
-    private LocalDate dateAcquisition;
+    private LocalDateTime dateAcquisition;
 
     @Column(length = 50)
     private String description;
 
-    private LocalDate datePublication;
+    private LocalDateTime datePublication;
 
     @Column(length = 10)
     private String codeEmplacement;

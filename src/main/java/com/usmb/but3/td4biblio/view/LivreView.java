@@ -5,6 +5,7 @@ import com.usmb.but3.td4biblio.entity.Livre;
 import com.usmb.but3.td4biblio.service.LivreService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -15,69 +16,74 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
 
-@Route (value="livre") 
+@Route(value = "livre")
 @PageTitle("Les Livres")
-@Menu(title = "Les Livres", order = 1, icon = "vaadin:clipboard-check")
-
+@Menu(title = "Les Livres", order = 5, icon = "vaadin:clipboard-check")
 public class LivreView extends VerticalLayout {
 
 	private final LivreService livreService;
 
 	final Grid<Livre> grid;
-
-	final TextField filter;
-
+	final TextField   filter;
 	private final Button addNewBtn;
 
 	public LivreView(LivreService livreService, LivreEditor editor) {
-
 		this.livreService = livreService;
-
-		this.grid = new Grid<>(Livre.class);
+		this.grid   = new Grid<>(Livre.class);
 		this.filter = new TextField();
 		this.addNewBtn = new Button("Ajouter un livre", VaadinIcon.PLUS.create());
 
-		// build layout
-		HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-		add(actions, grid, editor);
+		setPadding(false);
+		setSpacing(false);
+		addClassName("biblio-page");
 
-		grid.setHeight("300px");
-        grid.setColumns("id", "titre");
+		var titleH2 = new H2("Les Livres");
+		titleH2.addClassName("biblio-section-title");
+		titleH2.getElement().getStyle().set("margin-bottom", "20px");
 
-        // Add the custom column for auteur description
-        grid.addColumn(livre -> {
-            Auteur auteur = livre.getAuteur();
-            return auteur != null ? auteur.getDesc() : "";
-        }).setHeader("Auteur").setKey("auteurDescription");
-        grid.addColumns("datePublication", "editeur", "nbPages");
+		filter.setPlaceholder("Filtrer par titre…");
+		filter.getElement().getStyle().set("flex", "1");
 
+		addNewBtn.addClassName("biblio-btn-primary");
+		addNewBtn.getElement().getStyle()
+				.set("background", "var(--amber)").set("color", "#1a1710")
+				.set("border", "none").set("border-radius", "9px")
+				.set("font-weight", "600").set("padding", "0 20px").set("cursor", "pointer");
 
-		grid.getColumnByKey("id").setWidth("50px").setFlexGrow(0);
+		var actions = new HorizontalLayout(filter, addNewBtn);
+		actions.setAlignItems(Alignment.CENTER);
+		actions.setWidthFull();
+		actions.getElement().getStyle().set("margin-bottom", "16px");
 
-		filter.setPlaceholder("Filtrer par titre");
+		add(titleH2, actions, grid, editor);
 
-		// Hook logic to components
+		grid.setHeight("340px");
+		grid.setColumns("idDocument", "titre");
 
-		// Replace listing with filtered content when user changes filter
+		grid.addColumn(livre -> {
+			Auteur auteur = livre.getAuteur();
+			return auteur != null ? auteur.getDesc() : "";
+		}).setHeader("Auteur").setKey("auteurDescription");
+
+		grid.addColumns("datePublication", "nbPages");
+
+		grid.addColumn(livre ->
+				livre.getEditeur() != null ? livre.getEditeur().getNomSociete() : ""
+		).setHeader("Éditeur");
+
+		grid.getColumnByKey("idDocument").setWidth("60px").setFlexGrow(0);
+
 		filter.setValueChangeMode(ValueChangeMode.LAZY);
 		filter.addValueChangeListener(e -> listLivres(e.getValue()));
 
-         
-		// Connect selected Livre to editor or hide if none is selected
-		grid.asSingleSelect().addValueChangeListener(e -> {
-			editor.editLivre(e.getValue());
-		});
-
-		// Instantiate and edit new Livre when the new button is clicked
+		grid.asSingleSelect().addValueChangeListener(e -> editor.editLivre(e.getValue()));
 		addNewBtn.addClickListener(e -> editor.editLivre(new Livre()));
 
-		// Listen changes made by the editor, refresh data from backend
 		editor.setChangeHandler(() -> {
 			editor.setVisible(false);
 			listLivres(filter.getValue());
 		});
 
-		// Initialize listing
 		listLivres(null);
 	}
 
@@ -88,6 +94,4 @@ public class LivreView extends VerticalLayout {
 			grid.setItems(livreService.getAllLivres());
 		}
 	}
-
 }
-

@@ -27,7 +27,7 @@ public class LivreService {
  public List<Livre> getAllLivres(){
      //return livreRepo.findAll();
     // To specify a sort order, use:
-      return livreRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
+      return livreRepo.findAll(Sort.by(Sort.Direction.ASC, "idDocument"));
 
  }
 
@@ -42,22 +42,22 @@ public class LivreService {
  }
 
  public Livre saveLivre (Livre livre) {
-    livre.setCreatedAt(LocalDateTime.now());
-    livre.setUpdatedAt(LocalDateTime.now());
+    livre.setDatePublication(LocalDateTime.now());
+    livre.setDatePublication(LocalDateTime.now());
     Livre savedLivre = livreRepo.save(livre);
 
-    log.info("Livre with id: {} saved successfully", livre.getId());
+    log.info("Livre with id: {} saved successfully", livre.getIdDocument());
     return savedLivre;
  }
 
  public Livre updateLivre (Livre livre) {
-    Optional<Livre> existingLivre = livreRepo.findById(livre.getId());
-    livre.setCreatedAt(existingLivre.get().getCreatedAt());
-    livre.setUpdatedAt(LocalDateTime.now());
+    Optional<Livre> existingLivre = livreRepo.findById(livre.getIdDocument());
+    livre.setDatePublication(existingLivre.get().getDatePublication());
+    livre.setDatePublication(LocalDateTime.now());
 
     Livre updatedLivre = livreRepo.save(livre);
 
-    log.info("Livre with id: {} updated successfully", livre.getId());
+    log.info("Livre with id: {} updated successfully", livre.getIdDocument());
     return updatedLivre;
  }
 
@@ -70,7 +70,7 @@ public class LivreService {
       // Get livres by auteurId sorted by id
       //return livreRepo.findByAuteurId(auteurId);
       //how to sort by id
-       return livreRepo.findByAuteurId(auteurId, Sort.by(Sort.Direction.ASC, "id")); 
+       return livreRepo.findByAuteurIdAuteur(auteurId, Sort.by(Sort.Direction.ASC, "id"));
    }
 
    public List<Livre> getByTitreContainingIgnoreCase(String titre) {

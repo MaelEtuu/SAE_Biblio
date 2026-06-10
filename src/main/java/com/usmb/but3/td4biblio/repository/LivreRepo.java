@@ -12,7 +12,7 @@ import com.usmb.but3.td4biblio.entity.Livre;
  */
 public interface LivreRepo extends JpaRepository<Livre, Integer> {
 
-    List<Livre> findByAuteurId(Integer auteurId);
+    List<Livre> findByAuteurIdAuteur(Integer auteurId);
     List<Livre> findByTitreContainingIgnoreCase(String titre);
-    List<Livre> findByAuteurId(Integer auteurId, Sort sort); 
+    List<Livre> findByAuteurIdAuteur(Integer auteurId, Sort sort);
 }

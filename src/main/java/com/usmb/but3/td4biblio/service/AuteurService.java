@@ -19,7 +19,7 @@ public class AuteurService {
     public List<Auteur> getAllAuteurs() {
         //return auteurRepo.findAll();
         // To specify a sort order, use:
-        return auteurRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return auteurRepo.findAll(Sort.by(Sort.Direction.ASC, "idAuteur"));
     }
 
     public Auteur getAuteurById(Integer id) {
@@ -38,22 +38,22 @@ public class AuteurService {
         auteurRepo.deleteById(id);
     }
     public List<Auteur> getAuteursByNom(String nom) {
-        return auteurRepo.findByNom(nom);
+        return auteurRepo.findByNomSociete(nom);
     }
     public List<Auteur> getAuteursByNomAndPrenom(String nom, String prenom) {
-        return auteurRepo.findByNomAndPrenom(nom, prenom);
+        return auteurRepo.findByNomSocieteAndPrenom(nom, prenom);
     }
     public List<Auteur> getAuteursByNomLikeAndPrenomLike(String nom, String prenom) {
         //return auteurRepo.findByNomLikeAndPrenomLike("%" + nom + "%", "%" + prenom + "%");
-        return auteurRepo.findByNomLikeAndPrenomLike(nom,prenom);
+        return auteurRepo.findByNomSocieteLikeAndPrenomLike(nom,prenom);
     }  
 
     public List<Auteur> getAuteursByNomStartWithIgnoreCase(String filter) {
-        return auteurRepo.findByNomStartsWithIgnoreCase(filter);
+        return auteurRepo.findByNomSocieteStartsWithIgnoreCase(filter);
     }  
 
     public List<Auteur> getByNomContainingIgnoreCase(String filter) {
-       return auteurRepo.findByNomContainingIgnoreCase(filter);
+       return auteurRepo.findByNomSocieteContainingIgnoreCase(filter);
     }
 
 }

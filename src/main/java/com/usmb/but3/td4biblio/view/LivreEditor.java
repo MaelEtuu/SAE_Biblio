@@ -1,6 +1,7 @@
 package com.usmb.but3.td4biblio.view;
 
 import com.usmb.but3.td4biblio.entity.Auteur;
+import com.usmb.but3.td4biblio.entity.Editeur;
 import com.usmb.but3.td4biblio.entity.Livre;
 import com.usmb.but3.td4biblio.service.AuteurService;
 import com.usmb.but3.td4biblio.service.LivreService;
@@ -42,7 +43,7 @@ public class LivreEditor extends VerticalLayout implements KeyNotifier {
 
 	/* Fields to edit properties in Livre entity */
 	TextField titre = new TextField("Titre");
-	TextField editeur = new TextField("Editeur");
+	ComboBox<Editeur> editeur = new ComboBox<>("Éditeur");
     DatePicker datePublication = new DatePicker("Date de publication");
     IntegerField nbPages = new IntegerField("Nombre de pages");
     {
@@ -71,6 +72,8 @@ public class LivreEditor extends VerticalLayout implements KeyNotifier {
 
 		auteurComboBox.setPlaceholder("Sélectionner un auteur");
 		auteurComboBox.setClearButtonVisible(true);
+		editeur.setItemLabelGenerator(Editeur::getNomSociete);
+		editeur.setClearButtonVisible(true);
 		// do it after :
 		//auteurComboBox.setItems(auteurService.getAllAuteurs());
 		auteurComboBox.setItemLabelGenerator(Auteur::getDesc);
@@ -78,7 +81,9 @@ public class LivreEditor extends VerticalLayout implements KeyNotifier {
 		add(titre, auteurComboBox, datePublication, editeur, nbPages , actions);
 
 		// bind using naming convention
-		binder.bindInstanceFields(this);
+		binder.forField(editeur)
+				.asRequired("Éditeur obligatoire")
+				.bind(Livre::getEditeur, Livre::setEditeur);
         binder.forField(auteurComboBox)
             .asRequired("Auteur est obligatoire")
             .bind(Livre::getAuteur, Livre::setAuteur);
@@ -93,12 +98,12 @@ public class LivreEditor extends VerticalLayout implements KeyNotifier {
 	}
 
 	void delete() {
-		livreService.deleteLivreById(livre.getId());
+		livreService.deleteLivreById(livre.getIdDocument());
 		changeHandler.onChange();
 	}
 
 	void save() {
-        if (livre.getId() == null) {
+        if (livre.getIdDocument() == null) {
             // If the livre is new, we save it
             livreService.saveLivre(livre);
         } else {
@@ -120,12 +125,12 @@ public class LivreEditor extends VerticalLayout implements KeyNotifier {
 
 		auteurComboBox.setItems(auteurService.getAllAuteurs());
 
-		final boolean persisted = l.getId() != null;
+		final boolean persisted = l.getIdDocument() != null;
 		if (persisted) {
 			// Find fresh entity for editing
 			// In a more complex app, you might want to load
 			// the entity/DTO with lazy loaded relations for editing
-			livre = livreService.getLivreById(l.getId());
+			livre = livreService.getLivreById(l.getIdDocument());
 		}
 		else {
 			livre = l;

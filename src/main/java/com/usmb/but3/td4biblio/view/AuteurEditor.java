@@ -42,7 +42,7 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 
 	/* Fields to edit properties in Auteur entity */
 	TextField prenom = new TextField("Prénom");
-	TextField nom = new TextField("Nom");
+	TextField nomSociete = new TextField("Nom Société");
     DatePicker dateNaissance = new DatePicker("Date de naissance");
     DatePicker dateDeces = new DatePicker("Date de décès");
     ComboBox<String> nationalite = new ComboBox<>("Nationalité");
@@ -57,7 +57,7 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 		});
     }
 
-	HorizontalLayout fields = new HorizontalLayout(prenom, nom, nationalite, dateNaissance, dateDeces);
+	HorizontalLayout fields = new HorizontalLayout(prenom, nomSociete, nationalite, dateNaissance, dateDeces);
 
 	/* Action buttons */
 	Button save = new Button("Sauvegarder", VaadinIcon.CHECK.create());
@@ -92,7 +92,7 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 	}
 
 	void delete() {
-		auteurService.deleteAuteurById(auteur.getId());
+		auteurService.deleteAuteurById(auteur.getIdAuteur());
 		changeHandler.onChange();
 	}
 
@@ -110,12 +110,12 @@ public class AuteurEditor extends VerticalLayout implements KeyNotifier {
 			setVisible(false);
 			return;
 		}
-		final boolean persisted = a.getId() != null;
+		final boolean persisted = a.getIdAuteur() != null;
 		if (persisted) {
 			// Find fresh entity for editing
 			// In a more complex app, you might want to load
 			// the entity/DTO with lazy loaded relations for editing
-			auteur = auteurService.getAuteurById(a.getId());
+			auteur = auteurService.getAuteurById(a.getIdAuteur());
 		}
 		else {
 			auteur = a;
