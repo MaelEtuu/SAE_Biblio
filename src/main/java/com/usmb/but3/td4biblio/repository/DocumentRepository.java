@@ -1,6 +1,7 @@
 package com.usmb.but3.td4biblio.repository;
 
 import com.usmb.but3.td4biblio.entity.Document;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,7 +19,7 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     List<Document> findByFormat_LargeurContainingIgnoreCase(String libelleFormat);
 
     /** Nouvelles acquisitions : 5 documents empruntables les plus récents. */
-    List<Document> findTop5ByEstEmpruntableTrueOrderByDateAcquisitionDesc();
+    List<Document> findByEstEmpruntableTrueOrderByDateAcquisitionDesc(Pageable pageable);
 
     /** Documents disponibles = empruntables, ni empruntés, ni réservés (réservation active). */
     @Query("""
