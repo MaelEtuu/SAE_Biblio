@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -215,10 +216,10 @@ class DocumentServiceTest {
         @Test
         @DisplayName("getNouvellesAcquisitions délègue au repository (top 5)")
         void getNouvellesAcquisitions() {
-            when(documentRepository.findTop5ByEstEmpruntableTrueOrderByDateAcquisitionDesc())
+            when(documentRepository.findByEstEmpruntableTrueOrderByDateAcquisitionDesc(Pageable.ofSize(10)))
                     .thenReturn(List.of(miserables, notreDame));
 
-            assertThat(documentService.getNouvellesAcquisitions(5)).hasSize(2);
+            assertThat(documentService.getDerniersDocuments(10)).hasSize(2);
         }
 
         @Test
