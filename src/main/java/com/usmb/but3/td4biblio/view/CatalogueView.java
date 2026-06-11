@@ -4,6 +4,7 @@ import com.usmb.but3.td4biblio.entity.Document;
 import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.usmb.but3.td4biblio.service.ReservationService;
+import com.usmb.but3.td4biblio.util.SessionUtils;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -27,8 +28,7 @@ public class CatalogueView extends VerticalLayout implements HasUrlParameter<Str
     private final DocumentService    documentService;
     private final ReservationService reservationService;
 
-    // TODO : remplacer par la session utilisateur réelle
-    private Utilisateur utilisateurCourant;
+    private Utilisateur utilisateurCourant = SessionUtils.getUtilisateur();
 
     private final TextField        searchField = new TextField();
     private final ComboBox<String> critereBox  = new ComboBox<>();

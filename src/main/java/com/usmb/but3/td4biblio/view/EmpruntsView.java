@@ -3,6 +3,7 @@ package com.usmb.but3.td4biblio.view;
 import com.usmb.but3.td4biblio.entity.Emprunts;
 import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.service.EmpruntsService;
+import com.usmb.but3.td4biblio.util.SessionUtils;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
@@ -27,8 +28,7 @@ public class EmpruntsView extends VerticalLayout {
 
     private final EmpruntsService empruntsService;
 
-    // TODO : remplacer par la session utilisateur réelle
-    private Utilisateur utilisateurCourant;
+    private Utilisateur utilisateurCourant = SessionUtils.getUtilisateur();
 
     private final Div rowsDiv = new Div();
 
