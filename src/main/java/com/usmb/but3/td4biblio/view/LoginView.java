@@ -14,6 +14,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Page de connexion : authentifie un utilisateur par e-mail + mot de passe.
@@ -164,8 +165,7 @@ public class LoginView extends VerticalLayout {
      */
     private boolean checkPassword(String raw, String stored) {
         if (stored == null) return false;
-        // Comparaison en clair (à remplacer par : BCrypt.checkpw(raw, stored))
-        return raw.equals(stored);
+        return new BCryptPasswordEncoder().matches(raw, stored);
     }
 
     private void showError(String message) {
