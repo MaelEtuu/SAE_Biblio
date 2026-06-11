@@ -149,6 +149,18 @@ class AuteurServiceTest {
         }
 
         @Test
+        @DisplayName("getAuteursByNomLikeAndPrenomLike délègue au repository avec les critères fournis")
+        void getAuteursByNomLikeAndPrenomLike() {
+            when(auteurRepository.findByNomLikeAndPrenomLike("Hug%", "Vict%"))
+                    .thenReturn(List.of(hugo));
+
+            List<Auteur> result = auteurService.getAuteursByNomLikeAndPrenomLike("Hug%", "Vict%");
+
+            assertThat(result).containsExactly(hugo);
+            verify(auteurRepository).findByNomLikeAndPrenomLike("Hug%", "Vict%");
+        }
+
+        @Test
         @DisplayName("recherche sans résultat retourne une liste vide")
         void recherche_sansResultat() {
             when(auteurRepository.findByNom("Inexistant")).thenReturn(Collections.emptyList());
