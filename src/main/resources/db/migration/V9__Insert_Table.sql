@@ -1,72 +1,582 @@
-SET search_path to biblio;
+-- ============================================================
+-- V9__Insert_Table.sql  —  Jeu de données SAE_Biblio (groupe 1 : réservations)
+-- Données réelles : 116 livres + 13 CD/DVD = 129 documents,
+-- 57 auteurs, 14 éditeurs, 4 bibliothèques, 8 utilisateurs.
+-- Règles conformes au sujet : 10 prêts max, 5 semaines (35 j), réservation 2 semaines (14 j).
+-- Mots de passe hachés SHA-256/Base64 (= MotDePasseUtil), initialisés sur la date de naissance (ddMMyyyy).
+-- ============================================================
 
+SET search_path TO biblio;
+
+-- ---------- Types d'auteur ----------
 INSERT INTO type_auteur (libelleTypeAuteur) VALUES
                                                 ('Écrivain'),
-                                                ('Scientifique');
+                                                ('Réalisateur'),
+                                                ('Compositeur'),
+                                                ('Interprète');
 
+-- ---------- Formats ----------
+-- NB : la colonne 'largeur' sert d'étiquette de type dans les vues (Livre / CD / DVD)
 INSERT INTO format (longueur, largeur, poids) VALUES
-                                                  ('21 cm', '14 cm', '300 g'),
-                                                  ('30 cm', '21 cm', '800 g');
+                                                  ('20 cm', 'Livre', '350 g'),
+                                                  ('12,5 cm', 'CD', '100 g'),
+                                                  ('19 cm', 'DVD', '80 g');
 
-INSERT INTO editeur (nomSociete, lienSite, lienWikipedia, adresse, ville, pays, codePostal) VALUES
-                                                                                                ('Gallimard', 'https://www.gallimard.fr', 'https://fr.wikipedia.org/wiki/Gallimard', '5 rue Sébastien Bottin', 'Paris', 'France', 75007),
-                                                                                                ('Hachette', 'https://www.hachette.fr', 'https://fr.wikipedia.org/wiki/Hachette', '58 rue Jean Bleuzen', 'Vanves', 'France', 92170);
+-- ---------- Raisons de non-emprunt ----------
+INSERT INTO raison_pas_emprunt (libelleRaison) VALUES
+                                                   ('Valeur'),
+                                                   ('Fragilité'),
+                                                   ('Mauvais état');
 
+-- ---------- Rôles utilisateurs ----------
+-- idRole 1 = BIBLIOTHECAIRE, 2 = EMPRUNTEUR (cf. UtilisateurService.ROLE_EMPRUNTEUR)
 INSERT INTO role (libelleRole) VALUES
                                    ('BIBLIOTHECAIRE'),
                                    ('EMPRUNTEUR');
 
-INSERT INTO raison_pas_emprunt (libelleRaison) VALUES
-                                                   ('Déjà emprunté'),
-                                                   ('Réservé'),
-                                                   ('Document endommagé');
-
+-- ---------- Règles paramétrables (cf. cahier des charges) ----------
 INSERT INTO regle (valeurRegle, typeRegle, intituleRegle) VALUES
-                                                              ('14 jours', 'DURÉE_PRET', 'Durée maximale de prêt'),
-                                                              ('3', 'NB_PRET', 'Nombre max de prêts simultanés');
+                                                              ('10', 'NB_PRET',           'Nombre maximum de documents empruntables'),
+                                                              ('35', 'DUREE_PRET',        'Durée maximum de prêt (jours) — 5 semaines'),
+                                                              ('14', 'DELAI_RESERVATION', 'Délai maximum de réservation (jours) — 2 semaines');
 
-INSERT INTO auteur (idTypeAuteur, nom, prenom, nationalite, dateNaissance, dateDeces, paysNaissance, villeNaissance, lienWikipedia)
-VALUES
-    (1, NULL, 'Victor', 'Française', '1802-02-26', '1885-05-22', 'France', 'Besançon', 'https://fr.wikipedia.org/wiki/Victor_Hugo'),
-    (2, NULL, 'Albert', 'Allemande', '1879-03-14', '1955-04-18', 'Allemagne', 'Ulm', 'https://fr.wikipedia.org/wiki/Albert_Einstein');
+-- ---------- Éditeurs ----------
+INSERT INTO editeur (nomSociete, lienSite, lienWikipedia, adresse, ville, pays, codePostal) VALUES
+                                                                                                ('Le Livre de Poche', 'https://www.livredepoche.com', 'https://fr.wikipedia.org/wiki/Le_Livre_de_poche', '21 rue du Montparnasse', 'Paris', 'France', '75006'),
+                                                                                                ('Gallimard', 'https://www.gallimard.fr', 'https://fr.wikipedia.org/wiki/%C3%89ditions_Gallimard', '5 rue Gaston-Gallimard', 'Paris', 'France', '75007'),
+                                                                                                ('Folio', 'https://www.folio-lesite.fr', 'https://fr.wikipedia.org/wiki/Folio_(collection)', '5 rue Gaston-Gallimard', 'Paris', 'France', '75007'),
+                                                                                                ('Flammarion', 'https://editions.flammarion.com', 'https://fr.wikipedia.org/wiki/Groupe_Flammarion', '87 quai Panhard-et-Levassor', 'Paris', 'France', '75013'),
+                                                                                                ('Hachette', 'https://www.hachette.fr', 'https://fr.wikipedia.org/wiki/Hachette_Livre', '58 rue Jean-Bleuzen', 'Vanves', 'France', '92170'),
+                                                                                                ('Les Éditions de Minuit', 'https://www.leseditionsdeminuit.fr', 'https://fr.wikipedia.org/wiki/%C3%89ditions_de_Minuit', '7 rue Bernard-Palissy', 'Paris', 'France', '75006'),
+                                                                                                ('Éditions Points', 'https://www.editionspoints.com', 'https://fr.wikipedia.org/wiki/Points_(maison_d%27%C3%A9dition)', '57 rue Gaston-Tessier', 'Paris', 'France', '75019'),
+                                                                                                ('Pocket', 'https://www.pocket.fr', 'https://fr.wikipedia.org/wiki/Pocket_(maison_d%27%C3%A9dition)', '92 avenue de France', 'Paris', 'France', '75013'),
+                                                                                                ('Le Masque', 'https://www.lemasque.com', 'https://fr.wikipedia.org/wiki/Le_Masque_(collection)', '58 rue Jean-Bleuzen', 'Vanves', 'France', '92170'),
+                                                                                                ('10/18', 'https://www.10-18.fr', 'https://fr.wikipedia.org/wiki/10/18', '92 avenue de France', 'Paris', 'France', '75013'),
+                                                                                                ('Belfond', 'https://www.belfond.fr', 'https://fr.wikipedia.org/wiki/%C3%89ditions_Belfond', '92 avenue de France', 'Paris', 'France', '75013'),
+                                                                                                ('Grasset', 'https://www.grasset.fr', 'https://fr.wikipedia.org/wiki/%C3%89ditions_Grasset', '61 rue des Saints-Pères', 'Paris', 'France', '75006'),
+                                                                                                ('Fayard', 'https://www.fayard.fr', 'https://fr.wikipedia.org/wiki/%C3%89ditions_Fayard', '13 rue du Montparnasse', 'Paris', 'France', '75006'),
+                                                                                                ('Christian Bourgois', 'https://www.christianbourgois-editeur.com', 'https://fr.wikipedia.org/wiki/Christian_Bourgois_%C3%A9diteur', '8 rue Garancière', 'Paris', 'France', '75006');
 
-INSERT INTO bibliotheque (nom, adresse, heureOuverture, heureFermeture, ville, pays, codePostal)
-VALUES
-    ('Bibliothèque Centrale', '10 rue de la République', '08:00', '18:00', 'Lyon', 'France', 69000),
-    ('Médiathèque Part-Dieu', '30 boulevard Vivier Merle', '09:00', '19:00', 'Lyon', 'France', 69003);
+-- ---------- Auteurs ----------
+INSERT INTO auteur (idTypeAuteur, nom, prenom, nationalite, dateNaissance, dateDeces, paysNaissance, villeNaissance, lienWikipedia) VALUES
+                                                                                                                                        (1, 'Hugo', 'Victor', 'Française', '1802-02-26', '1885-05-22', 'France', 'Besançon', 'https://fr.wikipedia.org/wiki/Victor_Hugo'),
+                                                                                                                                        (1, 'Zola', 'Émile', 'Française', '1840-04-02', '1902-09-29', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/%C3%89mile_Zola'),
+                                                                                                                                        (1, 'Flaubert', 'Gustave', 'Française', '1821-12-12', '1880-05-08', 'France', 'Rouen', 'https://fr.wikipedia.org/wiki/Gustave_Flaubert'),
+                                                                                                                                        (1, 'Proust', 'Marcel', 'Française', '1871-07-10', '1922-11-18', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Marcel_Proust'),
+                                                                                                                                        (1, 'Camus', 'Albert', 'Française', '1913-11-07', '1960-01-04', 'Algérie', 'Mondovi', 'https://fr.wikipedia.org/wiki/Albert_Camus'),
+                                                                                                                                        (1, 'Sartre', 'Jean-Paul', 'Française', '1905-06-21', '1980-04-15', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Jean-Paul_Sartre'),
+                                                                                                                                        (1, 'de Beauvoir', 'Simone', 'Française', '1908-01-09', '1986-04-14', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Simone_de_Beauvoir'),
+                                                                                                                                        (1, 'de Balzac', 'Honoré', 'Française', '1799-05-20', '1850-08-18', 'France', 'Tours', 'https://fr.wikipedia.org/wiki/Honor%C3%A9_de_Balzac'),
+                                                                                                                                        (1, 'Stendhal', NULL, 'Française', '1783-01-23', '1842-03-23', 'France', 'Grenoble', 'https://fr.wikipedia.org/wiki/Stendhal'),
+                                                                                                                                        (1, 'de Maupassant', 'Guy', 'Française', '1850-08-05', '1893-07-06', 'France', 'Tourville-sur-Arques', 'https://fr.wikipedia.org/wiki/Guy_de_Maupassant'),
+                                                                                                                                        (1, 'Voltaire', NULL, 'Française', '1694-11-21', '1778-05-30', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Voltaire'),
+                                                                                                                                        (1, 'Diderot', 'Denis', 'Française', '1713-10-05', '1784-07-31', 'France', 'Langres', 'https://fr.wikipedia.org/wiki/Denis_Diderot'),
+                                                                                                                                        (1, 'Rousseau', 'Jean-Jacques', 'Genevoise', '1712-06-28', '1778-07-02', 'Suisse', 'Genève', 'https://fr.wikipedia.org/wiki/Jean-Jacques_Rousseau'),
+                                                                                                                                        (1, 'Molière', NULL, 'Française', '1622-01-15', '1673-02-17', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Moli%C3%A8re'),
+                                                                                                                                        (1, 'Verne', 'Jules', 'Française', '1828-02-08', '1905-03-24', 'France', 'Nantes', 'https://fr.wikipedia.org/wiki/Jules_Verne'),
+                                                                                                                                        (1, 'de Saint-Exupéry', 'Antoine', 'Française', '1900-06-29', '1944-07-31', 'France', 'Lyon', 'https://fr.wikipedia.org/wiki/Antoine_de_Saint-Exup%C3%A9ry'),
+                                                                                                                                        (1, 'Duras', 'Marguerite', 'Française', '1914-04-04', '1996-03-03', 'Vietnam', 'Gia Định', 'https://fr.wikipedia.org/wiki/Marguerite_Duras'),
+                                                                                                                                        (1, 'Ernaux', 'Annie', 'Française', '1940-09-01', NULL, 'France', 'Lillebonne', 'https://fr.wikipedia.org/wiki/Annie_Ernaux'),
+                                                                                                                                        (1, 'Gary', 'Romain', 'Française', '1914-05-21', '1980-12-02', 'Lituanie', 'Vilnius', 'https://fr.wikipedia.org/wiki/Romain_Gary'),
+                                                                                                                                        (1, 'Vian', 'Boris', 'Française', '1920-03-10', '1959-06-23', 'France', 'Ville-d''Avray', 'https://fr.wikipedia.org/wiki/Boris_Vian'),
+                                                                                                                                        (1, 'Kafka', 'Franz', 'Tchèque', '1883-07-03', '1924-06-03', 'Tchéquie', 'Prague', 'https://fr.wikipedia.org/wiki/Franz_Kafka'),
+                                                                                                                                        (1, 'Dostoïevski', 'Fiodor', 'Russe', '1821-11-11', '1881-02-09', 'Russie', 'Moscou', 'https://fr.wikipedia.org/wiki/Fiodor_Dosto%C3%AFevski'),
+                                                                                                                                        (1, 'Tolstoï', 'Léon', 'Russe', '1828-09-09', '1910-11-20', 'Russie', 'Iasnaïa Poliana', 'https://fr.wikipedia.org/wiki/L%C3%A9on_Tolsto%C3%AF'),
+                                                                                                                                        (1, 'Orwell', 'George', 'Britannique', '1903-06-25', '1950-01-21', 'Inde', 'Motihari', 'https://fr.wikipedia.org/wiki/George_Orwell'),
+                                                                                                                                        (1, 'Hemingway', 'Ernest', 'Américaine', '1899-07-21', '1961-07-02', 'États-Unis', 'Oak Park', 'https://fr.wikipedia.org/wiki/Ernest_Hemingway'),
+                                                                                                                                        (1, 'García Márquez', 'Gabriel', 'Colombienne', '1927-03-06', '2014-04-17', 'Colombie', 'Aracataca', 'https://fr.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez'),
+                                                                                                                                        (1, 'Borges', 'Jorge Luis', 'Argentine', '1899-08-24', '1986-06-14', 'Argentine', 'Buenos Aires', 'https://fr.wikipedia.org/wiki/Jorge_Luis_Borges'),
+                                                                                                                                        (1, 'Woolf', 'Virginia', 'Britannique', '1882-01-25', '1941-03-28', 'Royaume-Uni', 'Londres', 'https://fr.wikipedia.org/wiki/Virginia_Woolf'),
+                                                                                                                                        (1, 'Austen', 'Jane', 'Britannique', '1775-12-16', '1817-07-18', 'Royaume-Uni', 'Steventon', 'https://fr.wikipedia.org/wiki/Jane_Austen'),
+                                                                                                                                        (1, 'Dickens', 'Charles', 'Britannique', '1812-02-07', '1870-06-09', 'Royaume-Uni', 'Portsmouth', 'https://fr.wikipedia.org/wiki/Charles_Dickens'),
+                                                                                                                                        (1, 'Wilde', 'Oscar', 'Irlandaise', '1854-10-16', '1900-11-30', 'Irlande', 'Dublin', 'https://fr.wikipedia.org/wiki/Oscar_Wilde'),
+                                                                                                                                        (1, 'Shelley', 'Mary', 'Britannique', '1797-08-30', '1851-02-01', 'Royaume-Uni', 'Londres', 'https://fr.wikipedia.org/wiki/Mary_Shelley'),
+                                                                                                                                        (1, 'Poe', 'Edgar Allan', 'Américaine', '1809-01-19', '1849-10-07', 'États-Unis', 'Boston', 'https://fr.wikipedia.org/wiki/Edgar_Allan_Poe'),
+                                                                                                                                        (1, 'Twain', 'Mark', 'Américaine', '1835-11-30', '1910-04-21', 'États-Unis', 'Florida', 'https://fr.wikipedia.org/wiki/Mark_Twain'),
+                                                                                                                                        (1, 'Tolkien', 'J. R. R.', 'Britannique', '1892-01-03', '1973-09-02', 'Afrique du Sud', 'Bloemfontein', 'https://fr.wikipedia.org/wiki/J._R._R._Tolkien'),
+                                                                                                                                        (1, 'Christie', 'Agatha', 'Britannique', '1890-09-15', '1976-01-12', 'Royaume-Uni', 'Torquay', 'https://fr.wikipedia.org/wiki/Agatha_Christie'),
+                                                                                                                                        (1, 'Murakami', 'Haruki', 'Japonaise', '1949-01-12', NULL, 'Japon', 'Kyoto', 'https://fr.wikipedia.org/wiki/Haruki_Murakami'),
+                                                                                                                                        (1, 'Eco', 'Umberto', 'Italienne', '1932-01-05', '2016-02-19', 'Italie', 'Alexandrie', 'https://fr.wikipedia.org/wiki/Umberto_Eco'),
+                                                                                                                                        (1, 'Calvino', 'Italo', 'Italienne', '1923-10-15', '1985-09-19', 'Cuba', 'Santiago de las Vegas', 'https://fr.wikipedia.org/wiki/Italo_Calvino'),
+                                                                                                                                        (1, 'Hesse', 'Hermann', 'Allemande', '1877-07-02', '1962-08-09', 'Allemagne', 'Calw', 'https://fr.wikipedia.org/wiki/Hermann_Hesse'),
+                                                                                                                                        (1, 'Mann', 'Thomas', 'Allemande', '1875-06-06', '1955-08-12', 'Allemagne', 'Lübeck', 'https://fr.wikipedia.org/wiki/Thomas_Mann'),
+                                                                                                                                        (1, 'von Goethe', 'Johann Wolfgang', 'Allemande', '1749-08-28', '1832-03-22', 'Allemagne', 'Francfort-sur-le-Main', 'https://fr.wikipedia.org/wiki/Johann_Wolfgang_von_Goethe'),
+                                                                                                                                        (1, 'de Cervantes', 'Miguel', 'Espagnole', '1547-09-29', '1616-04-22', 'Espagne', 'Alcalá de Henares', 'https://fr.wikipedia.org/wiki/Miguel_de_Cervantes'),
+                                                                                                                                        (1, 'Pessoa', 'Fernando', 'Portugaise', '1888-06-13', '1935-11-30', 'Portugal', 'Lisbonne', 'https://fr.wikipedia.org/wiki/Fernando_Pessoa'),
+                                                                                                                                        (1, 'Kundera', 'Milan', 'Tchèque', '1929-04-01', '2023-07-11', 'Tchéquie', 'Brno', 'https://fr.wikipedia.org/wiki/Milan_Kundera'),
+                                                                                                                                        (2, 'Godard', 'Jean-Luc', 'Française', '1930-12-03', '2022-09-13', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Jean-Luc_Godard'),
+                                                                                                                                        (2, 'Truffaut', 'François', 'Française', '1932-02-06', '1984-10-21', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Truffaut'),
+                                                                                                                                        (2, 'Kubrick', 'Stanley', 'Américaine', '1928-07-26', '1999-03-07', 'États-Unis', 'New York', 'https://fr.wikipedia.org/wiki/Stanley_Kubrick'),
+                                                                                                                                        (2, 'Kurosawa', 'Akira', 'Japonaise', '1910-03-23', '1998-09-06', 'Japon', 'Tokyo', 'https://fr.wikipedia.org/wiki/Akira_Kurosawa'),
+                                                                                                                                        (2, 'Miyazaki', 'Hayao', 'Japonaise', '1941-01-05', NULL, 'Japon', 'Tokyo', 'https://fr.wikipedia.org/wiki/Hayao_Miyazaki'),
+                                                                                                                                        (3, 'Mozart', 'Wolfgang Amadeus', 'Autrichienne', '1756-01-27', '1791-12-05', 'Autriche', 'Salzbourg', 'https://fr.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart'),
+                                                                                                                                        (3, 'van Beethoven', 'Ludwig', 'Allemande', '1770-12-17', '1827-03-26', 'Allemagne', 'Bonn', 'https://fr.wikipedia.org/wiki/Ludwig_van_Beethoven'),
+                                                                                                                                        (3, 'Bach', 'Johann Sebastian', 'Allemande', '1685-03-31', '1750-07-28', 'Allemagne', 'Eisenach', 'https://fr.wikipedia.org/wiki/Jean-S%C3%A9bastien_Bach'),
+                                                                                                                                        (3, 'Debussy', 'Claude', 'Française', '1862-08-22', '1918-03-25', 'France', 'Saint-Germain-en-Laye', 'https://fr.wikipedia.org/wiki/Claude_Debussy'),
+                                                                                                                                        (4, 'Davis', 'Miles', 'Américaine', '1926-05-26', '1991-09-28', 'États-Unis', 'Alton', 'https://fr.wikipedia.org/wiki/Miles_Davis'),
+                                                                                                                                        (4, 'Piaf', 'Édith', 'Française', '1915-12-19', '1963-10-10', 'France', 'Paris', 'https://fr.wikipedia.org/wiki/%C3%89dith_Piaf'),
+                                                                                                                                        (4, 'Brel', 'Jacques', 'Belge', '1929-04-08', '1978-10-09', 'Belgique', 'Schaerbeek', 'https://fr.wikipedia.org/wiki/Jacques_Brel');
 
-INSERT INTO utilisateur (idRole, dateFinAbonnement, numeroCarte, nombrePret, prenom, mail, mdp, dateNaissance)
-VALUES
-    (1, '2026-12-31', 1001, 0, 'Admin', 'admin@mail.com', 'hashpwd1', '1990-01-01'),
-    (2, '2026-06-30', 1002, 2, 'Jean', 'jean@mail.com', 'hashpwd2', '1995-06-15');
+-- ---------- Bibliothèques ----------
+INSERT INTO bibliotheque (nom, adresse, heureOuverture, heureFermeture, ville, pays, codePostal) VALUES
+                                                                                                     ('Médiathèque Bonlieu', '1 rue Jean Jaurès', '10:00', '19:00', 'Annecy', 'France', '74000'),
+                                                                                                     ('Médiathèque de Seynod', 'place de l''Hôtel de Ville', '09:00', '18:00', 'Seynod', 'France', '74600'),
+                                                                                                     ('La Turbine (Cran-Gevrier)', 'place Chorus', '10:00', '18:00', 'Cran-Gevrier', 'France', '74960'),
+                                                                                                     ('Bibliothèque de Meythet', 'rue de l''Aérodrome', '09:00', '17:00', 'Meythet', 'France', '74960');
 
-INSERT INTO document (idFormat, idAuteur, titre, dateAcquisition, description, datePublication, codeEmplacement, estEmpruntable, gif)
-VALUES
-    (1, 1, 'Les Misérables', NOW(), 'Roman classique', '1862-01-01', 'A1', TRUE, NULL),
-    (2, 2, 'Relativité', NOW(), 'Science fondamentale', '1905-01-01', 'B2', TRUE, NULL);
+-- ---------- Utilisateurs (bibliothécaires + emprunteurs) ----------
+-- Mots de passe en clair (pour test) = date de naissance au format ddMMyyyy :
+--   sophie.martin@biblio-annecy.fr             -> 12031985
+--   lucas.bernard@biblio-annecy.fr             -> 25091990
+--   camille.dupont@gmail.com                   -> 21041998
+--   lea.petit@gmail.com                        -> 08112001
+--   thomas.durand@outlook.fr                   -> 15061995
+--   emma.moreau@gmail.com                      -> 28022003
+--   hugo.laurent@gmail.com                     -> 19071992
+--   chloe.simon@gmail.com                      -> 05102000
+INSERT INTO utilisateur (idRole, nom, prenom, adresse, ville, pays, codePostal, mail, mdp, dateNaissance, dateFinAbonnement, numeroCarte, nombrePret) VALUES
+                                                                                                                                                          (1, 'Martin', 'Sophie', '12 rue de la Gare', 'Annecy', 'France', '74000', 'sophie.martin@biblio-annecy.fr', '9a0+WAJ09NucbJkKe78Bj+K5Wh3psgJEWgEBUunT8UE=', '1985-03-12', NULL, 1000000001, 0),
+                                                                                                                                                          (1, 'Bernard', 'Lucas', '5 avenue d''Aléry', 'Annecy', 'France', '74000', 'lucas.bernard@biblio-annecy.fr', 'hoVkeiu4irTAoVwYOw5dYE/T0K5ePJfXjFahUjLUM6U=', '1990-09-25', NULL, 1000000002, 0),
+                                                                                                                                                          (2, 'Dupont', 'Camille', '8 rue Royale', 'Annecy', 'France', '74000', 'camille.dupont@gmail.com', 'R0HOrnzqGPdMVnLn1WN+vC8LjGkFtMYVf3WhN9Ve/1U=', '1998-04-21', '2026-06-21', 2000000001, 2),
+                                                                                                                                                          (2, 'Petit', 'Léa', '22 avenue de Genève', 'Annecy', 'France', '74000', 'lea.petit@gmail.com', 'CPRtk51/9+ux353hzCRhNceoaUyr8OHBzGfFDhKDLwg=', '2001-11-08', '2026-12-31', 2000000002, 0),
+                                                                                                                                                          (2, 'Durand', 'Thomas', '3 chemin des Fins', 'Annecy', 'France', '74000', 'thomas.durand@outlook.fr', 'IXpLra00X43y1/iycYyoLqXIRO65gLBq1yN8LXBWtbI=', '1995-06-15', '2027-01-15', 2000000003, 1),
+                                                                                                                                                          (2, 'Moreau', 'Emma', '17 rue Carnot', 'Seynod', 'France', '74600', 'emma.moreau@gmail.com', '7D4mWpU5iv1aRi500mN/dWPbqIFoP2caTjezGuOC0A4=', '2003-02-28', '2026-09-30', 2000000004, 0),
+                                                                                                                                                          (2, 'Laurent', 'Hugo', '9 place des Romains', 'Cran-Gevrier', 'France', '74960', 'hugo.laurent@gmail.com', 'OkMBLEBuo/C56hekB/hUiK63heJb8qB6TqHjW4FWZnM=', '1992-07-19', '2025-12-01', 2000000005, 0),
+                                                                                                                                                          (2, 'Simon', 'Chloé', '41 route de Vignières', 'Meythet', 'France', '74960', 'chloe.simon@gmail.com', 'kkdiBRR4PpzMRnKpENNJGyS7eDV4Y+w/8LKY+/DuKU4=', '2000-10-05', '2026-06-25', 2000000006, 0);
 
-INSERT INTO livre (idDocument, codeISBN, nbPages, idEditeur)
-VALUES
-    (1, '9781234567890', 1200, 1);
+-- ---------- Documents ----------
+INSERT INTO document (idFormat, idAuteur, titre, dateAcquisition, description, datePublication, codeEmplacement, estEmpruntable, gif) VALUES
+                                                                                                                                          (1, 1, 'Les Misérables', '2024-01-15' , 'Roman', '1862-01-01', 'L-001', TRUE, NULL),
+                                                                                                                                          (1, 1, 'Notre-Dame de Paris', '2024-01-18' , 'Roman historique', '1831-01-01', 'L-002', TRUE, NULL),
+                                                                                                                                          (1, 1, 'Les Contemplations', '2024-01-21' , 'Poésie', '1856-01-01', 'L-003', FALSE, NULL),
+                                                                                                                                          (1, 1, 'Quatrevingt-treize', '2024-01-24' , 'Roman historique', '1874-01-01', 'L-004', TRUE, NULL),
+                                                                                                                                          (1, 2, 'Germinal', '2024-01-27' , 'Roman naturaliste', '1885-01-01', 'L-005', TRUE, NULL),
+                                                                                                                                          (1, 2, 'L''Assommoir', '2024-01-30' , 'Roman naturaliste', '1877-01-01', 'L-006', TRUE, NULL),
+                                                                                                                                          (1, 2, 'Au Bonheur des Dames', '2024-02-02' , 'Roman naturaliste', '1883-01-01', 'L-007', TRUE, NULL),
+                                                                                                                                          (1, 2, 'Nana', '2024-02-05' , 'Roman naturaliste', '1880-01-01', 'L-008', TRUE, NULL),
+                                                                                                                                          (1, 2, 'La Bête humaine', '2024-02-08' , 'Roman naturaliste', '1890-01-01', 'L-009', TRUE, NULL),
+                                                                                                                                          (1, 3, 'Madame Bovary', '2024-02-11' , 'Roman', '1857-01-01', 'L-010', TRUE, NULL),
+                                                                                                                                          (1, 3, 'L''Éducation sentimentale', '2024-02-14' , 'Roman', '1869-01-01', 'L-011', TRUE, NULL),
+                                                                                                                                          (1, 3, 'Salammbô', '2024-02-17' , 'Roman historique', '1862-01-01', 'L-012', TRUE, NULL),
+                                                                                                                                          (1, 4, 'Du côté de chez Swann', '2024-02-20' , 'Roman', '1913-01-01', 'L-013', FALSE, NULL),
+                                                                                                                                          (1, 4, 'À l''ombre des jeunes filles en fleurs', '2024-02-23' , 'Roman', '1919-01-01', 'L-014', TRUE, NULL),
+                                                                                                                                          (1, 5, 'L''Étranger', '2024-02-26' , 'Roman', '1942-01-01', 'L-015', TRUE, NULL),
+                                                                                                                                          (1, 5, 'La Peste', '2024-02-29' , 'Roman', '1947-01-01', 'L-016', TRUE, NULL),
+                                                                                                                                          (1, 5, 'La Chute', '2024-03-03' , 'Roman', '1956-01-01', 'L-017', TRUE, NULL),
+                                                                                                                                          (1, 5, 'Le Mythe de Sisyphe', '2024-03-06' , 'Essai philosophique', '1942-01-01', 'L-018', TRUE, NULL),
+                                                                                                                                          (1, 6, 'La Nausée', '2024-03-09' , 'Roman', '1938-01-01', 'L-019', TRUE, NULL),
+                                                                                                                                          (1, 6, 'Huis clos', '2024-03-12' , 'Théâtre', '1944-01-01', 'L-020', TRUE, NULL),
+                                                                                                                                          (1, 6, 'Les Mots', '2024-03-15' , 'Autobiographie', '1964-01-01', 'L-021', TRUE, NULL),
+                                                                                                                                          (1, 7, 'Le Deuxième Sexe', '2024-03-18' , 'Essai', '1949-01-01', 'L-022', TRUE, NULL),
+                                                                                                                                          (1, 7, 'Les Mandarins', '2024-03-21' , 'Roman', '1954-01-01', 'L-023', TRUE, NULL),
+                                                                                                                                          (1, 7, 'Mémoires d''une jeune fille rangée', '2024-03-24' , 'Autobiographie', '1958-01-01', 'L-024', TRUE, NULL),
+                                                                                                                                          (1, 8, 'Le Père Goriot', '2024-03-27' , 'Roman', '1835-01-01', 'L-025', TRUE, NULL),
+                                                                                                                                          (1, 8, 'Eugénie Grandet', '2024-03-30' , 'Roman', '1833-01-01', 'L-026', TRUE, NULL),
+                                                                                                                                          (1, 8, 'Illusions perdues', '2024-04-02' , 'Roman', '1843-01-01', 'L-027', TRUE, NULL),
+                                                                                                                                          (1, 8, 'La Peau de chagrin', '2024-04-05' , 'Roman fantastique', '1831-01-01', 'L-028', TRUE, NULL),
+                                                                                                                                          (1, 9, 'Le Rouge et le Noir', '2024-04-08' , 'Roman', '1830-01-01', 'L-029', TRUE, NULL),
+                                                                                                                                          (1, 9, 'La Chartreuse de Parme', '2024-04-11' , 'Roman', '1839-01-01', 'L-030', TRUE, NULL),
+                                                                                                                                          (1, 10, 'Bel-Ami', '2024-04-14' , 'Roman', '1885-01-01', 'L-031', TRUE, NULL),
+                                                                                                                                          (1, 10, 'Une vie', '2024-04-17' , 'Roman', '1883-01-01', 'L-032', TRUE, NULL),
+                                                                                                                                          (1, 10, 'Le Horla', '2024-04-20' , 'Nouvelle fantastique', '1887-01-01', 'L-033', TRUE, NULL),
+                                                                                                                                          (1, 10, 'Boule de Suif', '2024-04-23' , 'Nouvelle', '1880-01-01', 'L-034', TRUE, NULL),
+                                                                                                                                          (1, 11, 'Candide', '2024-04-26' , 'Conte philosophique', '1759-01-01', 'L-035', TRUE, NULL),
+                                                                                                                                          (1, 11, 'Zadig', '2024-04-29' , 'Conte philosophique', '1747-01-01', 'L-036', TRUE, NULL),
+                                                                                                                                          (1, 11, 'Micromégas', '2024-05-02' , 'Conte philosophique', '1752-01-01', 'L-037', TRUE, NULL),
+                                                                                                                                          (1, 12, 'Jacques le Fataliste', '2024-05-05' , 'Roman', '1796-01-01', 'L-038', TRUE, NULL),
+                                                                                                                                          (1, 12, 'Le Neveu de Rameau', '2024-05-08' , 'Dialogue philosophique', '1805-01-01', 'L-039', TRUE, NULL),
+                                                                                                                                          (1, 13, 'Les Confessions', '2024-05-11' , 'Autobiographie', '1782-01-01', 'L-040', FALSE, NULL),
+                                                                                                                                          (1, 13, 'Du contrat social', '2024-05-14' , 'Essai politique', '1762-01-01', 'L-041', TRUE, NULL),
+                                                                                                                                          (1, 14, 'Le Misanthrope', '2024-05-17' , 'Théâtre', '1666-01-01', 'L-042', TRUE, NULL),
+                                                                                                                                          (1, 14, 'Tartuffe', '2024-05-20' , 'Théâtre', '1664-01-01', 'L-043', TRUE, NULL),
+                                                                                                                                          (1, 14, 'Dom Juan', '2024-05-23' , 'Théâtre', '1665-01-01', 'L-044', TRUE, NULL),
+                                                                                                                                          (1, 14, 'L''Avare', '2024-05-26' , 'Théâtre', '1668-01-01', 'L-045', TRUE, NULL),
+                                                                                                                                          (1, 15, 'Vingt mille lieues sous les mers', '2024-05-29' , 'Aventure', '1870-01-01', 'L-046', TRUE, NULL),
+                                                                                                                                          (1, 15, 'Le Tour du monde en quatre-vingts jours', '2024-06-01' , 'Aventure', '1872-01-01', 'L-047', TRUE, NULL),
+                                                                                                                                          (1, 15, 'Voyage au centre de la Terre', '2024-06-04' , 'Science-fiction', '1864-01-01', 'L-048', TRUE, NULL),
+                                                                                                                                          (1, 15, 'De la Terre à la Lune', '2024-06-07' , 'Science-fiction', '1865-01-01', 'L-049', TRUE, NULL),
+                                                                                                                                          (1, 16, 'Le Petit Prince', '2024-06-10' , 'Conte', '1943-01-01', 'L-050', TRUE, NULL),
+                                                                                                                                          (1, 16, 'Vol de nuit', '2024-06-13' , 'Roman', '1931-01-01', 'L-051', TRUE, NULL),
+                                                                                                                                          (1, 16, 'Terre des hommes', '2024-06-16' , 'Récit', '1939-01-01', 'L-052', TRUE, NULL),
+                                                                                                                                          (1, 17, 'L''Amant', '2024-06-19' , 'Roman', '1984-01-01', 'L-053', TRUE, NULL),
+                                                                                                                                          (1, 17, 'Le Ravissement de Lol V. Stein', '2024-06-22' , 'Roman', '1964-01-01', 'L-054', TRUE, NULL),
+                                                                                                                                          (1, 18, 'La Place', '2024-06-25' , 'Récit autobiographique', '1983-01-01', 'L-055', TRUE, NULL),
+                                                                                                                                          (1, 18, 'Les Années', '2024-06-28' , 'Récit autobiographique', '2008-01-01', 'L-056', TRUE, NULL),
+                                                                                                                                          (1, 18, 'L''Événement', '2024-07-01' , 'Récit autobiographique', '2000-01-01', 'L-057', TRUE, NULL),
+                                                                                                                                          (1, 19, 'La Vie devant soi', '2024-07-04' , 'Roman', '1975-01-01', 'L-058', TRUE, NULL),
+                                                                                                                                          (1, 19, 'Les Cerfs-volants', '2024-07-07' , 'Roman', '1980-01-01', 'L-059', TRUE, NULL),
+                                                                                                                                          (1, 20, 'L''Écume des jours', '2024-07-10' , 'Roman', '1947-01-01', 'L-060', TRUE, NULL),
+                                                                                                                                          (1, 20, 'J''irai cracher sur vos tombes', '2024-07-13' , 'Roman noir', '1946-01-01', 'L-061', TRUE, NULL),
+                                                                                                                                          (1, 21, 'Le Procès', '2024-07-16' , 'Roman', '1925-01-01', 'L-062', TRUE, NULL),
+                                                                                                                                          (1, 21, 'La Métamorphose', '2024-07-19' , 'Nouvelle', '1915-01-01', 'L-063', TRUE, NULL),
+                                                                                                                                          (1, 21, 'Le Château', '2024-07-22' , 'Roman', '1926-01-01', 'L-064', TRUE, NULL),
+                                                                                                                                          (1, 22, 'Crime et Châtiment', '2024-07-25' , 'Roman', '1866-01-01', 'L-065', TRUE, NULL),
+                                                                                                                                          (1, 22, 'L''Idiot', '2024-07-28' , 'Roman', '1869-01-01', 'L-066', TRUE, NULL),
+                                                                                                                                          (1, 22, 'Les Frères Karamazov', '2024-07-31' , 'Roman', '1880-01-01', 'L-067', TRUE, NULL),
+                                                                                                                                          (1, 23, 'Guerre et Paix', '2024-08-03' , 'Roman historique', '1869-01-01', 'L-068', TRUE, NULL),
+                                                                                                                                          (1, 23, 'Anna Karénine', '2024-08-06' , 'Roman', '1877-01-01', 'L-069', TRUE, NULL),
+                                                                                                                                          (1, 24, '1984', '2024-08-09' , 'Science-fiction', '1949-01-01', 'L-070', TRUE, NULL),
+                                                                                                                                          (1, 24, 'La Ferme des animaux', '2024-08-12' , 'Fable politique', '1945-01-01', 'L-071', TRUE, NULL),
+                                                                                                                                          (1, 25, 'Le Vieil Homme et la Mer', '2024-08-15' , 'Roman', '1952-01-01', 'L-072', TRUE, NULL),
+                                                                                                                                          (1, 25, 'L''Adieu aux armes', '2024-08-18' , 'Roman', '1929-01-01', 'L-073', TRUE, NULL),
+                                                                                                                                          (1, 25, 'Pour qui sonne le glas', '2024-08-21' , 'Roman', '1940-01-01', 'L-074', TRUE, NULL),
+                                                                                                                                          (1, 26, 'Cent ans de solitude', '2024-08-24' , 'Réalisme magique', '1967-01-01', 'L-075', TRUE, NULL),
+                                                                                                                                          (1, 26, 'L''Amour aux temps du choléra', '2024-08-27' , 'Roman', '1985-01-01', 'L-076', TRUE, NULL),
+                                                                                                                                          (1, 27, 'Fictions', '2024-08-30' , 'Nouvelles', '1944-01-01', 'L-077', TRUE, NULL),
+                                                                                                                                          (1, 27, 'L''Aleph', '2024-09-02' , 'Nouvelles', '1949-01-01', 'L-078', TRUE, NULL),
+                                                                                                                                          (1, 28, 'Mrs Dalloway', '2024-09-05' , 'Roman', '1925-01-01', 'L-079', TRUE, NULL),
+                                                                                                                                          (1, 28, 'Vers le phare', '2024-09-08' , 'Roman', '1927-01-01', 'L-080', TRUE, NULL),
+                                                                                                                                          (1, 29, 'Orgueil et Préjugés', '2024-09-11' , 'Roman', '1813-01-01', 'L-081', TRUE, NULL),
+                                                                                                                                          (1, 29, 'Raison et Sentiments', '2024-09-14' , 'Roman', '1811-01-01', 'L-082', TRUE, NULL),
+                                                                                                                                          (1, 29, 'Emma', '2024-09-17' , 'Roman', '1815-01-01', 'L-083', TRUE, NULL),
+                                                                                                                                          (1, 30, 'Oliver Twist', '2024-09-20' , 'Roman', '1838-01-01', 'L-084', TRUE, NULL),
+                                                                                                                                          (1, 30, 'Les Grandes Espérances', '2024-09-23' , 'Roman', '1861-01-01', 'L-085', TRUE, NULL),
+                                                                                                                                          (1, 30, 'David Copperfield', '2024-09-26' , 'Roman', '1850-01-01', 'L-086', TRUE, NULL),
+                                                                                                                                          (1, 30, 'Un conte de Noël', '2024-09-29' , 'Conte', '1843-01-01', 'L-087', TRUE, NULL),
+                                                                                                                                          (1, 31, 'Le Portrait de Dorian Gray', '2024-10-02' , 'Roman', '1890-01-01', 'L-088', TRUE, NULL),
+                                                                                                                                          (1, 31, 'De Profundis', '2024-10-05' , 'Essai', '1897-01-01', 'L-089', TRUE, NULL),
+                                                                                                                                          (1, 32, 'Frankenstein', '2024-10-08' , 'Roman gothique', '1818-01-01', 'L-090', TRUE, NULL),
+                                                                                                                                          (1, 33, 'Histoires extraordinaires', '2024-10-11' , 'Nouvelles', '1856-01-01', 'L-091', TRUE, NULL),
+                                                                                                                                          (1, 34, 'Les Aventures de Tom Sawyer', '2024-10-14' , 'Aventure', '1876-01-01', 'L-092', TRUE, NULL),
+                                                                                                                                          (1, 34, 'Les Aventures de Huckleberry Finn', '2024-10-17' , 'Aventure', '1884-01-01', 'L-093', TRUE, NULL),
+                                                                                                                                          (1, 35, 'Le Hobbit', '2024-10-20' , 'Fantasy', '1937-01-01', 'L-094', TRUE, NULL),
+                                                                                                                                          (1, 35, 'Le Seigneur des anneaux', '2024-10-23' , 'Fantasy', '1954-01-01', 'L-095', TRUE, NULL),
+                                                                                                                                          (1, 36, 'Le Crime de l''Orient-Express', '2024-10-26' , 'Policier', '1934-01-01', 'L-096', TRUE, NULL),
+                                                                                                                                          (1, 36, 'Dix Petits Nègres', '2024-10-29' , 'Policier', '1939-01-01', 'L-097', TRUE, NULL),
+                                                                                                                                          (1, 36, 'Mort sur le Nil', '2024-11-01' , 'Policier', '1937-01-01', 'L-098', TRUE, NULL),
+                                                                                                                                          (1, 37, 'Kafka sur le rivage', '2024-11-04' , 'Roman', '2002-01-01', 'L-099', TRUE, NULL),
+                                                                                                                                          (1, 37, 'La Ballade de l''impossible', '2024-11-07' , 'Roman', '1987-01-01', 'L-100', TRUE, NULL),
+                                                                                                                                          (1, 37, '1Q84', '2024-11-10' , 'Roman', '2009-01-01', 'L-101', TRUE, NULL),
+                                                                                                                                          (1, 38, 'Le Nom de la rose', '2024-11-13' , 'Roman historique', '1980-01-01', 'L-102', TRUE, NULL),
+                                                                                                                                          (1, 38, 'Le Pendule de Foucault', '2024-11-16' , 'Roman', '1988-01-01', 'L-103', TRUE, NULL),
+                                                                                                                                          (1, 39, 'Si par une nuit d''hiver un voyageur', '2024-11-19' , 'Roman', '1979-01-01', 'L-104', TRUE, NULL),
+                                                                                                                                          (1, 39, 'Le Baron perché', '2024-11-22' , 'Roman', '1957-01-01', 'L-105', TRUE, NULL),
+                                                                                                                                          (1, 40, 'Le Loup des steppes', '2024-11-25' , 'Roman', '1927-01-01', 'L-106', TRUE, NULL),
+                                                                                                                                          (1, 40, 'Siddhartha', '2024-11-28' , 'Roman', '1922-01-01', 'L-107', TRUE, NULL),
+                                                                                                                                          (1, 40, 'Demian', '2024-12-01' , 'Roman', '1919-01-01', 'L-108', TRUE, NULL),
+                                                                                                                                          (1, 41, 'La Montagne magique', '2024-12-04' , 'Roman', '1924-01-01', 'L-109', TRUE, NULL),
+                                                                                                                                          (1, 41, 'La Mort à Venise', '2024-12-07' , 'Nouvelle', '1912-01-01', 'L-110', TRUE, NULL),
+                                                                                                                                          (1, 42, 'Faust', '2024-12-10' , 'Théâtre', '1808-01-01', 'L-111', FALSE, NULL),
+                                                                                                                                          (1, 42, 'Les Souffrances du jeune Werther', '2024-12-13' , 'Roman épistolaire', '1774-01-01', 'L-112', TRUE, NULL),
+                                                                                                                                          (1, 43, 'Don Quichotte', '2024-12-16' , 'Roman', '1605-01-01', 'L-113', FALSE, NULL),
+                                                                                                                                          (1, 44, 'Le Livre de l''intranquillité', '2024-12-19' , 'Essai', '1982-01-01', 'L-114', TRUE, NULL),
+                                                                                                                                          (1, 45, 'L''Insoutenable Légèreté de l''être', '2024-12-22' , 'Roman', '1984-01-01', 'L-115', TRUE, NULL),
+                                                                                                                                          (1, 45, 'La Plaisanterie', '2024-12-25' , 'Roman', '1967-01-01', 'L-116', TRUE, NULL),
+                                                                                                                                          (2, 52, 'Symphonie n° 9', '2024-12-28' , 'Musique classique', '1824-01-01', 'CD-001', TRUE, NULL),
+                                                                                                                                          (2, 53, 'Concertos brandebourgeois', '2024-12-31' , 'Musique classique', '1721-01-01', 'CD-002', FALSE, NULL),
+                                                                                                                                          (2, 51, 'Requiem', '2025-01-03' , 'Musique classique', '1791-01-01', 'CD-003', TRUE, NULL),
+                                                                                                                                          (2, 54, 'Suite bergamasque', '2025-01-06' , 'Musique classique', '1905-01-01', 'CD-004', TRUE, NULL),
+                                                                                                                                          (2, 55, 'Kind of Blue', '2025-01-09' , 'Jazz', '1959-01-01', 'CD-005', TRUE, NULL),
+                                                                                                                                          (2, 56, 'L''Hymne à l''amour', '2025-01-12' , 'Chanson française', '1950-01-01', 'CD-006', TRUE, NULL),
+                                                                                                                                          (2, 57, 'Ne me quitte pas', '2025-01-15' , 'Chanson française', '1959-01-01', 'CD-007', TRUE, NULL),
+                                                                                                                                          (3, 46, 'À bout de souffle', '2025-01-18' , 'Film', '1960-01-01', 'DVD-001', TRUE, NULL),
+                                                                                                                                          (3, 47, 'Les Quatre Cents Coups', '2025-01-21' , 'Film', '1959-01-01', 'DVD-002', TRUE, NULL),
+                                                                                                                                          (3, 48, '2001, l''Odyssée de l''espace', '2025-01-24' , 'Film', '1968-01-01', 'DVD-003', TRUE, NULL),
+                                                                                                                                          (3, 48, 'Shining', '2025-01-27' , 'Film', '1980-01-01', 'DVD-004', TRUE, NULL),
+                                                                                                                                          (3, 49, 'Les Sept Samouraïs', '2025-01-30' , 'Film', '1954-01-01', 'DVD-005', TRUE, NULL),
+                                                                                                                                          (3, 50, 'Le Voyage de Chihiro', '2025-02-02' , 'Film d''animation', '2001-01-01', 'DVD-006', TRUE, NULL);
 
-INSERT INTO cddvd (idDocument)
-VALUES
-    (2);
+-- ---------- Livres (sous-type) ----------
+INSERT INTO livre (idDocument, codeISBN, nbPages, idEditeur) VALUES
+                                                                 (1, '9782070000131', 1488, 1),
+                                                                 (2, '9782070000262', 940, 1),
+                                                                 (3, '9782070000393', 400, 2),
+                                                                 (4, '9782070000524', 540, 1),
+                                                                 (5, '9782070000655', 592, 1),
+                                                                 (6, '9782070000786', 528, 3),
+                                                                 (7, '9782070000917', 544, 3),
+                                                                 (8, '9782070001048', 496, 1),
+                                                                 (9, '9782070001179', 416, 3),
+                                                                 (10, '9782070001310', 528, 3),
+                                                                 (11, '9782070001441', 608, 3),
+                                                                 (12, '9782070001572', 480, 3),
+                                                                 (13, '9782070001703', 528, 2),
+                                                                 (14, '9782070001834', 560, 2),
+                                                                 (15, '9782070001965', 186, 3),
+                                                                 (16, '9782070002096', 288, 3),
+                                                                 (17, '9782070002227', 176, 3),
+                                                                 (18, '9782070002358', 192, 3),
+                                                                 (19, '9782070002489', 256, 3),
+                                                                 (20, '9782070002620', 96, 3),
+                                                                 (21, '9782070002751', 224, 3),
+                                                                 (22, '9782070002882', 408, 3),
+                                                                 (23, '9782070003013', 624, 3),
+                                                                 (24, '9782070003144', 480, 3),
+                                                                 (25, '9782070003275', 384, 1),
+                                                                 (26, '9782070003406', 256, 1),
+                                                                 (27, '9782070003537', 800, 3),
+                                                                 (28, '9782070003668', 384, 3),
+                                                                 (29, '9782070003799', 576, 1),
+                                                                 (30, '9782070003930', 608, 1),
+                                                                 (31, '9782070004061', 448, 1),
+                                                                 (32, '9782070004192', 320, 1),
+                                                                 (33, '9782070004323', 128, 3),
+                                                                 (34, '9782070004454', 96, 3),
+                                                                 (35, '9782070004585', 192, 3),
+                                                                 (36, '9782070004716', 160, 3),
+                                                                 (37, '9782070004847', 128, 4),
+                                                                 (38, '9782070004978', 384, 3),
+                                                                 (39, '9782070005109', 192, 4),
+                                                                 (40, '9782070005240', 768, 3),
+                                                                 (41, '9782070005371', 256, 4),
+                                                                 (42, '9782070005502', 160, 1),
+                                                                 (43, '9782070005633', 160, 1),
+                                                                 (44, '9782070005764', 160, 1),
+                                                                 (45, '9782070005895', 160, 1),
+                                                                 (46, '9782070006026', 608, 1),
+                                                                 (47, '9782070006157', 320, 1),
+                                                                 (48, '9782070006288', 352, 1),
+                                                                 (49, '9782070006419', 256, 5),
+                                                                 (50, '9782070006550', 96, 2),
+                                                                 (51, '9782070006681', 192, 3),
+                                                                 (52, '9782070006812', 224, 3),
+                                                                 (53, '9782070006943', 142, 6),
+                                                                 (54, '9782070007074', 192, 2),
+                                                                 (55, '9782070007205', 114, 2),
+                                                                 (56, '9782070007336', 256, 2),
+                                                                 (57, '9782070007467', 130, 2),
+                                                                 (58, '9782070007598', 274, 3),
+                                                                 (59, '9782070007729', 384, 3),
+                                                                 (60, '9782070007860', 312, 1),
+                                                                 (61, '9782070007991', 192, 1),
+                                                                 (62, '9782070008122', 352, 3),
+                                                                 (63, '9782070008253', 128, 3),
+                                                                 (64, '9782070008384', 544, 2),
+                                                                 (65, '9782070008515', 704, 1),
+                                                                 (66, '9782070008646', 880, 3),
+                                                                 (67, '9782070008777', 1024, 3),
+                                                                 (68, '9782070008908', 1488, 3),
+                                                                 (69, '9782070009039', 928, 1),
+                                                                 (70, '9782070009170', 376, 3),
+                                                                 (71, '9782070009301', 152, 3),
+                                                                 (72, '9782070009432', 192, 2),
+                                                                 (73, '9782070009563', 416, 3),
+                                                                 (74, '9782070009694', 608, 2),
+                                                                 (75, '9782070009825', 480, 7),
+                                                                 (76, '9782070009956', 512, 1),
+                                                                 (77, '9782070010087', 192, 3),
+                                                                 (78, '9782070010218', 224, 2),
+                                                                 (79, '9782070010349', 224, 3),
+                                                                 (80, '9782070010480', 256, 3),
+                                                                 (81, '9782070010611', 416, 1),
+                                                                 (82, '9782070010742', 384, 1),
+                                                                 (83, '9782070010873', 528, 2),
+                                                                 (84, '9782070011004', 554, 1),
+                                                                 (85, '9782070011135', 624, 2),
+                                                                 (86, '9782070011266', 950, 1),
+                                                                 (87, '9782070011397', 160, 2),
+                                                                 (88, '9782070011528', 304, 1),
+                                                                 (89, '9782070011659', 160, 2),
+                                                                 (90, '9782070011790', 352, 1),
+                                                                 (91, '9782070011921', 384, 1),
+                                                                 (92, '9782070012052', 320, 1),
+                                                                 (93, '9782070012183', 448, 4),
+                                                                 (94, '9782070012314', 384, 8),
+                                                                 (95, '9782070012445', 1216, 8),
+                                                                 (96, '9782070012576', 256, 9),
+                                                                 (97, '9782070012707', 256, 9),
+                                                                 (98, '9782070012838', 320, 9),
+                                                                 (99, '9782070012969', 640, 10),
+                                                                 (100, '9782070013100', 448, 11),
+                                                                 (101, '9782070013231', 533, 11),
+                                                                 (102, '9782070013362', 640, 12),
+                                                                 (103, '9782070013493', 832, 12),
+                                                                 (104, '9782070013624', 288, 7),
+                                                                 (105, '9782070013755', 320, 2),
+                                                                 (106, '9782070013886', 256, 1),
+                                                                 (107, '9782070014017', 160, 1),
+                                                                 (108, '9782070014148', 224, 1),
+                                                                 (109, '9782070014279', 816, 13),
+                                                                 (110, '9782070014410', 144, 1),
+                                                                 (111, '9782070014541', 416, 4),
+                                                                 (112, '9782070014672', 224, 1),
+                                                                 (113, '9782070014803', 1024, 7),
+                                                                 (114, '9782070014934', 576, 14),
+                                                                 (115, '9782070015065', 416, 2),
+                                                                 (116, '9782070015196', 512, 2);
 
-INSERT INTO appartient (idBibliotheque, idDocument)
-VALUES
-    (1, 1),
-    (1, 2),
-    (2, 1);
+-- ---------- CD / DVD (sous-type) ----------
+INSERT INTO cddvd (idDocument, duree) VALUES
+                                          (117, 67),
+                                          (118, 100),
+                                          (119, 57),
+                                          (120, 45),
+                                          (121, 45),
+                                          (122, 50),
+                                          (123, 55),
+                                          (124, 90),
+                                          (125, 99),
+                                          (126, 149),
+                                          (127, 146),
+                                          (128, 207),
+                                          (129, 125);
 
-INSERT INTO emprunts (idDocument, idUtilisateur, dateDebut, dateFin, estProlonge, notes, dateRetour)
-VALUES
-    (1, 2, '2026-06-01', '2026-06-15', FALSE, 'OK', NULL);
+-- ---------- Raisons de non-emprunt (A1) ----------
+INSERT INTO a1 (idDocument, idRaison) VALUES
+                                          (113, 1),
+                                          (111, 1),
+                                          (40, 2),
+                                          (3, 2),
+                                          (13, 1),
+                                          (118, 3);
 
-INSERT INTO reservation (idDocument, idUtilisateur, dateDebut, dateFin)
-VALUES
-    (2, 2, '2026-06-20', '2026-06-25');
+-- ---------- Appartenance documents <-> bibliothèques ----------
+-- chaque document est présent dans 1 site (round-robin), les 12 premiers dans 2 sites
+INSERT INTO appartient (idBibliotheque, idDocument) VALUES
+                                                        (1, 1),
+                                                        (2, 1),
+                                                        (2, 2),
+                                                        (3, 2),
+                                                        (3, 3),
+                                                        (4, 3),
+                                                        (4, 4),
+                                                        (1, 4),
+                                                        (1, 5),
+                                                        (2, 5),
+                                                        (2, 6),
+                                                        (3, 6),
+                                                        (3, 7),
+                                                        (4, 7),
+                                                        (4, 8),
+                                                        (1, 8),
+                                                        (1, 9),
+                                                        (2, 9),
+                                                        (2, 10),
+                                                        (3, 10),
+                                                        (3, 11),
+                                                        (4, 11),
+                                                        (4, 12),
+                                                        (1, 12),
+                                                        (1, 13),
+                                                        (2, 14),
+                                                        (3, 15),
+                                                        (4, 16),
+                                                        (1, 17),
+                                                        (2, 18),
+                                                        (3, 19),
+                                                        (4, 20),
+                                                        (1, 21),
+                                                        (2, 22),
+                                                        (3, 23),
+                                                        (4, 24),
+                                                        (1, 25),
+                                                        (2, 26),
+                                                        (3, 27),
+                                                        (4, 28),
+                                                        (1, 29),
+                                                        (2, 30),
+                                                        (3, 31),
+                                                        (4, 32),
+                                                        (1, 33),
+                                                        (2, 34),
+                                                        (3, 35),
+                                                        (4, 36),
+                                                        (1, 37),
+                                                        (2, 38),
+                                                        (3, 39),
+                                                        (4, 40),
+                                                        (1, 41),
+                                                        (2, 42),
+                                                        (3, 43),
+                                                        (4, 44),
+                                                        (1, 45),
+                                                        (2, 46),
+                                                        (3, 47),
+                                                        (4, 48),
+                                                        (1, 49),
+                                                        (2, 50),
+                                                        (3, 51),
+                                                        (4, 52),
+                                                        (1, 53),
+                                                        (2, 54),
+                                                        (3, 55),
+                                                        (4, 56),
+                                                        (1, 57),
+                                                        (2, 58),
+                                                        (3, 59),
+                                                        (4, 60),
+                                                        (1, 61),
+                                                        (2, 62),
+                                                        (3, 63),
+                                                        (4, 64),
+                                                        (1, 65),
+                                                        (2, 66),
+                                                        (3, 67),
+                                                        (4, 68),
+                                                        (1, 69),
+                                                        (2, 70),
+                                                        (3, 71),
+                                                        (4, 72),
+                                                        (1, 73),
+                                                        (2, 74),
+                                                        (3, 75),
+                                                        (4, 76),
+                                                        (1, 77),
+                                                        (2, 78),
+                                                        (3, 79),
+                                                        (4, 80),
+                                                        (1, 81),
+                                                        (2, 82),
+                                                        (3, 83),
+                                                        (4, 84),
+                                                        (1, 85),
+                                                        (2, 86),
+                                                        (3, 87),
+                                                        (4, 88),
+                                                        (1, 89),
+                                                        (2, 90),
+                                                        (3, 91),
+                                                        (4, 92),
+                                                        (1, 93),
+                                                        (2, 94),
+                                                        (3, 95),
+                                                        (4, 96),
+                                                        (1, 97),
+                                                        (2, 98),
+                                                        (3, 99),
+                                                        (4, 100),
+                                                        (1, 101),
+                                                        (2, 102),
+                                                        (3, 103),
+                                                        (4, 104),
+                                                        (1, 105),
+                                                        (2, 106),
+                                                        (3, 107),
+                                                        (4, 108),
+                                                        (1, 109),
+                                                        (2, 110),
+                                                        (3, 111),
+                                                        (4, 112),
+                                                        (1, 113),
+                                                        (2, 114),
+                                                        (3, 115),
+                                                        (4, 116),
+                                                        (1, 117),
+                                                        (2, 118),
+                                                        (3, 119),
+                                                        (4, 120),
+                                                        (1, 121),
+                                                        (2, 122),
+                                                        (3, 123),
+                                                        (4, 124),
+                                                        (1, 125),
+                                                        (2, 126),
+                                                        (3, 127),
+                                                        (4, 128),
+                                                        (1, 129);
 
-INSERT INTO a1 (idDocument, idRaison)
-VALUES
-    (2, 1);
+-- ---------- Emprunts (prêts) ----------
+INSERT INTO emprunts (idDocument, idUtilisateur, dateDebut, dateFin, estProlonge, notes, dateRetour) VALUES
+                                                                                                         (15, 3, '2026-05-20', '2026-06-24', FALSE, 'Prêt en cours', NULL),
+                                                                                                         (70, 3, '2026-05-20', '2026-06-24', FALSE, NULL, NULL),
+                                                                                                         (50, 5, '2026-06-01', '2026-08-10', TRUE, 'Déjà prolongé une fois', NULL),
+                                                                                                         (5, 4, '2026-04-01', '2026-05-06', FALSE, 'Rendu en avance', '2026-05-03');
+
+-- ---------- Réservations (domaine groupe 1) ----------
+-- 2 actives + 1 échue (pour tester annulerReservationsEchues)
+INSERT INTO reservation (idDocument, idUtilisateur, dateDebut, dateFin) VALUES
+                                                                            (65, 3, '2026-06-05', '2026-06-19'),
+                                                                            (102, 4, '2026-06-08', '2026-06-22'),
+                                                                            (77, 5, '2026-05-15', '2026-05-29');
+
+-- Fin du jeu de données.
