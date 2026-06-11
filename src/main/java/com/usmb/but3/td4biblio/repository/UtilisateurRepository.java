@@ -13,4 +13,6 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
 
     /** Vérifie qu'un numéro de carte est déjà utilisé (unicité). */
     boolean existsByNumeroCarte(Long numeroCarte);
+
+    boolean existsByMail(String mail);
 }
