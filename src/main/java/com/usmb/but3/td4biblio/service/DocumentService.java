@@ -4,6 +4,8 @@ import com.usmb.but3.td4biblio.entity.Document;
 import com.usmb.but3.td4biblio.repository.DocumentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -91,8 +93,11 @@ public class DocumentService {
 
     // --- Nouvelles acquisitions ---
 
-    public List<Document> getNouvellesAcquisitions(int limit) {
-        return documentRepository.findTop5ByEstEmpruntableTrueOrderByDateAcquisitionDesc();
+    public List<Document> getDerniersDocuments(int limit) {
+        Pageable pageable = PageRequest.of(0, limit);
+
+        return documentRepository
+                .findByEstEmpruntableTrueOrderByDateAcquisitionDesc(pageable);
     }
 
     // --- Disponibilité ---

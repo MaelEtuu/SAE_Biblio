@@ -44,7 +44,7 @@ public class AccueilView extends VerticalLayout {
         setSpacing(false);
         addClassName("biblio-page");
 
-        add(buildHero(), buildNouvellesSection(), buildEventsSection());
+        add(buildHero(), buildNouvellesSection());
 
         loadNouvellesAcquisitions();
         loadEvenements();
@@ -135,31 +135,11 @@ public class AccueilView extends VerticalLayout {
 
     private void loadNouvellesAcquisitions() {
         nouvellesGrid.removeAll();
-        documentService.getNouvellesAcquisitions(5)
+        documentService.getDerniersDocuments(10)
                 .forEach(doc -> nouvellesGrid.add(buildDocCard(doc)));
     }
 
     // ── Événements ────────────────────────────────────────────────────────────
-    private VerticalLayout buildEventsSection() {
-        var section = new VerticalLayout();
-        section.setPadding(false);
-        section.setSpacing(false);
-        section.getElement().getStyle().set("margin-top", "56px");
-
-        var titleH2 = new H2("Événements à venir");
-        titleH2.addClassName("biblio-section-title");
-        var meta = new Span("Dans nos sites");
-        meta.addClassName("biblio-section-meta");
-
-        var head = new HorizontalLayout(titleH2, meta);
-        head.addClassName("biblio-section-head");
-        head.setAlignItems(Alignment.BASELINE);
-        head.setWidthFull();
-
-        eventsList.addClassName("biblio-events");
-        section.add(head, eventsList);
-        return section;
-    }
 
     private void loadEvenements() {
         eventsList.removeAll();

@@ -331,7 +331,7 @@ vaadin-tabs::part(tabs-container) {
 /* ── Grille de documents ── */
 .biblio-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)) !important;
+    grid-template-columns: repeat(5, 1fr) !important;
     gap: 24px !important;
     width: 100% !important;
 }
