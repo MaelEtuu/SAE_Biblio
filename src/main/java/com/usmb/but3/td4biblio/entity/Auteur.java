@@ -3,6 +3,7 @@ package com.usmb.but3.td4biblio.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
@@ -13,12 +14,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "auteur")
 public class Auteur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idAuteur;
 
     @ManyToOne
@@ -57,19 +60,6 @@ public class Auteur {
         if (dateNaissance != null ? !dateNaissance.equals(auteur.dateNaissance) : auteur.dateNaissance != null)
             return false;
         return dateDeces != null ? dateDeces.equals(auteur.dateDeces) : auteur.dateDeces == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Auteur other = (Auteur) obj;
-        return idAuteur != null ? idAuteur.equals(other.idAuteur) : other.idAuteur == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return idAuteur != null ? idAuteur.hashCode() : 0;
     }
 
     public String getDesc() {

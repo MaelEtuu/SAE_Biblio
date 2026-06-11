@@ -7,12 +7,14 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "bibliotheque")
 public class Bibliotheque {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idBibliotheque;
 
     @Column(length = 50)
@@ -30,7 +32,8 @@ public class Bibliotheque {
     @Column(length = 50)
     private String pays;
 
-    private Integer codePostal;
+    @Column(length = 10)
+    private String codePostal;
 
     public boolean isEqualTo(Bibliotheque b) {
         if (this == b) return true;
@@ -43,26 +46,5 @@ public class Bibliotheque {
         if (ville != null ? !ville.equals(b.ville) : b.ville != null) return false;
         if (pays != null ? !pays.equals(b.pays) : b.pays != null) return false;
         return codePostal != null ? codePostal.equals(b.codePostal) : b.codePostal == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return isEqualTo((Bibliotheque) obj);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (idBibliotheque != null ? idBibliotheque.hashCode() : 0);
-        result = 31 * result + (nom != null ? nom.hashCode() : 0);
-        result = 31 * result + (adresse != null ? adresse.hashCode() : 0);
-        result = 31 * result + (heureOuverture != null ? heureOuverture.hashCode() : 0);
-        result = 31 * result + (heureFermeture != null ? heureFermeture.hashCode() : 0);
-        result = 31 * result + (ville != null ? ville.hashCode() : 0);
-        result = 31 * result + (pays != null ? pays.hashCode() : 0);
-        result = 31 * result + (codePostal != null ? codePostal.hashCode() : 0);
-        return result;
     }
 }

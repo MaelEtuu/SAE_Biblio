@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "reservation")
 @IdClass(Reservation.ReservationId.class)
@@ -16,11 +17,13 @@ public class Reservation {
     @Id
     @ManyToOne
     @JoinColumn(name = "idDocument")
+    @EqualsAndHashCode.Include
     private Document document;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "idUtilisateur")
+    @EqualsAndHashCode.Include
     private Utilisateur utilisateur;
 
     private LocalDate dateDebut;

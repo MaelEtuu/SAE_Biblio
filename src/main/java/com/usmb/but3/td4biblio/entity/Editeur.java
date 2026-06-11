@@ -6,12 +6,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "editeur")
 public class Editeur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idEditeur;
 
     @Column(length = 50)
@@ -32,7 +34,8 @@ public class Editeur {
     @Column(length = 50)
     private String pays;
 
-    private Integer codePostal;
+    @Column(length = 10)
+    private String codePostal;
 
     public boolean isEqualTo(Editeur e) {
         if (this == e) return true;
@@ -45,26 +48,5 @@ public class Editeur {
         if (ville != null ? !ville.equals(e.ville) : e.ville != null) return false;
         if (pays != null ? !pays.equals(e.pays) : e.pays != null) return false;
         return codePostal != null ? codePostal.equals(e.codePostal) : e.codePostal == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return isEqualTo((Editeur) obj);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (idEditeur != null ? idEditeur.hashCode() : 0);
-        result = 31 * result + (nomSociete != null ? nomSociete.hashCode() : 0);
-        result = 31 * result + (lienSite != null ? lienSite.hashCode() : 0);
-        result = 31 * result + (lienWikipedia != null ? lienWikipedia.hashCode() : 0);
-        result = 31 * result + (adresse != null ? adresse.hashCode() : 0);
-        result = 31 * result + (ville != null ? ville.hashCode() : 0);
-        result = 31 * result + (pays != null ? pays.hashCode() : 0);
-        result = 31 * result + (codePostal != null ? codePostal.hashCode() : 0);
-        return result;
     }
 }

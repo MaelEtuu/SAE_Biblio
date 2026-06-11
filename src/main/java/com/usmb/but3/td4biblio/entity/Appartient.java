@@ -7,6 +7,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "appartient")
 @IdClass(Appartient.AppartientId.class)
@@ -15,11 +16,13 @@ public class Appartient {
     @Id
     @ManyToOne
     @JoinColumn(name = "idBibliotheque")
+    @EqualsAndHashCode.Include
     private Bibliotheque bibliotheque;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "idDocument")
+    @EqualsAndHashCode.Include
     private Document document;
 
     @Data

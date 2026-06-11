@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "document")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -14,6 +15,7 @@ public class Document {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idDocument;
 
     @ManyToOne
@@ -53,26 +55,5 @@ public class Document {
         if (codeEmplacement != null ? !codeEmplacement.equals(d.codeEmplacement) : d.codeEmplacement != null) return false;
         if (estEmpruntable != null ? !estEmpruntable.equals(d.estEmpruntable) : d.estEmpruntable != null) return false;
         return gif != null ? gif.equals(d.gif) : d.gif == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return isEqualTo((Document) obj);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (idDocument != null ? idDocument.hashCode() : 0);
-        result = 31 * result + (titre != null ? titre.hashCode() : 0);
-        result = 31 * result + (dateAcquisition != null ? dateAcquisition.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (datePublication != null ? datePublication.hashCode() : 0);
-        result = 31 * result + (codeEmplacement != null ? codeEmplacement.hashCode() : 0);
-        result = 31 * result + (estEmpruntable != null ? estEmpruntable.hashCode() : 0);
-        result = 31 * result + (gif != null ? gif.hashCode() : 0);
-        return result;
     }
 }

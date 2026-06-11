@@ -7,6 +7,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "a1")
 @IdClass(A1.A1Id.class)
@@ -15,11 +16,13 @@ public class A1 {
     @Id
     @ManyToOne
     @JoinColumn(name = "idDocument")
+    @EqualsAndHashCode.Include
     private Document document;
 
     @Id
     @ManyToOne
     @JoinColumn(name = "idRaison")
+    @EqualsAndHashCode.Include
     private RaisonPasEmprunt raison;
 
     @Data

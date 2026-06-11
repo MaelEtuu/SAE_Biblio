@@ -13,12 +13,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idUtilisateur;
 
     @ManyToOne
@@ -33,6 +35,15 @@ public class Utilisateur {
 
     @Column(length = 100)
     private String adresse;
+
+    @Column(length = 100)
+    private String ville;
+
+    @Column(length = 50)
+    private String pays;
+
+    @Column(length = 10)
+    private String codePostal;
 
     @Column(length = 50)
     private String mail;
@@ -65,18 +76,5 @@ public class Utilisateur {
         if (mdp != null ? !mdp.equals(u.mdp) : u.mdp != null) return false;
         if (dateNaissance != null ? !dateNaissance.equals(u.dateNaissance) : u.dateNaissance != null) return false;
         return dateFinAbonnement != null ? dateFinAbonnement.equals(u.dateFinAbonnement) : u.dateFinAbonnement == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Utilisateur other = (Utilisateur) obj;
-        return idUtilisateur != null ? idUtilisateur.equals(other.idUtilisateur) : other.idUtilisateur == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return idUtilisateur != null ? idUtilisateur.hashCode() : 0;
     }
 }

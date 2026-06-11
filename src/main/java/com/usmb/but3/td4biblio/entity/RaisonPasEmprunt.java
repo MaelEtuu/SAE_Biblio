@@ -6,12 +6,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "raison_pas_emprunt")
 public class RaisonPasEmprunt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idRaison;
 
     @Column(length = 50)
@@ -22,20 +24,5 @@ public class RaisonPasEmprunt {
         if (r == null) return false;
         if (idRaison != null ? !idRaison.equals(r.idRaison) : r.idRaison != null) return false;
         return libelleRaison != null ? libelleRaison.equals(r.libelleRaison) : r.libelleRaison == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return isEqualTo((RaisonPasEmprunt) obj);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (idRaison != null ? idRaison.hashCode() : 0);
-        result = 31 * result + (libelleRaison != null ? libelleRaison.hashCode() : 0);
-        return result;
     }
 }

@@ -6,12 +6,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "format")
 public class Format {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer idFormat;
 
     @Column(length = 50)
@@ -30,22 +32,5 @@ public class Format {
         if (longueur != null ? !longueur.equals(f.longueur) : f.longueur != null) return false;
         if (largeur != null ? !largeur.equals(f.largeur) : f.largeur != null) return false;
         return poids != null ? poids.equals(f.poids) : f.poids == null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return isEqualTo((Format) obj);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = 17;
-        result = 31 * result + (idFormat != null ? idFormat.hashCode() : 0);
-        result = 31 * result + (longueur != null ? longueur.hashCode() : 0);
-        result = 31 * result + (largeur != null ? largeur.hashCode() : 0);
-        result = 31 * result + (poids != null ? poids.hashCode() : 0);
-        return result;
     }
 }

@@ -19,41 +19,41 @@ DROP SEQUENCE IF EXISTS livre_id_seq;
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS type_auteur (
-                                           idTypeAuteur  SERIAL       PRIMARY KEY,
-                                           libelleTypeAuteur VARCHAR(40)
+    idTypeAuteur  SERIAL PRIMARY KEY,
+    libelleTypeAuteur VARCHAR(40)
     );
 
 CREATE TABLE IF NOT EXISTS format (
-                                      idFormat  SERIAL       PRIMARY KEY,
-                                      longueur  VARCHAR(50),
+    idFormat  SERIAL PRIMARY KEY,
+    longueur  VARCHAR(50),
     largeur   VARCHAR(50),
     poids     VARCHAR(50)
     );
 
 CREATE TABLE IF NOT EXISTS editeur (
-                                       idEditeur      SERIAL        PRIMARY KEY,
-                                       nomSociete     VARCHAR(50),
+    idEditeur      SERIAL PRIMARY KEY,
+    nomSociete     VARCHAR(50),
     lienSite       VARCHAR(1000),
     lienWikipedia  VARCHAR(1000),
     adresse        VARCHAR(100),
     ville          VARCHAR(100),
     pays           VARCHAR(50),
-    codePostal     INTEGER
+    codePostal     VARCHAR(10),
     );
 
 CREATE TABLE IF NOT EXISTS role (
-                                    idRole       SERIAL      PRIMARY KEY,
-                                    libelleRole  VARCHAR(30)
+    idRole SERIAL PRIMARY KEY,
+    libelleRole VARCHAR(30)
     );
 
 CREATE TABLE IF NOT EXISTS raison_pas_emprunt (
-                                                  idRaison      SERIAL      PRIMARY KEY,
-                                                  libelleRaison VARCHAR(50)
+    idRaison SERIAL PRIMARY KEY,
+    libelleRaison VARCHAR(50)
     );
 
 CREATE TABLE IF NOT EXISTS regle (
-                                     idRegle       SERIAL       PRIMARY KEY,
-                                     valeurRegle   VARCHAR(40),
+    idRegle       SERIAL PRIMARY KEY,
+    valeurRegle   VARCHAR(40),
     typeRegle     VARCHAR(100),
     intituleRegle VARCHAR(100)
     );
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS regle (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS auteur (
-                                      idAuteur      SERIAL       PRIMARY KEY,
-                                      idTypeAuteur  INTEGER      REFERENCES type_auteur(idTypeAuteur),
+    idAuteur      SERIAL PRIMARY KEY,
+    idTypeAuteur  INTEGER REFERENCES type_auteur(idTypeAuteur),
     nom    VARCHAR(50),
     prenom        VARCHAR(50),
     nationalite   VARCHAR(50),
@@ -82,14 +82,14 @@ CREATE TABLE IF NOT EXISTS auteur (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS bibliotheque (
-                                            idBibliotheque  SERIAL       PRIMARY KEY,
-                                            nom             VARCHAR(50),
+    idBibliotheque  SERIAL PRIMARY KEY,
+    nom             VARCHAR(50),
     adresse         VARCHAR(100),
     heureOuverture  TIME,
     heureFermeture  TIME,
     ville           VARCHAR(100),
     pays            VARCHAR(50),
-    codePostal      INTEGER
+    codePostal      VARCHAR(10),
     );
 
 
@@ -98,11 +98,14 @@ CREATE TABLE IF NOT EXISTS bibliotheque (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS utilisateur (
-                                           idUtilisateur      SERIAL        PRIMARY KEY,
-                                           idRole             INTEGER       REFERENCES role(idRole),
+    idUtilisateur      SERIAL PRIMARY KEY,
+    idRole             INTEGER REFERENCES role(idRole),
     nom                VARCHAR(50),
     prenom             VARCHAR(50),
     adresse            VARCHAR(100),
+    ville           VARCHAR(100),
+    pays            VARCHAR(50),
+    codePostal            VARCHAR(10),
     mail               VARCHAR(50),
     mdp                VARCHAR(200),
     dateNaissance      DATE,
@@ -117,9 +120,9 @@ CREATE TABLE IF NOT EXISTS utilisateur (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS document (
-                                        idDocument      SERIAL         PRIMARY KEY,
-                                        idFormat        INTEGER        REFERENCES format(idFormat),
-    idAuteur        INTEGER        REFERENCES auteur(idAuteur),
+    idDocument      SERIAL PRIMARY KEY,
+    idFormat        INTEGER REFERENCES format(idFormat),
+    idAuteur        INTEGER REFERENCES auteur(idAuteur),
     titre           VARCHAR(100),
     dateAcquisition TIMESTAMP,
     description     VARCHAR(50),
@@ -135,11 +138,10 @@ CREATE TABLE IF NOT EXISTS document (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS livre (
-                                     idDocument  INTEGER      PRIMARY KEY
-                                     REFERENCES document(idDocument),
+    idDocument  INTEGER PRIMARY KEY REFERENCES document(idDocument),
     codeISBN    VARCHAR(15),
     nbPages     INTEGER,
-    idEditeur   INTEGER      REFERENCES editeur(idEditeur)
+    idEditeur   INTEGER REFERENCES editeur(idEditeur)
     );
 
 
@@ -148,8 +150,8 @@ CREATE TABLE IF NOT EXISTS livre (
 -- ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS cddvd (
-                                     idDocument  INTEGER  PRIMARY KEY
-                                     REFERENCES document(idDocument)
+    idDocument  INTEGER  PRIMARY KEY REFERENCES document(idDocument),
+    duree INTEGER 
     );
 
 
@@ -159,14 +161,14 @@ CREATE TABLE IF NOT EXISTS cddvd (
 
 -- Document ↔ Bibliothèque
 CREATE TABLE IF NOT EXISTS appartient (
-                                          idBibliotheque  INTEGER  REFERENCES bibliotheque(idBibliotheque),
+    idBibliotheque  INTEGER  REFERENCES bibliotheque(idBibliotheque),
     idDocument      INTEGER  REFERENCES document(idDocument),
     PRIMARY KEY (idBibliotheque, idDocument)
     );
 
 -- Emprunt (Document ↔ Utilisateur)
 CREATE TABLE IF NOT EXISTS emprunts (
-                                        idDocument    INTEGER  REFERENCES document(idDocument),
+    idDocument    INTEGER  REFERENCES document(idDocument),
     idUtilisateur INTEGER  REFERENCES utilisateur(idUtilisateur),
     dateDebut     DATE,
     dateFin       DATE,
@@ -178,8 +180,8 @@ CREATE TABLE IF NOT EXISTS emprunts (
 
 -- Réservation (Document ↔ Utilisateur)
 CREATE TABLE IF NOT EXISTS reservation (
-                                           idDocument    INTEGER  REFERENCES document(idDocument),
-    idUtilisateur INTEGER  REFERENCES utilisateur(idUtilisateur),
+    idDocument    INTEGER REFERENCES document(idDocument),
+    idUtilisateur INTEGER REFERENCES utilisateur(idUtilisateur),
     dateDebut     DATE,
     dateFin       DATE,
     PRIMARY KEY (idDocument, idUtilisateur)
@@ -187,8 +189,8 @@ CREATE TABLE IF NOT EXISTS reservation (
 
 -- A1 : raisons de non-emprunt (Document ↔ RaisonPasEmprunt)
 CREATE TABLE IF NOT EXISTS a1 (
-                                  idDocument  INTEGER  REFERENCES document(idDocument),
-    idRaison    INTEGER  REFERENCES raison_pas_emprunt(idRaison),
+    idDocument  INTEGER REFERENCES document(idDocument),
+    idRaison    INTEGER REFERENCES raison_pas_emprunt(idRaison),
     PRIMARY KEY (idDocument, idRaison)
     );
 
