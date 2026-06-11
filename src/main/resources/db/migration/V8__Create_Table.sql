@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS editeur (
     adresse        VARCHAR(100),
     ville          VARCHAR(100),
     pays           VARCHAR(50),
-    codePostal     VARCHAR(10),
+    codePostal     VARCHAR(10)
     );
 
 CREATE TABLE IF NOT EXISTS role (
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS bibliotheque (
     heureFermeture  TIME,
     ville           VARCHAR(100),
     pays            VARCHAR(50),
-    codePostal      VARCHAR(10),
+    codePostal      VARCHAR(10)
     );
 
 
