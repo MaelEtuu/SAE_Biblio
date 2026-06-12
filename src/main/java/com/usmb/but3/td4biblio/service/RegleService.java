@@ -4,6 +4,7 @@ import com.usmb.but3.td4biblio.entity.Regle;
 import com.usmb.but3.td4biblio.repository.RegleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +18,20 @@ import java.util.regex.Pattern;
  *   <li>durée maximum de prêt (valeur initiale : 5 semaines = 35 jours) ;</li>
  *   <li>délai maximum de réservation (valeur initiale : 2 semaines = 14 jours).</li>
  * </ul>
- * Les valeurs sont stockées en base sous forme de texte ({@code valeurRegle}) et lues
- * via un {@code typeRegle}. Si une règle est absente, on retombe sur la valeur par défaut.
+ * CRUD hérité de {@link AbstractCrudService} ; la lecture typée et la mise à jour
+ * par type de règle restent spécifiques.
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RegleService {
+public class RegleService extends AbstractCrudService<Regle, Integer> {
 
     private final RegleRepository regleRepository;
+
+    @Override
+    protected JpaRepository<Regle, Integer> getRepository() {
+        return regleRepository;
+    }
 
     // --- Clés de type de règle ---
     public static final String TYPE_MAX_PRETS          = "NB_PRET";
@@ -39,25 +45,25 @@ public class RegleService {
 
     private static final Pattern PREMIER_ENTIER = Pattern.compile("\\d+");
 
-    // ---------------------------------------------------------------------
-    // CRUD
-    // ---------------------------------------------------------------------
+    // =====================================================================
+    // Alias de compatibilité
+    // =====================================================================
 
     public List<Regle> getAllRegles() {
-        return regleRepository.findAll();
+        return getAll();
     }
 
     public Regle getRegleById(Integer id) {
-        return regleRepository.findById(id).orElse(null);
+        return findById(id).orElse(null);
     }
 
     public Regle saveRegle(Regle regle) {
         log.debug("Sauvegarde règle type={} valeur={}", regle.getTypeRegle(), regle.getValeurRegle());
-        return regleRepository.save(regle);
+        return save(regle);
     }
 
     public void deleteRegleById(Integer id) {
-        regleRepository.deleteById(id);
+        deleteById(id);
     }
 
     /** Première règle correspondant au type donné, ou {@code null}. */
@@ -65,9 +71,9 @@ public class RegleService {
         return regleRepository.findByTypeRegle(typeRegle).stream().findFirst().orElse(null);
     }
 
-    // ---------------------------------------------------------------------
+    // =====================================================================
     // Lecture typée (avec valeur par défaut)
-    // ---------------------------------------------------------------------
+    // =====================================================================
 
     /** Nombre maximum de documents empruntables simultanément. */
     public int getMaxPrets() {
@@ -84,12 +90,13 @@ public class RegleService {
         return getValeurEntiere(TYPE_DELAI_RESERVATION, DEFAULT_DELAI_RESERVATION_JOURS);
     }
 
-    // ---------------------------------------------------------------------
+    // =====================================================================
     // Mise à jour d'une valeur (bibliothécaire)
-    // ---------------------------------------------------------------------
+    // =====================================================================
 
     /**
      * Met à jour (ou crée) la valeur d'une règle identifiée par son type.
+     *
      * @return la règle persistée.
      */
     public Regle updateValeur(String typeRegle, String valeur, String intitule) {
@@ -101,12 +108,12 @@ public class RegleService {
         }
         regle.setValeurRegle(valeur);
         log.info("Règle '{}' mise à jour : {}", typeRegle, valeur);
-        return regleRepository.save(regle);
+        return save(regle);
     }
 
-    // ---------------------------------------------------------------------
+    // =====================================================================
     // Utilitaire interne
-    // ---------------------------------------------------------------------
+    // =====================================================================
 
     /** Extrait le premier entier de la valeur texte (ex. "5 semaines" -> 5 ; "10" -> 10). */
     private int getValeurEntiere(String typeRegle, int defaut) {

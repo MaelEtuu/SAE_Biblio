@@ -6,6 +6,7 @@ import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.repository.EmpruntsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,7 +14,8 @@ import java.util.List;
 
 /**
  * Logique métier des <b>emprunts</b> (prêts de documents).
- * <p>Règles couvertes :</p>
+ * <p>CRUD de base hérité de {@link AbstractCrudService} (clé composite
+ * {@link Emprunts.EmpruntsId}). Règles métier couvertes :</p>
  * <ul>
  *   <li>création d'un prêt par un bibliothécaire si : quota non atteint,
  *       abonnement non échu, document disponible et non réservé par un autre ;</li>
@@ -24,12 +26,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EmpruntsService {
+public class EmpruntsService extends AbstractCrudService<Emprunts, Emprunts.EmpruntsId> {
 
     private final EmpruntsRepository empruntsRepository;
     private final DocumentService documentService;
     private final ReservationService reservationService;
     private final RegleService regleService;
+
+    @Override
+    protected JpaRepository<Emprunts, Emprunts.EmpruntsId> getRepository() {
+        return empruntsRepository;
+    }
 
     // =====================================================================
     // Lecture
@@ -99,7 +106,7 @@ public class EmpruntsService {
         LocalDate debut = LocalDate.now();
         LocalDate fin   = debut.plusDays(regleService.getDureePretJours());
         Emprunts emprunt = new Emprunts(document, emprunteur, debut, fin, false, null, null);
-        Emprunts saved = empruntsRepository.save(emprunt);
+        Emprunts saved = save(emprunt);
         log.info("Prêt créé : document={} emprunteur={} retour prévu le {}",
                 idDocument, emprunteur.getIdUtilisateur(), fin);
         return saved;
@@ -124,7 +131,7 @@ public class EmpruntsService {
         emprunt.setEstProlonge(true);
         log.info("Prêt prolongé (emprunteur) : document={} nouvelle date de fin {}",
                 idDocument, emprunt.getDateFin());
-        return empruntsRepository.save(emprunt);
+        return save(emprunt);
     }
 
     /**
@@ -136,7 +143,7 @@ public class EmpruntsService {
         emprunt.setEstProlonge(true);
         log.info("Prêt prolongé (bibliothécaire) : document={} nouvelle date de fin {}",
                 idDocument, emprunt.getDateFin());
-        return empruntsRepository.save(emprunt);
+        return save(emprunt);
     }
 
     // =====================================================================
@@ -149,7 +156,7 @@ public class EmpruntsService {
         emprunt.setDateRetour(LocalDate.now());
         log.info("Retour enregistré : document={} utilisateur={}",
                 idDocument, utilisateur.getIdUtilisateur());
-        return empruntsRepository.save(emprunt);
+        return save(emprunt);
     }
 
     // =====================================================================
@@ -159,7 +166,7 @@ public class EmpruntsService {
     private Emprunts getEmprunt(Integer idDocument, Utilisateur utilisateur) {
         Emprunts.EmpruntsId id =
                 new Emprunts.EmpruntsId(idDocument, utilisateur.getIdUtilisateur());
-        return empruntsRepository.findById(id)
+        return findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Emprunt introuvable."));
     }
 }

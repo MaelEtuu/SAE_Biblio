@@ -6,42 +6,54 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Logique métier des documents : recherche multi-critère, nouvelles acquisitions,
- * disponibilité. (Corrigé : utilise {@code nom} d'auteur, plus {@code nomSociete}.)
+ * Logique métier des documents : CRUD hérité de {@link AbstractCrudService},
+ * complété par la recherche multi-critère, les nouvelles acquisitions et la disponibilité.
+ * (Corrigé : utilise {@code nom} d'auteur, plus {@code nomSociete}.)
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DocumentService {
+public class DocumentService extends AbstractCrudService<Document, Integer> {
 
     private final DocumentRepository documentRepository;
 
-    // --- CRUD ---
-
-    public List<Document> getAllDocuments() {
-        return documentRepository.findAll();
+    @Override
+    protected JpaRepository<Document, Integer> getRepository() {
+        return documentRepository;
     }
 
+    // =====================================================================
+    // Alias de compatibilité
+    // =====================================================================
+
+    public List<Document> getAllDocuments() {
+        return getAll();
+    }
+
+    /** Document par id ; lève une exception si introuvable (comportement d'origine). */
     public Document getDocumentById(Integer id) {
-        return documentRepository.findById(id)
+        return findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Document introuvable : " + id));
     }
 
     public Document saveDocument(Document document) {
-        return documentRepository.save(document);
+        return save(document);
     }
 
     public void deleteDocumentById(Integer id) {
-        documentRepository.deleteById(id);
+        deleteById(id);
     }
 
-    // --- Recherche ---
+    // =====================================================================
+    // Recherche
+    // =====================================================================
 
     public List<Document> getByTitreContainingIgnoreCase(String titre) {
         return documentRepository.findByTitreContainingIgnoreCase(titre);
@@ -91,16 +103,19 @@ public class DocumentService {
         }).toList();
     }
 
-    // --- Nouvelles acquisitions ---
+    // =====================================================================
+    // Nouvelles acquisitions
+    // =====================================================================
 
     public List<Document> getDerniersDocuments(int limit) {
         Pageable pageable = PageRequest.of(0, limit);
-
         return documentRepository
                 .findByEstEmpruntableTrueOrderByDateAcquisitionDesc(pageable);
     }
 
-    // --- Disponibilité ---
+    // =====================================================================
+    // Disponibilité
+    // =====================================================================
 
     public List<Document> getDocumentsDisponibles() {
         return documentRepository.findDisponibles(LocalDate.now());

@@ -6,6 +6,7 @@ import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,8 @@ import java.util.List;
 /**
  * Logique métier des <b>réservations</b> (domaine du groupe 1).
  * <p>
- * Règles couvertes :
+ * CRUD de base hérité de {@link AbstractCrudService} (clé composite
+ * {@link Reservation.ReservationId}). Règles métier couvertes :
  * <ul>
  *   <li>un emprunteur peut réserver un document trouvé en recherche, à condition
  *       qu'il ne soit ni emprunté ni déjà réservé (par lui ou un autre) ;</li>
@@ -27,11 +29,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ReservationService {
+public class ReservationService extends AbstractCrudService<Reservation, Reservation.ReservationId> {
 
     private final ReservationRepository reservationRepository;
     private final DocumentService documentService;
     private final RegleService regleService;
+
+    @Override
+    protected JpaRepository<Reservation, Reservation.ReservationId> getRepository() {
+        return reservationRepository;
+    }
 
     // =====================================================================
     // Lecture — côté emprunteur
@@ -93,7 +100,7 @@ public class ReservationService {
         LocalDate fin   = debut.plusDays(regleService.getDelaiReservationJours());
 
         Reservation reservation = new Reservation(document, utilisateur, debut, fin);
-        Reservation saved = reservationRepository.save(reservation);
+        Reservation saved = save(reservation);
         log.info("Réservation créée : document={} utilisateur={} jusqu'au {}",
                 idDocument, utilisateur.getIdUtilisateur(), fin);
         return saved;
@@ -103,7 +110,7 @@ public class ReservationService {
     public void annuler(Integer idDocument, Utilisateur utilisateur) {
         Reservation.ReservationId id =
                 new Reservation.ReservationId(idDocument, utilisateur.getIdUtilisateur());
-        reservationRepository.deleteById(id);
+        deleteById(id);
         log.info("Réservation annulée : document={} utilisateur={}",
                 idDocument, utilisateur.getIdUtilisateur());
     }

@@ -7,6 +7,7 @@ import com.usmb.but3.td4biblio.repository.UtilisateurRepository;
 import com.usmb.but3.td4biblio.util.MotDePasseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +15,18 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 
 /**
- * Logique métier des utilisateurs. Couvre la <b>création d'un compte emprunteur</b>
- * (cahier des charges, section 1) :
+ * Logique métier des utilisateurs. CRUD de base hérité de {@link AbstractCrudService},
+ * complété par la <b>création d'un compte emprunteur</b> (cahier des charges, section 1) :
  * <ul>
  *   <li>durée initiale d'abonnement : 1 an ;</li>
  *   <li>génération automatique d'un numéro de carte unique sur 10 chiffres ;</li>
  *   <li>mot de passe initial = date de naissance (JJMMAAAA), haché.</li>
  * </ul>
- *
- * <p>⚠ Si un {@code UtilisateurService} existe déjà, n'y reprends que la méthode
- * {@link #creerEmprunteur} et l'helper {@link #genererNumeroCarteUnique} qui te manquent.</p>
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UtilisateurService {
+public class UtilisateurService extends AbstractCrudService<Utilisateur, Integer> {
 
     public static final String ROLE_EMPRUNTEUR     = "EMPRUNTEUR";
     public static final String ROLE_BIBLIOTHECAIRE = "BIBLIOTHECAIRE";
@@ -42,6 +40,24 @@ public class UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final RoleRepository        roleRepository;
     private final SecureRandom          random = new SecureRandom();
+
+    @Override
+    protected JpaRepository<Utilisateur, Integer> getRepository() {
+        return utilisateurRepository;
+    }
+
+    // =====================================================================
+    // Lecture spécifique
+    // =====================================================================
+
+    /** Recherche un utilisateur par e-mail (connexion). */
+    public Utilisateur getByMail(String mail) {
+        return utilisateurRepository.findByMail(mail).orElse(null);
+    }
+
+    // =====================================================================
+    // Création d'un emprunteur
+    // =====================================================================
 
     /**
      * Crée un nouvel emprunteur. Renseigne automatiquement le rôle, l'échéance
@@ -89,7 +105,7 @@ public class UtilisateurService {
             u.setPays("France");
         }
 
-        Utilisateur sauvegarde = utilisateurRepository.save(u);
+        Utilisateur sauvegarde = save(u);
         log.info("Compte emprunteur créé : id={} carte={} mail={}",
                 sauvegarde.getIdUtilisateur(), sauvegarde.getNumeroCarte(), sauvegarde.getMail());
         return sauvegarde;
