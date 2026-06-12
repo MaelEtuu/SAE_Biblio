@@ -51,6 +51,8 @@ dependencies {
 	implementation 'com.vaadin:vaadin-spring-boot-starter'
 	implementation 'org.springframework.security:spring-security-crypto'
 	developmentOnly('com.vaadin:vaadin-dev')
+	testRuntimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
 }
 
 dependencyManagement {  // MS added for Vaadin BOM

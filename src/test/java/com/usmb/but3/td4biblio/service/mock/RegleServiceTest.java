@@ -1,7 +1,8 @@
-package com.usmb.but3.td4biblio.service;
+package com.usmb.but3.td4biblio.service.mock;
 
 import com.usmb.but3.td4biblio.entity.Regle;
 import com.usmb.but3.td4biblio.repository.RegleRepository;
+import com.usmb.but3.td4biblio.service.RegleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
