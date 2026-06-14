@@ -4,6 +4,7 @@
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Onest:wght@300;400;500;600;700&display=swap');
+@import './espace.css';
 
 /* ── Variables globales ── */
 :root {
@@ -672,38 +673,64 @@ vaadin-tabs::part(tabs-container) {
 /* La Vaadin Notification avec MIDDLE génère une vaadin-notification-card
    centrée — on la stylise pour ressembler à la modal de la maquette */
 vaadin-notification-card[theme~="warning"] {
-    --lumo-base-color: var(--bg-2) !important;
-    background: var(--bg-2) !important;
-    border: 1px solid var(--line) !important;
-    border-radius: 16px !important;
-    max-width: 420px !important;
-    width: 420px !important;
-    box-shadow: 0 40px 70px -24px rgba(0,0,0,.9) !important;
-    padding: 0 !important;
-    overflow: visible !important;
+    display: none !important;
 }
 
-.biblio-notif-modal {
-    background: var(--bg-2) !important;
+/* Supprime le ::before / ::after de lumo-warning qui trace la bordure colorée */
+vaadin-notification-card[theme~="warning"]::before,
+vaadin-notification-card[theme~="warning"]::after {
+    display: none !important;
+}
+
+/* ── Dialog Vaadin : supprime les styles par défaut de l'overlay ── */
+vaadin-dialog-overlay::part(overlay) {
+    background:    var(--bg-2) !important;
+    border:        1px solid var(--line) !important;
     border-radius: 16px !important;
-    max-width: 400px !important;
-    padding: 30px !important;
-    color: var(--ink-soft) !important;
-    font-size: 13.5px !important;
-    font-family: "Onest", sans-serif !important;
+    box-shadow:    0 40px 80px -20px rgba(0, 0, 0, .9),
+    0 0 0 1px rgba(216, 162, 74, .15) !important;
+    padding:       0 !important;
 }
+
+vaadin-dialog-overlay::part(backdrop) {
+    background: rgba(10, 9, 6, .7) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+vaadin-dialog-overlay::part(content) {
+    padding: 0 !important;
+}
+
+/* ── Modal popup abonnement ── */
+.biblio-notif-modal {
+    background:    transparent !important;
+    border-radius: 0 !important;
+    border:        none !important;
+    box-shadow:    none !important;
+    max-width:     420px !important;
+    padding:       30px !important;
+    color:         var(--ink-soft) !important;
+    font-size:     13.5px !important;
+    font-family:   "Onest", sans-serif !important;
+    display:       flex !important;
+    flex-direction: column !important;
+}
+
 .biblio-notif-modal h3 {
-    font-family: "Newsreader", serif !important;
-    font-weight: 500 !important;
-    font-size: 22px !important;
-    margin-bottom: 9px !important;
-    color: var(--ink) !important;
+    font-family:   "Newsreader", serif !important;
+    font-weight:   500 !important;
+    font-size:     21px !important;
+    color:         var(--ink) !important;
+    margin:        0 0 10px !important;
+    line-height:   1.2 !important;
 }
+
 .biblio-notif-modal p {
-    font-size: 13.5px !important;
-    color: var(--ink-soft) !important;
+    font-size:   13.5px !important;
+    color:       var(--ink-soft) !important;
     font-family: "Onest", sans-serif !important;
-    margin: 0 !important;
+    margin:      0 !important;
+    line-height: 1.6 !important;
 }
 
 /* ── Vaadin champs de formulaire — Shadow DOM parts ── */

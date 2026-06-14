@@ -6,9 +6,11 @@ import com.usmb.but3.td4biblio.service.DocumentService;
 import com.usmb.but3.td4biblio.service.ReservationService;
 import com.usmb.but3.td4biblio.util.SessionUtils;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.ModalityMode;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -18,6 +20,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Route(value = "")
 @PageTitle("Accueil — BiblioVaadin")
@@ -29,9 +34,9 @@ public class AccueilView extends VerticalLayout {
 
     private Utilisateur utilisateurCourant = SessionUtils.getUtilisateur();
 
-    private final TextField        searchField = new TextField();
-    private final ComboBox<String> critereBox  = new ComboBox<>();
-    private final ComboBox<String> matchBox    = new ComboBox<>();
+    private final TextField        searchField   = new TextField();
+    private final ComboBox<String> critereBox    = new ComboBox<>();
+    private final ComboBox<String> matchBox      = new ComboBox<>();
     private final Div              nouvellesGrid = new Div();
     private final Div              eventsList    = new Div();
 
@@ -48,7 +53,7 @@ public class AccueilView extends VerticalLayout {
 
         loadNouvellesAcquisitions();
         loadEvenements();
-        showAbonnementNotification();
+        checkAbonnement();
     }
 
     // ── Hero ──────────────────────────────────────────────────────────────────
@@ -60,7 +65,6 @@ public class AccueilView extends VerticalLayout {
         eyebrow.addClassName("biblio-eyebrow");
         eyebrow.getElement().getStyle().set("margin-bottom", "10px");
 
-        // Titre avec <em> pour « empruntez. »
         var titleEl = new H1();
         titleEl.addClassName("biblio-hero-title");
         titleEl.getElement().setProperty("innerHTML",
@@ -140,7 +144,6 @@ public class AccueilView extends VerticalLayout {
     }
 
     // ── Événements ────────────────────────────────────────────────────────────
-
     private void loadEvenements() {
         eventsList.removeAll();
         String[][] events = {
@@ -154,7 +157,6 @@ public class AccueilView extends VerticalLayout {
     }
 
     private Div buildEventRow(String day, String month, String titre, String lieu, String horaire) {
-        // Date chip
         var daySpan   = new Span(day);
         daySpan.addClassName("biblio-date-day");
         var monthSpan = new Span(month);
@@ -162,7 +164,6 @@ public class AccueilView extends VerticalLayout {
         var chip = new Div(daySpan, monthSpan);
         chip.addClassName("biblio-date-chip");
 
-        // Info
         var titreSpan  = new Span(titre);
         titreSpan.addClassName("biblio-event-title");
         var lieuSpan   = new Span(lieu);
@@ -183,7 +184,6 @@ public class AccueilView extends VerticalLayout {
         var card = new Div();
         card.addClassName("biblio-doc");
 
-        // Couverture colorée
         var tagSpan    = new Span(doc.getFormat() != null ? doc.getFormat().getLargeur() : "");
         tagSpan.addClassName("biblio-cover-tag");
         var titleSpan  = new Span(doc.getTitre() != null ? doc.getTitre() : "");
@@ -199,7 +199,6 @@ public class AccueilView extends VerticalLayout {
         cover.addClassName("biblio-cover");
         cover.getElement().getStyle().set("background", resolveColor(doc));
 
-        // Méta
         var docTitle  = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         docTitle.addClassName("biblio-doc-title");
         var docAuthor = new Span(doc.getAuteur() != null
@@ -208,7 +207,6 @@ public class AccueilView extends VerticalLayout {
         var docLib    = new Span(doc.getCodeEmplacement() != null ? doc.getCodeEmplacement() : "");
         docLib.addClassName("biblio-doc-lib");
 
-        // Badge + bouton
         boolean disponible = Boolean.TRUE.equals(doc.getEstEmpruntable());
         var badge = new Span(disponible ? "Disponible" : "Non empruntable");
         badge.addClassNames("badge", disponible ? "badge-dispo" : "badge-indispo");
@@ -243,49 +241,78 @@ public class AccueilView extends VerticalLayout {
         }
     }
 
-    // ── Notification abonnement ───────────────────────────────────────────────
-    private void showAbonnementNotification() {
-        var notif = new Notification();
-        notif.setDuration(0);
-        notif.setPosition(Notification.Position.MIDDLE);
-        notif.addThemeVariants(NotificationVariant.LUMO_WARNING);
+    // ── Notification abonnement via Dialog (pas Notification, pour éviter la bordure Shadow DOM) ──
+    private void checkAbonnement() {
+        if (utilisateurCourant == null) return;
+        LocalDate fin = utilisateurCourant.getDateFinAbonnement();
+        if (fin == null) return;
+        long joursRestants = ChronoUnit.DAYS.between(LocalDate.now(), fin);
+        if (joursRestants > 14) return;
+        showAbonnementDialog(fin, joursRestants);
+    }
 
+    private void showAbonnementDialog(LocalDate fin, long joursRestants) {
+        var dialog = new Dialog();
+        dialog.setModality(ModalityMode.VISUAL);
+        dialog.setDraggable(false);
+        dialog.setResizable(false);
+        dialog.setCloseOnOutsideClick(false);
+        // Supprime les paddings/header natifs de la Dialog Vaadin
+        dialog.getElement().getStyle()
+                .set("padding", "0")
+                .set("border-radius", "16px")
+                .set("overflow", "hidden");
+
+        // Icône
         var icon = new Span("⚠");
         icon.getElement().getStyle()
-                .set("width", "40px").set("height", "40px").set("border-radius", "50%")
-                .set("background", "rgba(216,162,74,.16)").set("color", "var(--amber)")
+                .set("width", "40px").set("height", "40px")
+                .set("border-radius", "50%")
+                .set("background", "rgba(216,162,74,.14)")
+                .set("border", "1px solid rgba(216,162,74,.28)")
+                .set("color", "var(--amber)")
                 .set("display", "grid").set("place-items", "center")
-                .set("font-size", "18px").set("margin-bottom", "16px");
+                .set("font-size", "18px").set("margin-bottom", "18px")
+                .set("flex-shrink", "0");
 
-        var title = new H3("Votre abonnement arrive à échéance");
-        title.addClassName("serif");
-        title.getElement().getStyle().set("font-size", "22px").set("margin-bottom", "9px").set("color", "var(--ink)");
+        var title = new H3(joursRestants <= 0
+                ? "Votre abonnement a expiré"
+                : "Votre abonnement arrive à échéance");
+        title.getElement().getStyle()
+                .set("font-family", "Newsreader")
+                .set("font-family", "serif")
+                .set("font-weight", "500")
+                .set("font-size", "21px")
+                .set("color", "var(--ink)")
+                .set("margin", "0 0 10px");
 
-        var msg = new Paragraph(
-                "Votre abonnement expire le 21 juin 2026 (dans 12 jours). "
-                        + "Passez en bibliothèque ou contactez un bibliothécaire pour le renouveler.");
-        msg.getElement().getStyle().set("font-size", "13.5px").set("color", "var(--ink-soft)");
+        String msgText = joursRestants <= 0
+                ? "Votre abonnement a expiré le " + fin + ". Passez en bibliothèque ou contactez un bibliothécaire pour le renouveler."
+                : joursRestants == 1
+                  ? "Votre abonnement expire demain (" + fin + "). Renouvelez-le rapidement."
+                  : "Votre abonnement expire le " + fin + " (dans " + joursRestants + " jours). Passez en bibliothèque ou contactez un bibliothécaire.";
 
-        var close = new Button("J'ai compris", e -> notif.close());
-        close.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        close.addClassName("biblio-btn-primary");
+        var msg = new Paragraph(msgText);
+        msg.getElement().getStyle()
+                .set("font-size", "13.5px").set("color", "var(--ink-soft)")
+                .set("line-height", "1.6").set("margin", "0");
 
-        var later = new Button("Plus tard", e -> notif.close());
+        var later = new Button("Plus tard", e -> dialog.close());
         later.addClassName("btn-ghost");
-        later.getElement().getStyle()
-                .set("border", "1px solid var(--line)").set("color", "var(--ink-soft)")
-                .set("background", "none").set("border-radius", "8px")
-                .set("padding", "10px 20px").set("cursor", "pointer").set("font-family", "Onest, sans-serif");
+        later.addClassName("btn-mini");
+
+        var close = new Button("J'ai compris", e -> dialog.close());
+        close.addClassName("biblio-btn-primary");
+        close.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         var actions = new HorizontalLayout(later, close);
-        actions.getElement().getStyle().set("margin-top", "22px").set("gap", "10px");
-        actions.setWidthFull();
+        actions.getElement().getStyle().set("margin-top", "24px").set("gap", "10px");
 
         var content = new Div(icon, title, msg, actions);
         content.addClassName("biblio-notif-modal");
 
-        notif.add(content);
-        notif.open();
+        dialog.add(content);
+        dialog.open();
     }
 
     private String resolveColor(Document doc) {

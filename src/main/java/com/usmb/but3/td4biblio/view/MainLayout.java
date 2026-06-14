@@ -52,13 +52,17 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         buildTabs();
         tabs.setClassName("biblio-tabs");
 
+        // La navigation est déclenchée par clic direct sur le Tab,
+        // pas via le SelectedChangeListener (qui se réenclenchait en boucle).
+        // On attache le listener de navigation ici, après buildTabs().
         tabs.addSelectedChangeListener(e -> {
             if (navigating) return;
             Tab selected = e.getSelectedTab();
-            if (selected != null && selected.getId().isPresent()) {
-                String path = selected.getId().get().replace("tab-", "");
+            if (selected == null) return;
+            selected.getId().ifPresent(id -> {
+                String path = id.replace("tab-", "");
                 getUI().ifPresent(ui -> ui.navigate(path));
-            }
+            });
         });
 
         // ── Zone compte (dynamique) ──
@@ -81,7 +85,9 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         List<MenuEntry> entries = MenuConfiguration.getMenuEntries();
         entries.forEach(entry -> {
             var tab = new Tab(entry.title());
-            tab.setId("tab-" + entry.path());
+            // Normalise le path : supprime le slash initial si présent
+            String path = entry.path() != null ? entry.path().replaceFirst("^/", "") : "";
+            tab.setId("tab-" + path);
             tabs.add(tab);
         });
 
@@ -137,7 +143,6 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         var account = new Div(who, avatar);
         account.setClassName("biblio-account");
 
-        // Clic sur le compte = déconnexion (simple, on peut affiner ensuite)
         account.getElement().getStyle().set("cursor", "pointer");
         account.addClickListener(e -> {
             SessionUtils.logout();
@@ -149,22 +154,32 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
+        // Empêche le listener de tabs de re-déclencher une navigation
         navigating = true;
 
         // Reconstruit les onglets et la zone compte à chaque navigation
-        // (le rôle / l'état de connexion peuvent avoir changé entre-temps)
         buildTabs();
         refreshAccountZone();
 
+        // Sélectionne l'onglet correspondant à la route courante
         String currentPath = event.getLocation().getPath();
+        // Normalise : "" (racine) → on cherche un tab avec id "tab-"
+        // "mon-espace" → on cherche "tab-mon-espace"
         tabs.getChildren()
                 .filter(c -> c instanceof Tab)
                 .map(c -> (Tab) c)
                 .filter(tab -> tab.getId()
-                        .map(id -> id.replace("tab-", "").equals(currentPath))
+                        .map(id -> {
+                            String tabPath = id.replace("tab-", "");
+                            // Cas racine : chemin vide ET tabPath vide
+                            if (currentPath.isEmpty() && tabPath.isEmpty()) return true;
+                            // Correspondance exacte ou préfixe (pour les sous-routes éventuelles)
+                            return !tabPath.isEmpty() && currentPath.equals(tabPath);
+                        })
                         .orElse(false))
                 .findFirst()
                 .ifPresent(tabs::setSelectedTab);
+
         navigating = false;
     }
 }

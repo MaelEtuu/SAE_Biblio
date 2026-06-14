@@ -20,7 +20,6 @@ import java.util.Locale;
 
 @Route(value = "reservations")
 @PageTitle("Mes réservations — BiblioVaadin")
-@Menu(title = "Mes réservations", order = 2, icon = "vaadin:bookmark")
 public class ReservationsView extends VerticalLayout {
 
     private static final DateTimeFormatter FMT =

@@ -1,0 +1,32 @@
+/* ── Espace emprunteur : bloc de statistiques ── */
+
+/* Ligne de 3 cartes de stats */
+.espace-stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+    margin-bottom: 8px !important;
+}
+
+/* Carte individuelle de stat */
+.espace-stat-card {
+    background: var(--card) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 13px !important;
+    padding: 20px 22px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    transition: border-color .2s !important;
+}
+.espace-stat-card:hover {
+    border-color: rgba(216,162,74,.35) !important;
+}
+
+/* Responsive : 1 colonne sur petit écran */
+@media (max-width: 600px) {
+    .espace-stats-row {
+        grid-template-columns: 1fr !important;
+    }
+}
