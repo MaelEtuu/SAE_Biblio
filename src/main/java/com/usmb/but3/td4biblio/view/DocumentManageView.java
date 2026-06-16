@@ -1,6 +1,8 @@
 package com.usmb.but3.td4biblio.view;
 
 import com.usmb.but3.td4biblio.entity.*;
+import com.usmb.but3.td4biblio.util.RequiresRole;
+import com.usmb.but3.td4biblio.util.RouteGuard;
 import com.usmb.but3.td4biblio.service.AuteurService;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.vaadin.flow.component.ModalityMode;
@@ -22,27 +24,27 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
-import java.time.LocalDate;
 
 /**
- * Gestion documentaire côté bibliothécaire (cahier des charges, section 4) :
- * liste filtrable + création / modification / suppression d'un document, avec
- * gestion du sous-type (Livre vs CD/DVD), du visuel, de l'ISBN et de
- * l'empruntabilité avec motif.
+ * Gestion documentaire côté bibliothécaire (cahier des charges, section 4).
  *
- * <p>Le sous-type est déduit du format choisi : un format dont l'étiquette
- * (largeur) vaut « Livre » crée un {@link Livre}, « CD »/« DVD » un {@link CDDVD}.</p>
+ * <p>Accès réservé au rôle {@code BIBLIOTHECAIRE} via {@link RequiresRole}
+ * et {@link RouteGuard}. Tout accès non autorisé est redirigé vers l'accueil
+ * avec un message d'erreur.</p>
  */
 @Route(value = "gestion-documents")
 @PageTitle("Gestion documents — BiblioVaadin")
 @Menu(title = "Gestion documents", order = 5, icon = "vaadin:records")
-public class DocumentManageView extends VerticalLayout {
+@RequiresRole("BIBLIOTHECAIRE")
+public class DocumentManageView extends VerticalLayout implements BeforeEnterObserver {
 
     private final DocumentService documentService;
     private final AuteurService   auteurService;
@@ -50,27 +52,27 @@ public class DocumentManageView extends VerticalLayout {
     private final Grid<Document> grid   = new Grid<>(Document.class, false);
     private final TextField      filter = new TextField();
 
-    // ── Champs de l'éditeur (réutilisés à chaque ouverture) ──
-    private final TextField           titre           = new TextField("Titre");
-    private final ComboBox<Auteur>    auteurBox       = new ComboBox<>("Auteur");
-    private final ComboBox<Format>    formatBox       = new ComboBox<>("Type / format");
-    private final TextField           description     = new TextField("Description");
-    private final TextField           codeEmplacement = new TextField("Code emplacement");
-    private final DatePicker          datePublication = new DatePicker("Date de publication");
-    private final DatePicker          dateAcquisition = new DatePicker("Date d'acquisition");
-    private final TextField           media           = new TextField("Visuel (URL image / GIF)");
-    private final Checkbox            empruntable     = new Checkbox("Empruntable");
-    private final ComboBox<RaisonPasEmprunt> motifBox = new ComboBox<>("Motif de non-emprunt");
+    // ── Champs de l'éditeur ──
+    private final TextField                  titre           = new TextField("Titre");
+    private final ComboBox<Auteur>           auteurBox       = new ComboBox<>("Auteur");
+    private final ComboBox<Format>           formatBox       = new ComboBox<>("Type / format");
+    private final TextField                  description     = new TextField("Description");
+    private final TextField                  codeEmplacement = new TextField("Code emplacement");
+    private final DatePicker                 datePublication = new DatePicker("Date de publication");
+    private final DatePicker                 dateAcquisition = new DatePicker("Date d'acquisition");
+    private final TextField                  media           = new TextField("Visuel (URL image / GIF)");
+    private final Checkbox                   empruntable     = new Checkbox("Empruntable");
+    private final ComboBox<RaisonPasEmprunt> motifBox        = new ComboBox<>("Motif de non-emprunt");
     // Spécifique Livre
-    private final TextField           isbn            = new TextField("ISBN");
-    private final IntegerField        nbPages         = new IntegerField("Nombre de pages");
-    private final ComboBox<Editeur>   editeurBox      = new ComboBox<>("Éditeur");
+    private final TextField                  isbn            = new TextField("ISBN");
+    private final IntegerField               nbPages         = new IntegerField("Nombre de pages");
+    private final ComboBox<Editeur>          editeurBox      = new ComboBox<>("Éditeur");
     // Spécifique CD/DVD
-    private final IntegerField        duree           = new IntegerField("Durée (minutes)");
+    private final IntegerField               duree           = new IntegerField("Durée (minutes)");
 
-    private final Dialog editeur = new Dialog();
+    private final Dialog editeur   = new Dialog();
     private final Button deleteBtn = new Button("Supprimer", VaadinIcon.TRASH.create());
-    private Document courant; // document en cours d'édition (null = création)
+    private Document courant;
 
     public DocumentManageView(DocumentService documentService, AuteurService auteurService) {
         this.documentService = documentService;
@@ -79,9 +81,16 @@ public class DocumentManageView extends VerticalLayout {
         setPadding(false);
         setSpacing(false);
         addClassName("biblio-page");
+    }
 
+    // ── Garde de route ────────────────────────────────────────────────────────
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (!RouteGuard.check(event, DocumentManageView.class)) return;
+
+        // Initialisation différée (après confirmation d'accès)
+        removeAll();
         add(buildHeader(), buildToolbar(), grid);
-
         configurerGrid();
         configurerEditeur();
         listDocuments(null);
@@ -98,7 +107,7 @@ public class DocumentManageView extends VerticalLayout {
         return entete;
     }
 
-    // ── Barre filtre + ajout ────────────────────────────────────────────────
+    // ── Barre filtre + ajout ─────────────────────────────────────────────────
     private HorizontalLayout buildToolbar() {
         filter.setPlaceholder("Filtrer par titre…");
         filter.setClearButtonVisible(true);
@@ -120,13 +129,15 @@ public class DocumentManageView extends VerticalLayout {
 
     // ── Grille ────────────────────────────────────────────────────────────────
     private void configurerGrid() {
-        grid.addColumn(Document::getTitre).setHeader("Titre").setFlexGrow(1).setAutoWidth(true);
+        grid.addColumn(Document::getTitre)
+                .setHeader("Titre").setFlexGrow(1).setAutoWidth(true);
         grid.addColumn(d -> d.getAuteur() != null
                         ? (d.getAuteur().getNom() + " " + nz(d.getAuteur().getPrenom())).trim() : "—")
                 .setHeader("Auteur").setAutoWidth(true);
         grid.addColumn(d -> d.getFormat() != null ? nz(d.getFormat().getLargeur()) : "—")
                 .setHeader("Type").setWidth("90px").setFlexGrow(0);
-        grid.addColumn(d -> nz(d.getCodeEmplacement())).setHeader("Emplacement").setWidth("120px").setFlexGrow(0);
+        grid.addColumn(d -> nz(d.getCodeEmplacement()))
+                .setHeader("Emplacement").setWidth("120px").setFlexGrow(0);
         grid.addColumn(d -> Boolean.TRUE.equals(d.getEstEmpruntable()) ? "Oui" : "Non")
                 .setHeader("Empruntable").setWidth("110px").setFlexGrow(0);
 
@@ -145,7 +156,7 @@ public class DocumentManageView extends VerticalLayout {
         }
     }
 
-    // ── Éditeur (Dialog) ────────────────────────────────────────────────────
+    // ── Éditeur (Dialog) ─────────────────────────────────────────────────────
     private void configurerEditeur() {
         auteurBox.setItems(auteurService.getAllAuteurs());
         auteurBox.setItemLabelGenerator(Auteur::getDesc);
@@ -176,7 +187,7 @@ public class DocumentManageView extends VerticalLayout {
                 empruntable, motifBox,
                 isbn, nbPages, editeurBox, duree);
         form.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("0",     1),
                 new FormLayout.ResponsiveStep("480px", 2));
         form.setColspan(titre, 2);
         form.setColspan(media, 2);
@@ -216,10 +227,9 @@ public class DocumentManageView extends VerticalLayout {
         courant = d;
         boolean creation = (d == null);
 
-        // Réinitialise les champs
         titre.clear(); auteurBox.clear(); formatBox.clear(); description.clear();
-        codeEmplacement.clear(); media.clear(); datePublication.clear(); dateAcquisition.clear();
-        empruntable.setValue(true); motifBox.clear();
+        codeEmplacement.clear(); media.clear(); datePublication.clear();
+        dateAcquisition.clear(); empruntable.setValue(true); motifBox.clear();
         isbn.clear(); nbPages.clear(); editeurBox.clear(); duree.clear();
 
         if (!creation) {
@@ -229,8 +239,10 @@ public class DocumentManageView extends VerticalLayout {
             description.setValue(nz(d.getDescription()));
             codeEmplacement.setValue(nz(d.getCodeEmplacement()));
             media.setValue(nz(d.getGif()));
-            datePublication.setValue(d.getDatePublication() != null ? d.getDatePublication().toLocalDate() : null);
-            dateAcquisition.setValue(d.getDateAcquisition() != null ? d.getDateAcquisition().toLocalDate() : null);
+            datePublication.setValue(
+                    d.getDatePublication() != null ? d.getDatePublication().toLocalDate() : null);
+            dateAcquisition.setValue(
+                    d.getDateAcquisition() != null ? d.getDateAcquisition().toLocalDate() : null);
             empruntable.setValue(Boolean.TRUE.equals(d.getEstEmpruntable()));
             if (d instanceof Livre l) {
                 isbn.setValue(nz(l.getCodeISBN()));
@@ -250,7 +262,7 @@ public class DocumentManageView extends VerticalLayout {
 
     // ── Affichage conditionnel des champs ─────────────────────────────────────
     private void toggleTypeFields() {
-        Format f = formatBox.getValue();
+        Format f    = formatBox.getValue();
         boolean livre = estLivre(f);
         boolean cd    = estCdDvd(f);
         isbn.setVisible(livre);
@@ -263,13 +275,12 @@ public class DocumentManageView extends VerticalLayout {
         motifBox.setVisible(!Boolean.TRUE.equals(empruntable.getValue()));
     }
 
-    // ── Enregistrement ─────────────────────────────────────────────────────────
+    // ── Enregistrement ────────────────────────────────────────────────────────
     private void enregistrer() {
-        if (titre.isEmpty()) { erreur("Le titre est obligatoire."); return; }
+        if (titre.isEmpty())         { erreur("Le titre est obligatoire."); return; }
         Format fmt = formatBox.getValue();
-        if (fmt == null)     { erreur("Le type / format est obligatoire."); return; }
+        if (fmt == null)             { erreur("Le type / format est obligatoire."); return; }
 
-        // Choix du sous-type : conservé en édition, déduit du format en création
         Document doc;
         if (courant != null) {
             doc = courant;
@@ -277,18 +288,18 @@ public class DocumentManageView extends VerticalLayout {
             doc = estLivre(fmt) ? new Livre() : (estCdDvd(fmt) ? new CDDVD() : new Document());
         }
 
-        // Champs communs
         doc.setTitre(titre.getValue());
         doc.setAuteur(auteurBox.getValue());
         doc.setFormat(fmt);
         doc.setDescription(description.getValue());
         doc.setCodeEmplacement(codeEmplacement.getValue());
         doc.setGif(media.getValue());
-        doc.setDatePublication(datePublication.getValue() != null ? datePublication.getValue().atStartOfDay() : null);
-        doc.setDateAcquisition(dateAcquisition.getValue() != null ? dateAcquisition.getValue().atStartOfDay() : null);
+        doc.setDatePublication(
+                datePublication.getValue() != null ? datePublication.getValue().atStartOfDay() : null);
+        doc.setDateAcquisition(
+                dateAcquisition.getValue() != null ? dateAcquisition.getValue().atStartOfDay() : null);
         doc.setEstEmpruntable(empruntable.getValue());
 
-        // Champs du sous-type réel
         if (doc instanceof Livre livre) {
             livre.setCodeISBN(isbn.getValue());
             livre.setNbPages(nbPages.getValue());
@@ -297,7 +308,8 @@ public class DocumentManageView extends VerticalLayout {
             cd.setDuree(duree.getValue() != null ? Duration.ofMinutes(duree.getValue()) : null);
         }
 
-        RaisonPasEmprunt motif = Boolean.TRUE.equals(empruntable.getValue()) ? null : motifBox.getValue();
+        RaisonPasEmprunt motif = Boolean.TRUE.equals(empruntable.getValue())
+                ? null : motifBox.getValue();
 
         try {
             documentService.enregistrerDocument(doc, motif);
@@ -321,7 +333,7 @@ public class DocumentManageView extends VerticalLayout {
         }
     }
 
-    // ── Utilitaires ─────────────────────────────────────────────────────────
+    // ── Utilitaires ──────────────────────────────────────────────────────────
     private boolean estLivre(Format f) {
         return f != null && f.getLargeur() != null && f.getLargeur().equalsIgnoreCase("Livre");
     }
@@ -332,9 +344,7 @@ public class DocumentManageView extends VerticalLayout {
         return l.equals("cd") || l.equals("dvd");
     }
 
-    private String nz(String s) {
-        return s != null ? s : "";
-    }
+    private String nz(String s) { return s != null ? s : ""; }
 
     private void succes(String msg) {
         Notification.show(msg, 2500, Notification.Position.BOTTOM_CENTER)

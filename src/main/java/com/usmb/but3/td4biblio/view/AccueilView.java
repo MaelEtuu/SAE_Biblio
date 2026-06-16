@@ -244,10 +244,13 @@ public class AccueilView extends VerticalLayout {
     // ── Notification abonnement via Dialog (pas Notification, pour éviter la bordure Shadow DOM) ──
     private void checkAbonnement() {
         if (utilisateurCourant == null) return;
+        // Ne ré-affiche pas si déjà montré dans cette session
+        if (SessionUtils.isAbonnementPopupAffichee()) return;
         LocalDate fin = utilisateurCourant.getDateFinAbonnement();
         if (fin == null) return;
         long joursRestants = ChronoUnit.DAYS.between(LocalDate.now(), fin);
         if (joursRestants > 14) return;
+        SessionUtils.marquerAbonnementPopupAffichee();
         showAbonnementDialog(fin, joursRestants);
     }
 

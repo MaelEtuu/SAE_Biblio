@@ -8,6 +8,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -39,7 +41,7 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         kicker.setClassName("kicker");
 
         var nameItalic = new Span("Biblio");
-        var nameBold = new Span("Vaadin");
+        var nameBold   = new Span("Vaadin");
         nameBold.getElement().getStyle()
                 .set("font-style", "normal")
                 .set("font-weight", "500");
@@ -53,9 +55,6 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         buildTabs();
         tabs.setClassName("biblio-tabs");
 
-        // La navigation est déclenchée par clic direct sur le Tab,
-        // pas via le SelectedChangeListener (qui se réenclenchait en boucle).
-        // On attache le listener de navigation ici, après buildTabs().
         tabs.addSelectedChangeListener(e -> {
             if (navigating) return;
             Tab selected = e.getSelectedTab();
@@ -70,7 +69,6 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         accountZone.setClassName("biblio-account-zone");
         refreshAccountZone();
 
-        // ── Barre complète ──
         var bar = new HorizontalLayout(brand, tabs, accountZone);
         bar.setClassName("biblio-topbar");
         bar.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -85,19 +83,27 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
 
         List<MenuEntry> entries = MenuConfiguration.getMenuEntries();
         entries.forEach(entry -> {
-            var tab = new Tab(entry.title());
-            // Normalise le path : supprime le slash initial si présent
+            // Masquer les onglets admin aux emprunteurs
             String path = entry.path() != null ? entry.path().replaceFirst("^/", "") : "";
+            if (isAdminOnlyPath(path) && !SessionUtils.hasRole("BIBLIOTHECAIRE")) {
+                return;
+            }
+            var tab = new Tab(entry.title());
             tab.setId("tab-" + path);
             tabs.add(tab);
         });
 
-        // Onglet supplémentaire pour les bibliothécaires : gestion des emprunteurs
+        // Onglet supplémentaire pour les bibliothécaires
         if (SessionUtils.hasRole("BIBLIOTHECAIRE")) {
             var tabEmprunteur = new Tab("Emprunteur");
             tabEmprunteur.setId("tab-creer-compte");
             tabs.add(tabEmprunteur);
         }
+    }
+
+    /** Routes réservées aux bibliothécaires (masquées pour les autres rôles). */
+    private boolean isAdminOnlyPath(String path) {
+        return path.equals("gestion-documents") || path.equals("import-export");
     }
 
     // ── Zone compte : connecté ou non ────────────────────────────────────────
@@ -115,9 +121,10 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
             return;
         }
 
-        String prenom = courant.getPrenom() != null ? courant.getPrenom() : "";
-        String nom    = courant.getNom()    != null ? courant.getNom()    : "";
-        String initiale = !prenom.isEmpty() ? prenom.substring(0, 1).toUpperCase()
+        String prenom   = courant.getPrenom() != null ? courant.getPrenom() : "";
+        String nom      = courant.getNom()    != null ? courant.getNom()    : "";
+        String initiale = !prenom.isEmpty()
+                ? prenom.substring(0, 1).toUpperCase()
                 : (!nom.isEmpty() ? nom.substring(0, 1).toUpperCase() : "?");
 
         var avatar = new Span(initiale);
@@ -127,7 +134,8 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         whoName.setClassName("biblio-who-n");
 
         String sousTitre;
-        if (courant.getRole() != null && "BIBLIOTHECAIRE".equalsIgnoreCase(courant.getRole().getLibelleRole())) {
+        if (courant.getRole() != null
+                && "BIBLIOTHECAIRE".equalsIgnoreCase(courant.getRole().getLibelleRole())) {
             sousTitre = "Bibliothécaire";
         } else if (courant.getDateFinAbonnement() != null) {
             sousTitre = "Abonné·e · expire " + courant.getDateFinAbonnement();
@@ -160,26 +168,27 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        // Empêche le listener de tabs de re-déclencher une navigation
         navigating = true;
 
-        // Reconstruit les onglets et la zone compte à chaque navigation
         buildTabs();
         refreshAccountZone();
 
-        // Sélectionne l'onglet correspondant à la route courante
+        // ── Flash message d'accès refusé (posé par RouteGuard) ──
+        String denied = SessionUtils.popAccessDeniedMessage();
+        if (denied != null) {
+            Notification n = Notification.show(denied, 3500, Notification.Position.BOTTOM_CENTER);
+            n.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        }
+
+        // Sélection de l'onglet courant
         String currentPath = event.getLocation().getPath();
-        // Normalise : "" (racine) → on cherche un tab avec id "tab-"
-        // "mon-espace" → on cherche "tab-mon-espace"
         tabs.getChildren()
                 .filter(c -> c instanceof Tab)
                 .map(c -> (Tab) c)
                 .filter(tab -> tab.getId()
                         .map(id -> {
                             String tabPath = id.replace("tab-", "");
-                            // Cas racine : chemin vide ET tabPath vide
                             if (currentPath.isEmpty() && tabPath.isEmpty()) return true;
-                            // Correspondance exacte ou préfixe (pour les sous-routes éventuelles)
                             return !tabPath.isEmpty() && currentPath.equals(tabPath);
                         })
                         .orElse(false))
