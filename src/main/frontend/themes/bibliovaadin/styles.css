@@ -916,3 +916,20 @@ vaadin-vertical-layout.biblio-page {
     padding: 42px 28px 90px;
     background: transparent !important;
 }
+
+biblio-import-errors-grid {
+    width: 100% !important;
+}
+.biblio-import-errors-grid::part(cell) {
+    white-space: normal !important;
+    line-height: 1.4 !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    align-items: flex-start !important;
+}
+.biblio-import-errors-grid vaadin-grid-cell-content {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
