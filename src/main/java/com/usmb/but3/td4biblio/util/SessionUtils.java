@@ -106,4 +106,19 @@ public final class SessionUtils {
             session.setAttribute("abonnementPopupAffichee", true);
         }
     }
+
+    /** Vrai si la popup de retard a déjà été affichée dans cette session. */
+    public static boolean isRetardPopupAffichee() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session == null) return false;
+        return Boolean.TRUE.equals(session.getAttribute("retardPopupAffichee"));
+    }
+
+    /** Marque la popup de retard comme déjà affichée. */
+    public static void marquerRetardPopupAffichee() {
+        VaadinSession session = VaadinSession.getCurrent();
+        if (session != null) {
+            session.setAttribute("retardPopupAffichee", true);
+        }
+    }
 }

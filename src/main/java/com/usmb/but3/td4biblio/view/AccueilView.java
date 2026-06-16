@@ -1,8 +1,10 @@
 package com.usmb.but3.td4biblio.view;
 
 import com.usmb.but3.td4biblio.entity.Document;
+import com.usmb.but3.td4biblio.entity.Emprunts;
 import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.service.DocumentService;
+import com.usmb.but3.td4biblio.service.EmpruntsService;
 import com.usmb.but3.td4biblio.service.ReservationService;
 import com.usmb.but3.td4biblio.util.SessionUtils;
 import com.vaadin.flow.component.Key;
@@ -22,7 +24,9 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Route(value = "")
 @PageTitle("Accueil — BiblioVaadin")
@@ -31,6 +35,7 @@ public class AccueilView extends VerticalLayout {
 
     private final DocumentService    documentService;
     private final ReservationService reservationService;
+    private final EmpruntsService empruntsService;
 
     private Utilisateur utilisateurCourant = SessionUtils.getUtilisateur();
 
@@ -41,9 +46,11 @@ public class AccueilView extends VerticalLayout {
     private final Div              eventsList    = new Div();
 
     public AccueilView(DocumentService documentService,
-                       ReservationService reservationService) {
+                       ReservationService reservationService,
+                       EmpruntsService empruntsService) {
         this.documentService    = documentService;
         this.reservationService = reservationService;
+        this.empruntsService    = empruntsService;
 
         setPadding(false);
         setSpacing(false);
@@ -54,6 +61,7 @@ public class AccueilView extends VerticalLayout {
         loadNouvellesAcquisitions();
         loadEvenements();
         checkAbonnement();
+        checkRetards();
     }
 
     // ── Hero ──────────────────────────────────────────────────────────────────
@@ -325,5 +333,117 @@ public class AccueilView extends VerticalLayout {
             case "DVD" -> "#46243a";
             default    -> "#2e3a52";
         };
+    }
+
+    private void checkRetards() {
+        if (utilisateurCourant == null) return;
+        if (SessionUtils.isRetardPopupAffichee()) return;
+
+        List<Emprunts> retards =
+                empruntsService.getEmpruntsEnRetard(utilisateurCourant);
+        if (retards.isEmpty()) return;
+
+        SessionUtils.marquerRetardPopupAffichee();
+        showRetardDialog(retards);
+    }
+
+    private void showRetardDialog(
+            List<com.usmb.but3.td4biblio.entity.Emprunts> retards) {
+
+        var dialog = new Dialog();
+        dialog.setModality(ModalityMode.VISUAL);
+        dialog.setDraggable(false);
+        dialog.setResizable(false);
+        dialog.setCloseOnOutsideClick(false);
+        dialog.getElement().getStyle()
+                .set("padding", "0")
+                .set("border-radius", "16px")
+                .set("overflow", "hidden");
+
+        // Icône
+        var icon = new Span("⏰");
+        icon.getElement().getStyle()
+                .set("width", "40px").set("height", "40px")
+                .set("border-radius", "50%")
+                .set("background", "rgba(224,112,112,.14)")
+                .set("border", "1px solid rgba(224,112,112,.28)")
+                .set("color", "#e07070")
+                .set("display", "grid").set("place-items", "center")
+                .set("font-size", "18px").set("margin-bottom", "18px")
+                .set("flex-shrink", "0");
+
+        int nb = retards.size();
+        var title = new H3(nb == 1
+                ? "Un document est en retard"
+                : nb + " documents sont en retard");
+        title.getElement().getStyle()
+                .set("font-family", "Newsreader, serif")
+                .set("font-weight", "500")
+                .set("font-size", "21px")
+                .set("color", "var(--ink)")
+                .set("margin", "0 0 12px");
+
+        // Liste des documents en retard
+        var listDiv = new Div();
+        listDiv.getElement().getStyle()
+                .set("display", "flex")
+                .set("flex-direction", "column")
+                .set("gap", "8px")
+                .set("margin-bottom", "6px");
+
+        DateTimeFormatter fmt =
+                DateTimeFormatter.ofPattern("d MMM yyyy", java.util.Locale.FRENCH);
+
+        for (com.usmb.but3.td4biblio.entity.Emprunts e : retards) {
+            long joursRetard = java.time.temporal.ChronoUnit.DAYS
+                    .between(e.getDateFin(), LocalDate.now());
+
+            var docTitre = new Span(
+                    e.getDocument().getTitre() != null ? e.getDocument().getTitre() : "Document");
+            docTitre.getElement().getStyle()
+                    .set("font-weight", "600")
+                    .set("font-size", "13.5px")
+                    .set("color", "var(--ink)");
+
+            var docDetail = new Span("À rendre le " + e.getDateFin().format(fmt)
+                    + " — " + joursRetard + " jour" + (joursRetard > 1 ? "s" : "") + " de retard");
+            docDetail.getElement().getStyle()
+                    .set("font-size", "12px")
+                    .set("color", "#e07070");
+
+            var item = new Div(docTitre, docDetail);
+            item.getElement().getStyle()
+                    .set("display", "flex").set("flex-direction", "column").set("gap", "2px")
+                    .set("background", "rgba(224,112,112,.06)")
+                    .set("border", "1px solid rgba(224,112,112,.2)")
+                    .set("border-radius", "8px")
+                    .set("padding", "10px 14px");
+            listDiv.add(item);
+        }
+
+        var msg = new Paragraph(
+                "Rapportez ces documents en bibliothèque dès que possible pour éviter des pénalités.");
+        msg.getElement().getStyle()
+                .set("font-size", "13px")
+                .set("color", "var(--ink-soft)")
+                .set("line-height", "1.6")
+                .set("margin", "12px 0 0");
+
+        var close = new Button("J'ai compris", e -> dialog.close());
+        close.addClassName("biblio-btn-primary");
+        close.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        // Surcharge couleur : rouge au lieu d'ambre
+        close.getElement().getStyle()
+                .set("background", "#e07070")
+                .set("color", "#fff");
+
+        var actions = new HorizontalLayout(close);
+        actions.getElement().getStyle().set("margin-top", "20px");
+
+        var content = new Div(icon, title, listDiv, msg, actions);
+        content.addClassName("biblio-notif-modal");
+
+        dialog.add(content);
+        dialog.open();
     }
 }
