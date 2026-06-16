@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -143,13 +144,18 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
         var account = new Div(who, avatar);
         account.setClassName("biblio-account");
 
-        account.getElement().getStyle().set("cursor", "pointer");
-        account.addClickListener(e -> {
+        var logoutBtn = new Button("Déconnexion", VaadinIcon.SIGN_OUT.create());
+        logoutBtn.addClassName("btn-ghost");
+        logoutBtn.addClassName("btn-mini");
+        logoutBtn.addClickListener(e -> {
             SessionUtils.logout();
-            getUI().ifPresent(ui -> ui.getPage().reload());
+            getUI().ifPresent(ui -> ui.navigate("login"));
         });
 
-        accountZone.add(account);
+        var zone = new HorizontalLayout(account, logoutBtn);
+        zone.setAlignItems(FlexComponent.Alignment.CENTER);
+        zone.getElement().getStyle().set("gap", "14px");
+        accountZone.add(zone);
     }
 
     @Override
