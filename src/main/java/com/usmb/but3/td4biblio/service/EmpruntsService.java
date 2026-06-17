@@ -168,4 +168,12 @@ public class EmpruntsService extends AbstractCrudService<Emprunts, Emprunts.Empr
         return findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Emprunt introuvable."));
     }
+
+    /** Retourne les emprunts en retard (non rendus et date de fin dépassée). */
+    public List<Emprunts> getEmpruntsEnRetard(Utilisateur utilisateur) {
+        return empruntsRepository.findByUtilisateurAndDateRetourIsNull(utilisateur)
+                .stream()
+                .filter(e -> e.getDateFin() != null && e.getDateFin().isBefore(LocalDate.now()))
+                .toList();
+    }
 }

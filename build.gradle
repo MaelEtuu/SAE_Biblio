@@ -53,6 +53,8 @@ dependencies {
 	developmentOnly('com.vaadin:vaadin-dev')
 	testRuntimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-data-jpa-test'
+	implementation 'org.apache.poi:poi-ooxml:5.2.5'
+	implementation 'com.opencsv:opencsv:5.9'
 }
 
 dependencyManagement {  // MS added for Vaadin BOM

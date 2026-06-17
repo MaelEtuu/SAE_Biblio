@@ -5,6 +5,7 @@ import java.time.Duration;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)

@@ -14,7 +14,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.usmb.but3.td4biblio.util.MotDePasseUtil;
 
 /**
  * Page de connexion : authentifie un utilisateur par e-mail + mot de passe.
@@ -165,7 +165,7 @@ public class LoginView extends VerticalLayout {
      */
     private boolean checkPassword(String raw, String stored) {
         if (stored == null) return false;
-        return new BCryptPasswordEncoder().matches(raw, stored);
+        return MotDePasseUtil.hacher(raw).equals(stored);
     }
 
     private void showError(String message) {

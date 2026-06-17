@@ -8,6 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import com.usmb.but3.td4biblio.entity.A1;
+import com.usmb.but3.td4biblio.entity.Editeur;
+import com.usmb.but3.td4biblio.entity.Format;
+import com.usmb.but3.td4biblio.entity.RaisonPasEmprunt;
+import com.usmb.but3.td4biblio.repository.A1Repository;
+import com.usmb.but3.td4biblio.repository.EditeurRepository;
+import com.usmb.but3.td4biblio.repository.FormatRepository;
+import com.usmb.but3.td4biblio.repository.RaisonPasEmpruntRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +32,10 @@ import java.util.List;
 public class DocumentService extends AbstractCrudService<Document, Integer> {
 
     private final DocumentRepository documentRepository;
+    private final FormatRepository           formatRepository;
+    private final EditeurRepository          editeurRepository;
+    private final RaisonPasEmpruntRepository raisonRepository;
+    private final A1Repository               a1Repository;
 
     @Override
     protected JpaRepository<Document, Integer> getRepository() {
@@ -36,6 +49,13 @@ public class DocumentService extends AbstractCrudService<Document, Integer> {
     public List<Document> getAllDocuments() {
         return getAll();
     }
+
+    // =====================================================================
+    // Listes de référence (formulaire de gestion documentaire)
+    // =====================================================================
+    public java.util.List<Format> getFormats()             { return formatRepository.findAll(); }
+    public java.util.List<Editeur> getEditeurs()           { return editeurRepository.findAll(); }
+    public java.util.List<RaisonPasEmprunt> getRaisons()   { return raisonRepository.findAll(); }
 
     /** Document par id ; lève une exception si introuvable (comportement d'origine). */
     public Document getDocumentById(Integer id) {
@@ -125,5 +145,29 @@ public class DocumentService extends AbstractCrudService<Document, Integer> {
     public boolean isDisponible(Integer idDocument) {
         return getDocumentsDisponibles().stream()
                 .anyMatch(d -> d.getIdDocument().equals(idDocument));
+    }
+
+    public RaisonPasEmprunt getMotifDuDocument(Integer idDocument) {
+        if (idDocument == null) return null;
+        return a1Repository.findByDocument_IdDocument(idDocument).stream()
+                .findFirst().map(A1::getRaison).orElse(null);
+    }
+
+    /** Crée ou met à jour un document en synchronisant son motif de non-emprunt (table a1). */
+    @Transactional
+    public Document enregistrerDocument(Document doc, RaisonPasEmprunt motif) {
+        Document saved = documentRepository.save(doc);
+        a1Repository.deleteByDocument_IdDocument(saved.getIdDocument());
+        if (!Boolean.TRUE.equals(saved.getEstEmpruntable()) && motif != null) {
+            a1Repository.save(new A1(saved, motif));
+        }
+        return saved;
+    }
+
+    /** Supprime un document et ses motifs de non-emprunt associés. */
+    @Transactional
+    public void supprimerDocument(Integer id) {
+        a1Repository.deleteByDocument_IdDocument(id);
+        documentRepository.deleteById(id);
     }
 }

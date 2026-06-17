@@ -4,6 +4,8 @@ import com.usmb.but3.td4biblio.entity.Document;
 import com.usmb.but3.td4biblio.entity.Emprunts;
 import com.usmb.but3.td4biblio.entity.Reservation;
 import com.usmb.but3.td4biblio.entity.Utilisateur;
+import com.usmb.but3.td4biblio.util.RequiresRole;
+import com.usmb.but3.td4biblio.util.RouteGuard;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.usmb.but3.td4biblio.service.EmpruntsService;
 import com.usmb.but3.td4biblio.service.ReservationService;
@@ -15,6 +17,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -26,12 +30,15 @@ import java.util.Locale;
 
 /**
  * Espace emprunteur unifié : tableau de bord + emprunts en cours + réservations actives.
- * Fusionne les anciennes vues {@link EmpruntsView} et {@link ReservationsView}.
+ *
+ * <p>Accès réservé aux utilisateurs connectés ({@link RequiresRole#AUTHENTICATED}).
+ * Les non-connectés sont redirigés vers {@code /login} via {@link RouteGuard}.</p>
  */
 @Route(value = "mon-espace")
 @PageTitle("Mon espace — BiblioVaadin")
 @Menu(title = "Mon espace", order = 2, icon = "vaadin:user")
-public class MonEspaceView extends VerticalLayout {
+@RequiresRole(RequiresRole.AUTHENTICATED)
+public class MonEspaceView extends VerticalLayout implements BeforeEnterObserver {
 
     private static final DateTimeFormatter FMT =
             DateTimeFormatter.ofPattern("d MMM yyyy", Locale.FRENCH);
@@ -40,13 +47,13 @@ public class MonEspaceView extends VerticalLayout {
     private final ReservationService reservationService;
     private final DocumentService    documentService;
 
-    private Utilisateur utilisateurCourant = SessionUtils.getUtilisateur();
+    private Utilisateur utilisateurCourant;
 
     // Conteneurs rechargés dynamiquement
-    private final Div statsRow      = new Div();
-    private final Div empruntsDiv   = new Div();
-    private final Div reservesDiv   = new Div();
-    private final Div catalogueDiv  = new Div();
+    private final Div statsRow     = new Div();
+    private final Div empruntsDiv  = new Div();
+    private final Div reservesDiv  = new Div();
+    private final Div catalogueDiv = new Div();
 
     public MonEspaceView(EmpruntsService empruntsService,
                          ReservationService reservationService,
@@ -58,20 +65,24 @@ public class MonEspaceView extends VerticalLayout {
         setPadding(false);
         setSpacing(false);
         addClassName("biblio-page");
+    }
 
-        if (utilisateurCourant == null) {
-            add(buildNotConnected());
-            return;
-        }
+    // ── Garde de route ────────────────────────────────────────────────────────
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (!RouteGuard.check(event, MonEspaceView.class)) return;
 
+        // Initialisation différée (après confirmation d'accès)
+        utilisateurCourant = SessionUtils.getUtilisateur();
+
+        removeAll();
         add(
                 buildHeader(),
                 statsRow,
-                buildSection("Mes emprunts en cours",        "Prolongation possible une fois", empruntsDiv),
-                buildSection("Mes réservations",              "Tenues 2 semaines",              reservesDiv),
-                buildSection("Documents disponibles",         "Réservez en un clic",            catalogueDiv)
+                buildSection("Mes emprunts en cours",   "Prolongation possible une fois", empruntsDiv),
+                buildSection("Mes réservations",         "Tenues 2 semaines",              reservesDiv),
+                buildSection("Documents disponibles",    "Réservez en un clic",            catalogueDiv)
         );
-
         reload();
     }
 
@@ -104,13 +115,16 @@ public class MonEspaceView extends VerticalLayout {
         statsRow.removeAll();
         statsRow.addClassName("espace-stats-row");
 
-        long nbEmprunts   = empruntsService.getNombreEmpruntsEnCours(utilisateurCourant);
+        long nbEmprunts     = empruntsService.getNombreEmpruntsEnCours(utilisateurCourant);
         long nbReservations = reservationService.getReservationsActives(utilisateurCourant).size();
 
         statsRow.add(
-                buildStatCard("" + nbEmprunts,    "emprunt" + (nbEmprunts > 1 ? "s" : "") + " en cours", "var(--amber)"),
-                buildStatCard("" + nbReservations, "réservation" + (nbReservations > 1 ? "s" : "") + " active" + (nbReservations > 1 ? "s" : ""), "var(--ok)"),
-                buildStatCard("14 j",             "durée max de réservation",     "var(--muted)")
+                buildStatCard("" + nbEmprunts,
+                        "emprunt" + (nbEmprunts > 1 ? "s" : "") + " en cours", "var(--amber)"),
+                buildStatCard("" + nbReservations,
+                        "réservation" + (nbReservations > 1 ? "s" : "")
+                                + " active" + (nbReservations > 1 ? "s" : ""), "var(--ok)"),
+                buildStatCard("14 j", "durée max de réservation", "var(--muted)")
         );
     }
 
@@ -174,7 +188,8 @@ public class MonEspaceView extends VerticalLayout {
 
         List<Emprunts> emprunts = empruntsService.getEmpruntsEnCours(utilisateurCourant);
         if (emprunts.isEmpty()) {
-            empruntsDiv.add(buildEmpty("Aucun emprunt en cours.", "Parcourez le catalogue pour réserver un document."));
+            empruntsDiv.add(buildEmpty("Aucun emprunt en cours.",
+                    "Parcourez le catalogue pour réserver un document."));
             return;
         }
 
@@ -185,15 +200,13 @@ public class MonEspaceView extends VerticalLayout {
     private Div buildEmpruntRow(Emprunts emprunt) {
         var doc = emprunt.getDocument();
 
-        var miniCover = buildMiniCover(doc);
-
+        var miniCover  = buildMiniCover(doc);
         var titreSpan  = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         titreSpan.addClassName("biblio-lrow-title");
         var auteurSpan = new Span(doc.getAuteur() != null
                 ? doc.getAuteur().getNom() + " " + doc.getAuteur().getPrenom() : "");
         auteurSpan.addClassName("biblio-lrow-sub");
 
-        // Badge format
         var fmtBadge = new Span(doc.getFormat() != null ? doc.getFormat().getLargeur() : "");
         fmtBadge.addClassNames("badge", "badge-indispo");
         fmtBadge.getElement().getStyle().set("margin-top", "5px").set("display", "inline-block");
@@ -203,17 +216,14 @@ public class MonEspaceView extends VerticalLayout {
                 .set("flex", "1").set("min-width", "0")
                 .set("display", "flex").set("flex-direction", "column").set("gap", "2px");
 
-        // Dates
         var dateDebut = buildDataCol("Emprunté le",
                 emprunt.getDateDebut() != null ? emprunt.getDateDebut().format(FMT) : "—", false);
 
-        // Mise en évidence si retour bientôt (<= 3 jours)
         boolean urgent = emprunt.getDateFin() != null
                 && !emprunt.getDateFin().isAfter(LocalDate.now().plusDays(3));
         var dateFin = buildDataCol("À rendre le",
                 emprunt.getDateFin() != null ? emprunt.getDateFin().format(FMT) : "—", urgent);
 
-        // Bouton prolonger
         boolean dejaProlonge = Boolean.TRUE.equals(emprunt.getEstProlonge());
         var prolongerBtn = new Button(dejaProlonge ? "Prolongé ✓" : "Prolonger");
         prolongerBtn.addClassName("btn-mini");
@@ -244,7 +254,8 @@ public class MonEspaceView extends VerticalLayout {
 
         List<Reservation> reservations = reservationService.getReservationsActives(utilisateurCourant);
         if (reservations.isEmpty()) {
-            reservesDiv.add(buildEmpty("Aucune réservation active.", "Réservez un document disponible ci-dessous."));
+            reservesDiv.add(buildEmpty("Aucune réservation active.",
+                    "Réservez un document disponible ci-dessous."));
             return;
         }
 
@@ -255,15 +266,13 @@ public class MonEspaceView extends VerticalLayout {
     private Div buildReservationRow(Reservation r) {
         var doc = r.getDocument();
 
-        var miniCover = buildMiniCover(doc);
-
+        var miniCover  = buildMiniCover(doc);
         var titreSpan  = new Span(doc.getTitre() != null ? doc.getTitre() : "");
         titreSpan.addClassName("biblio-lrow-title");
         var auteurSpan = new Span(doc.getAuteur() != null
                 ? doc.getAuteur().getNom() + " " + doc.getAuteur().getPrenom() : "");
         auteurSpan.addClassName("biblio-lrow-sub");
 
-        // Statut de la réservation
         boolean expiree = r.getDateFin() != null && r.getDateFin().isBefore(LocalDate.now());
         var statusBadge = new Span(expiree ? "Expirée" : "Active");
         statusBadge.addClassNames("badge", expiree ? "badge-indispo" : "badge-dispo");
@@ -276,13 +285,11 @@ public class MonEspaceView extends VerticalLayout {
 
         var dateDebut = buildDataCol("Réservé le",
                 r.getDateDebut() != null ? r.getDateDebut().format(FMT) : "—", false);
-
         boolean expire = r.getDateFin() != null
                 && !r.getDateFin().isAfter(LocalDate.now().plusDays(3));
         var dateFin = buildDataCol("Expire le",
                 r.getDateFin() != null ? r.getDateFin().format(FMT) : "—", expire);
 
-        // Bouton Emprunter — convertit la réservation en emprunt (annule la résa automatiquement)
         var emprunterBtn = new Button("Emprunter");
         emprunterBtn.addClassName("btn-mini");
         emprunterBtn.setEnabled(!expiree);
@@ -309,7 +316,6 @@ public class MonEspaceView extends VerticalLayout {
             reload();
         });
 
-        // Groupe les deux boutons verticalement à droite
         var btns = new Div(emprunterBtn, annulerBtn);
         btns.getElement().getStyle()
                 .set("display", "flex").set("flex-direction", "column")
@@ -323,6 +329,7 @@ public class MonEspaceView extends VerticalLayout {
     // ── Catalogue des documents disponibles ───────────────────────────────────
     private void loadCatalogue() {
         catalogueDiv.removeAll();
+        catalogueDiv.removeClassName("biblio-grid");
 
         List<Document> dispo = documentService.getDerniersDocuments(10);
         if (dispo.isEmpty()) {
@@ -419,24 +426,6 @@ public class MonEspaceView extends VerticalLayout {
         var msg = new Paragraph(message);
         var div = new Div(titleEl, msg);
         div.addClassName("biblio-empty");
-        return div;
-    }
-
-    private Div buildNotConnected() {
-        var titleEl = new H1("Connectez-vous");
-        titleEl.addClassName("biblio-hero-title");
-
-        var sub = new Paragraph("Votre espace personnel est accessible après connexion.");
-        sub.addClassName("biblio-subtitle");
-
-        var loginBtn = new Button("Se connecter");
-        loginBtn.addClassName("biblio-btn-primary");
-        loginBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        loginBtn.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("login")));
-        loginBtn.getElement().getStyle().set("margin-top", "24px");
-
-        var div = new Div(titleEl, sub, loginBtn);
-        div.addClassName("biblio-hero");
         return div;
     }
 
