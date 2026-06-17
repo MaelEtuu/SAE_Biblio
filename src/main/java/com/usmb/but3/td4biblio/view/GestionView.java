@@ -3,6 +3,7 @@ package com.usmb.but3.td4biblio.view;
 import com.usmb.but3.td4biblio.service.AuteurService;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.usmb.but3.td4biblio.service.EmpruntsService;
+import com.usmb.but3.td4biblio.service.RegleService;
 import com.usmb.but3.td4biblio.service.UtilisateurService;
 import com.usmb.but3.td4biblio.util.RequiresRole;
 import com.usmb.but3.td4biblio.util.RouteGuard;
@@ -28,20 +29,24 @@ public class GestionView extends VerticalLayout implements BeforeEnterObserver {
     private final AuteurService      auteurService;
     private final UtilisateurService utilisateurService;
     private final EmpruntsService    empruntsService;
+    private final RegleService       regleService;
 
     private final Tabs tabs    = new Tabs();
     private final Div  content = new Div();
     private Tab docsTab;
     private Tab empTab;
+    private Tab regleTab;
 
     public GestionView(DocumentService documentService,
                        AuteurService auteurService,
                        UtilisateurService utilisateurService,
-                       EmpruntsService empruntsService) {
+                       EmpruntsService empruntsService,
+                       RegleService regleService) {
         this.documentService    = documentService;
         this.auteurService      = auteurService;
         this.utilisateurService = utilisateurService;
         this.empruntsService    = empruntsService;
+        this.regleService       = regleService;
 
         setPadding(false);
         setSpacing(false);
@@ -63,17 +68,18 @@ public class GestionView extends VerticalLayout implements BeforeEnterObserver {
         var header = new Div(eyebrow, titre);
         header.getElement().getStyle().set("margin-bottom", "22px");
 
-        docsTab = new Tab("Documents");
-        empTab  = new Tab("Emprunteurs");
+        docsTab  = new Tab("Documents");
+        empTab   = new Tab("Emprunteurs");
+        regleTab = new Tab("Paramètres");
         tabs.removeAll();
-        tabs.add(docsTab, empTab);
+        tabs.add(docsTab, empTab, regleTab);
         tabs.getElement().getStyle().set("margin-bottom", "20px");
 
         content.setWidthFull();
         add(header, tabs, content);
 
         tabs.setSelectedTab(docsTab);
-        afficher(docsTab); // onglet par défaut (pas d'événement si déjà sélectionné)
+        afficher(docsTab);
     }
 
     private void afficher(Tab tab) {
@@ -81,6 +87,8 @@ public class GestionView extends VerticalLayout implements BeforeEnterObserver {
         content.removeAll();
         if (tab == empTab) {
             content.add(new EmprunteursPanel(utilisateurService, empruntsService));
+        } else if (tab == regleTab) {
+            content.add(new ReglesPanel(regleService));
         } else {
             content.add(new DocumentsPanel(documentService, auteurService));
         }
