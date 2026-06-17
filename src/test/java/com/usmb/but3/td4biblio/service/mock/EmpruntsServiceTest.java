@@ -4,6 +4,7 @@ import com.usmb.but3.td4biblio.entity.Document;
 import com.usmb.but3.td4biblio.entity.Emprunts;
 import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.repository.EmpruntsRepository;
+import com.usmb.but3.td4biblio.repository.ReservationRepository;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.usmb.but3.td4biblio.service.EmpruntsService;
 import com.usmb.but3.td4biblio.service.RegleService;
@@ -31,10 +32,11 @@ import static org.mockito.Mockito.*;
 @DisplayName("EmpruntsService — tests unitaires (règles métier)")
 class EmpruntsServiceTest {
 
-    @Mock private EmpruntsRepository empruntsRepository;
-    @Mock private DocumentService documentService;
-    @Mock private ReservationService reservationService;
-    @Mock private RegleService regleService;
+    @Mock private EmpruntsRepository    empruntsRepository;
+    @Mock private ReservationRepository reservationRepository;
+    @Mock private DocumentService       documentService;
+    @Mock private ReservationService    reservationService;
+    @Mock private RegleService          regleService;
 
     @InjectMocks
     private EmpruntsService empruntsService;
@@ -108,6 +110,8 @@ class EmpruntsServiceTest {
             when(regleService.getMaxPrets()).thenReturn(10);
             when(documentService.getDocumentById(10)).thenReturn(document);
             when(empruntsRepository.existsByDocument_IdDocumentAndDateRetourIsNull(10))
+                    .thenReturn(false);
+            when(reservationRepository.existsByDocument_IdDocumentAndUtilisateur(10, emprunteur))
                     .thenReturn(false);
             when(reservationService.estReserveParAutre(10, emprunteur)).thenReturn(false);
             when(regleService.getDureePretJours()).thenReturn(35);
@@ -202,6 +206,8 @@ class EmpruntsServiceTest {
             when(regleService.getMaxPrets()).thenReturn(10);
             when(documentService.getDocumentById(10)).thenReturn(document);
             when(empruntsRepository.existsByDocument_IdDocumentAndDateRetourIsNull(10))
+                    .thenReturn(false);
+            when(reservationRepository.existsByDocument_IdDocumentAndUtilisateur(10, emprunteur))
                     .thenReturn(false);
             when(reservationService.estReserveParAutre(10, emprunteur)).thenReturn(true);
 
