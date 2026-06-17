@@ -21,4 +21,8 @@ public interface EmpruntsRepository extends JpaRepository<Emprunts, EmpruntsId> 
 
     /** Vrai si le document est actuellement emprunté (non rendu). */
     boolean existsByDocument_IdDocumentAndDateRetourIsNull(Integer idDocument);
+
+    @org.springframework.data.jpa.repository.Query(
+            "SELECT DISTINCT e.utilisateur FROM Emprunts e WHERE e.dateRetour IS NULL")
+    List<Utilisateur> findEmprunteursAvecEmpruntEnCours();
 }

@@ -176,4 +176,8 @@ public class EmpruntsService extends AbstractCrudService<Emprunts, Emprunts.Empr
                 .filter(e -> e.getDateFin() != null && e.getDateFin().isBefore(LocalDate.now()))
                 .toList();
     }
+
+    public List<com.usmb.but3.td4biblio.entity.Utilisateur> getEmprunteursAvecEmpruntEnCours() {
+        return empruntsRepository.findEmprunteursAvecEmpruntEnCours();
+    }
 }

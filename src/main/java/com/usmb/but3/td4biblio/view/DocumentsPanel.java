@@ -1,8 +1,6 @@
 package com.usmb.but3.td4biblio.view;
 
 import com.usmb.but3.td4biblio.entity.*;
-import com.usmb.but3.td4biblio.util.RequiresRole;
-import com.usmb.but3.td4biblio.util.RouteGuard;
 import com.usmb.but3.td4biblio.service.AuteurService;
 import com.usmb.but3.td4biblio.service.DocumentService;
 import com.vaadin.flow.component.ModalityMode;
@@ -15,7 +13,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -24,27 +21,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.Menu;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 
 /**
- * Gestion documentaire côté bibliothécaire (cahier des charges, section 4).
- *
- * <p>Accès réservé au rôle {@code BIBLIOTHECAIRE} via {@link RequiresRole}
- * et {@link RouteGuard}. Tout accès non autorisé est redirigé vers l'accueil
- * avec un message d'erreur.</p>
+ * Panneau de gestion documentaire (côté bibliothécaire), embarqué dans
+ * {@link GestionView}. Reprend la logique de l'ancienne DocumentManageView,
+ * sans annotation de route ni garde d'accès (gérées par GestionView).
  */
-@Route(value = "gestion-documents")
-@PageTitle("Gestion documents — BiblioVaadin")
-@Menu(title = "Gestion documents", order = 5, icon = "vaadin:records")
-@RequiresRole("BIBLIOTHECAIRE")
-public class DocumentManageView extends VerticalLayout implements BeforeEnterObserver {
+public class DocumentsPanel extends VerticalLayout {
 
     private final DocumentService documentService;
     private final AuteurService   auteurService;
@@ -74,37 +60,18 @@ public class DocumentManageView extends VerticalLayout implements BeforeEnterObs
     private final Button deleteBtn = new Button("Supprimer", VaadinIcon.TRASH.create());
     private Document courant;
 
-    public DocumentManageView(DocumentService documentService, AuteurService auteurService) {
+    public DocumentsPanel(DocumentService documentService, AuteurService auteurService) {
         this.documentService = documentService;
         this.auteurService   = auteurService;
 
         setPadding(false);
         setSpacing(false);
-        addClassName("biblio-page");
-    }
+        setWidthFull();
 
-    // ── Garde de route ────────────────────────────────────────────────────────
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        if (!RouteGuard.check(event, DocumentManageView.class)) return;
-
-        // Initialisation différée (après confirmation d'accès)
-        removeAll();
-        add(buildHeader(), buildToolbar(), grid);
+        add(buildToolbar(), grid);   // pas de buildHeader() : GestionView a déjà son titre
         configurerGrid();
         configurerEditeur();
         listDocuments(null);
-    }
-
-    // ── En-tête ───────────────────────────────────────────────────────────────
-    private com.vaadin.flow.component.html.Div buildHeader() {
-        var eyebrow = new com.vaadin.flow.component.html.Paragraph("Administration · Catalogue");
-        eyebrow.addClassName("biblio-eyebrow");
-        var titreH2 = new H2("Gestion des documents");
-        titreH2.addClassName("biblio-section-title");
-        var entete = new com.vaadin.flow.component.html.Div(eyebrow, titreH2);
-        entete.getElement().getStyle().set("margin-bottom", "22px");
-        return entete;
     }
 
     // ── Barre filtre + ajout ─────────────────────────────────────────────────

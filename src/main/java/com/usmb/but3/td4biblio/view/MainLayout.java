@@ -103,7 +103,7 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     /** Routes réservées aux bibliothécaires (masquées pour les autres rôles). */
     private boolean isAdminOnlyPath(String path) {
-        return path.equals("gestion-documents") || path.equals("import-export");
+        return path.equals("gestion") || path.equals("import-export");
     }
 
     // ── Zone compte : connecté ou non ────────────────────────────────────────

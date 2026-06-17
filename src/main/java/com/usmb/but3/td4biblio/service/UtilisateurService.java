@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Logique métier des utilisateurs. CRUD de base hérité de {@link AbstractCrudService},
@@ -111,6 +112,41 @@ public class UtilisateurService extends AbstractCrudService<Utilisateur, Integer
         return sauvegarde;
     }
 
+    // =====================================================================
+    // Recherches / gestion côté bibliothécaire
+    // =====================================================================
+
+    /** Tous les emprunteurs. */
+    public List<Utilisateur> getTousEmprunteurs() {
+        return utilisateurRepository.findByRole_LibelleRole(ROLE_EMPRUNTEUR);
+    }
+
+    /** Recherche d'emprunteurs par nom (contient, insensible à la casse). */
+    public List<Utilisateur> rechercherParNom(String nom) {
+        return utilisateurRepository.findByNomContainingIgnoreCaseAndRole_LibelleRole(nom, ROLE_EMPRUNTEUR);
+    }
+
+    /** Recherche d'un emprunteur par son numéro de carte. */
+    public Utilisateur rechercherParCarte(Long carte) {
+        return utilisateurRepository.findByNumeroCarte(carte).orElse(null);
+    }
+
+    /** Emprunteurs dont l'abonnement est échu. */
+    public List<Utilisateur> rechercherAbonnementExpire() {
+        return utilisateurRepository.findByDateFinAbonnementBeforeAndRole_LibelleRole(
+                LocalDate.now(), ROLE_EMPRUNTEUR);
+    }
+
+    /** Met à jour un emprunteur existant. */
+    public Utilisateur modifier(Utilisateur u) {
+        return save(u);
+    }
+
+    /** Supprime un emprunteur par son identifiant. */
+    public void supprimer(Integer id) {
+        deleteById(id);
+    }
+    
     /** Tire un numéro de carte aléatoire à 10 chiffres, garanti unique en base. */
     private Long genererNumeroCarteUnique() {
         long carte;
