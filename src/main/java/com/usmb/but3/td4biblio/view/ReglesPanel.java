@@ -7,10 +7,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -18,12 +17,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 /**
- * Panneau de gestion des règles paramétrables (paramètres métier de la
- * bibliothèque), embarqué dans {@link GestionView}. Réservé aux bibliothécaires.
- *
- * <p>Les types {@code NB_PRET}, {@code DUREE_PRET} et {@code DELAI_RESERVATION}
- * pilotent la logique d'emprunt/réservation : leur clé technique n'est pas
- * modifiable une fois la règle créée, seule la valeur l'est.</p>
+ * Panneau de modification des règles paramétrables (paramètres métier),
+ * embarqué dans {@link GestionView}. On ne peut que modifier la VALEUR des
+ * règles déjà présentes : pas d'ajout ni de suppression, et la clé technique
+ * (type) reste figée pour ne pas casser la logique d'emprunt/réservation.
  */
 public class ReglesPanel extends VerticalLayout {
 
@@ -32,11 +29,10 @@ public class ReglesPanel extends VerticalLayout {
     private final Grid<Regle> grid = new Grid<>(Regle.class, false);
 
     // ── Éditeur ──
-    private final Dialog    editeur   = new Dialog();
-    private final TextField intitule  = new TextField("Intitulé");
-    private final TextField type      = new TextField("Type (clé technique)");
-    private final TextField valeur    = new TextField("Valeur");
-    private final Button    deleteBtn = new Button("Supprimer", VaadinIcon.TRASH.create());
+    private final Dialog    editeur  = new Dialog();
+    private final TextField intitule = new TextField("Intitulé");
+    private final TextField type     = new TextField("Type (clé technique)");
+    private final TextField valeur   = new TextField("Valeur");
     private Regle courant;
 
     public ReglesPanel(RegleService regleService) {
@@ -46,7 +42,7 @@ public class ReglesPanel extends VerticalLayout {
         setSpacing(false);
         setWidthFull();
 
-        add(buildInfo(), buildToolbar(), grid);
+        add(buildInfo(), grid);
         configurerGrid();
         configurerEditeur();
         rafraichir();
@@ -55,26 +51,13 @@ public class ReglesPanel extends VerticalLayout {
     // ── Note explicative ──
     private Paragraph buildInfo() {
         var info = new Paragraph(
-                "Modifiez la valeur des paramètres métier (nombre max de prêts, durée de prêt, "
-                        + "délai de réservation…). Une valeur peut être un nombre seul (ex. 10) ou "
-                        + "un texte contenant un nombre (ex. « 5 semaines ») : le premier entier est utilisé.");
+                "Sélectionnez un paramètre pour modifier sa valeur (nombre max de prêts, durée de "
+                        + "prêt, délai de réservation…). Une valeur peut être un nombre seul (ex. 10) "
+                        + "ou un texte contenant un nombre (ex. « 5 semaines ») : le premier entier est utilisé.");
         info.getElement().getStyle()
                 .set("font-size", "12.5px").set("color", "var(--ink-soft)")
                 .set("margin", "0 0 16px");
         return info;
-    }
-
-    // ── Barre d'ajout ──
-    private HorizontalLayout buildToolbar() {
-        var ajouter = new Button("Ajouter une règle", VaadinIcon.PLUS.create(),
-                e -> ouvrirEditeur(null));
-        ajouter.addClassName("biblio-btn-primary");
-        ajouter.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        var bar = new HorizontalLayout(ajouter);
-        bar.setWidthFull();
-        bar.getElement().getStyle().set("margin-bottom", "16px");
-        return bar;
     }
 
     // ── Grille ──
@@ -97,15 +80,18 @@ public class ReglesPanel extends VerticalLayout {
         grid.setItems(regleService.getAllRegles());
     }
 
-    // ── Éditeur (Dialog) ──
+    // ── Éditeur (Dialog) — seule la valeur est modifiable ──
     private void configurerEditeur() {
+        intitule.setReadOnly(true);
+        type.setReadOnly(true);
+
         var form = new FormLayout(intitule, type, valeur);
         form.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("480px", 2));
         form.setColspan(intitule, 2);
 
-        var titreDialog = new H2("Règle");
+        var titreDialog = new H2("Modifier le paramètre");
         titreDialog.addClassName("biblio-section-title");
         titreDialog.getElement().getStyle().set("margin-bottom", "18px");
 
@@ -116,15 +102,8 @@ public class ReglesPanel extends VerticalLayout {
         var annuler = new Button("Annuler", e -> editeur.close());
         annuler.addClassName("btn-ghost");
 
-        deleteBtn.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        deleteBtn.addClickListener(e -> supprimer());
-
-        var gauche = new HorizontalLayout(enregistrer, annuler);
-        gauche.getElement().getStyle().set("gap", "10px");
-        var actions = new HorizontalLayout(gauche, deleteBtn);
-        actions.setWidthFull();
-        actions.setJustifyContentMode(JustifyContentMode.BETWEEN);
-        actions.getElement().getStyle().set("margin-top", "22px");
+        var actions = new HorizontalLayout(enregistrer, annuler);
+        actions.getElement().getStyle().set("gap", "10px").set("margin-top", "22px");
 
         var contenu = new VerticalLayout(titreDialog, form, actions);
         contenu.setPadding(true);
@@ -137,53 +116,24 @@ public class ReglesPanel extends VerticalLayout {
 
     private void ouvrirEditeur(Regle r) {
         courant = r;
-        boolean creation = (r == null);
-
-        intitule.clear();
-        type.clear();
-        valeur.clear();
-
-        if (!creation) {
-            intitule.setValue(nz(r.getIntituleRegle()));
-            type.setValue(nz(r.getTypeRegle()));
-            valeur.setValue(nz(r.getValeurRegle()));
-        }
-
-        // La clé technique ne se modifie pas sur une règle existante
-        type.setEnabled(creation);
-        deleteBtn.setVisible(!creation);
+        intitule.setValue(nz(r.getIntituleRegle()));
+        type.setValue(nz(r.getTypeRegle()));
+        valeur.setValue(nz(r.getValeurRegle()));
         editeur.open();
     }
 
     private void enregistrer() {
-        if (intitule.isEmpty()) { erreur("L'intitulé est obligatoire.");            return; }
-        if (type.isEmpty())     { erreur("Le type (clé technique) est obligatoire."); return; }
-        if (valeur.isEmpty())   { erreur("La valeur est obligatoire.");              return; }
+        if (courant == null) return;
+        if (valeur.isEmpty()) { erreur("La valeur est obligatoire."); return; }
 
-        Regle r = (courant != null) ? courant : new Regle();
-        r.setIntituleRegle(intitule.getValue());
-        r.setTypeRegle(type.getValue().trim());
-        r.setValeurRegle(valeur.getValue().trim());
-
+        courant.setValeurRegle(valeur.getValue().trim());
         try {
-            regleService.saveRegle(r);
-            succes(courant == null ? "Règle créée." : "Règle mise à jour.");
+            regleService.saveRegle(courant);
+            succes("Paramètre mis à jour.");
             editeur.close();
             rafraichir();
         } catch (Exception ex) {
             erreur("Échec de l'enregistrement : " + ex.getMessage());
-        }
-    }
-
-    private void supprimer() {
-        if (courant == null) return;
-        try {
-            regleService.deleteRegleById(courant.getIdRegle());
-            succes("Règle supprimée.");
-            editeur.close();
-            rafraichir();
-        } catch (Exception ex) {
-            erreur("Suppression impossible : " + ex.getMessage());
         }
     }
 
