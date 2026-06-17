@@ -92,13 +92,6 @@ public final class MainLayout extends AppLayout implements BeforeEnterObserver {
             tab.setId("tab-" + path);
             tabs.add(tab);
         });
-
-        // Onglet supplémentaire pour les bibliothécaires
-        if (SessionUtils.hasRole("BIBLIOTHECAIRE")) {
-            var tabEmprunteur = new Tab("Emprunteur");
-            tabEmprunteur.setId("tab-creer-compte");
-            tabs.add(tabEmprunteur);
-        }
     }
 
     /** Routes réservées aux bibliothécaires (masquées pour les autres rôles). */
