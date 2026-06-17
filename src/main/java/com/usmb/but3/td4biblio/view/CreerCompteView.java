@@ -2,6 +2,8 @@ package com.usmb.but3.td4biblio.view;
 
 import com.usmb.but3.td4biblio.entity.Utilisateur;
 import com.usmb.but3.td4biblio.service.UtilisateurService;
+import com.usmb.but3.td4biblio.util.RequiresRole;
+import com.usmb.but3.td4biblio.util.RouteGuard;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -18,6 +20,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -36,7 +40,8 @@ import java.util.Locale;
  */
 @Route(value = "creer-compte")
 @PageTitle("Créer un compte — BiblioVaadin")
-public class CreerCompteView extends VerticalLayout {
+@RequiresRole("BIBLIOTHECAIRE")
+public class CreerCompteView extends VerticalLayout implements BeforeEnterObserver {
 
     private final UtilisateurService utilisateurService;
 
@@ -209,5 +214,10 @@ public class CreerCompteView extends VerticalLayout {
     private void notifierErreur(String message) {
         Notification.show(message, 3000, Notification.Position.BOTTOM_CENTER)
                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        RouteGuard.check(event, CreerCompteView.class);
     }
 }
